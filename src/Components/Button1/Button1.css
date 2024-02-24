@@ -1,0 +1,13 @@
+@import url('../../Main.css');
+
+.btn-1 {
+    border: none;
+    outline: none;
+    background-color: var(--color-sub-13);
+    color: var(--color-4);
+    padding: 7px 14px;
+    border-radius: var(--border-raduis);
+    min-width: 120px;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 4px;
+}

@@ -1,0 +1,33 @@
+@import url('../../Main.css');
+
+.Products-Wrapper {
+    margin-top: 5%;
+}
+
+.product-container {
+    box-shadow: var(--box-shadow);
+    position: relative;
+    background-color: #ffffff;
+    border-radius: var(--border-raduis);
+    height: 46vh;
+    padding: 20px 0 15px 0;
+}
+
+.product-container::before {
+    content: "";
+    width: 7%;
+    position: absolute;
+    right: 1%;
+    top: -7px;
+    height: 0;
+    height: 10px;
+    background-color: var(--color-3);
+    border-radius: var(--border-raduis);
+    z-index: -9999;
+}
+
+.Products-Wrapper-title {
+    color: var(--color-3);
+    font-weight: bold;
+    margin-right: 14px;
+}
