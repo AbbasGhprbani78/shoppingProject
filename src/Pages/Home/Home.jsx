@@ -9,11 +9,10 @@ export default function Home() {
         <>
             <Header />
             <div className="home-container">
-                <div className="slider-container">
-                    <Silder />
-                </div>
-                <ProductsWrapper />
-                <ProductsWrapper />
+
+                <Silder />
+                {/* <ProductsWrapper />
+                <ProductsWrapper /> */}
             </div>
         </>
 

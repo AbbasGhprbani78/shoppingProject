@@ -28,6 +28,10 @@ export default function ProductsWrapper() {
                     <SwiperSlide > <BoxProduct /></SwiperSlide>
                     <SwiperSlide > <BoxProduct /></SwiperSlide>
                     <SwiperSlide > <BoxProduct /></SwiperSlide>
+                    <SwiperSlide > <BoxProduct /></SwiperSlide>
+                    <SwiperSlide > <BoxProduct /></SwiperSlide>
+                    <SwiperSlide > <BoxProduct /></SwiperSlide>
+                    <SwiperSlide > <BoxProduct /></SwiperSlide>
                 </Swiper>
 
             </div>

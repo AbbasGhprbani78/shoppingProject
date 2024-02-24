@@ -1,6 +1,19 @@
 @import url('../../Main.css');
 
-/* Slider.css */
+
+
+.slider-container {
+    margin-top: 2%;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    border-radius: var(--border-raduis);
+    overflow: hidden;
+}
+
 .mySwiper {
     width: 100%;
     height: 100%;
@@ -24,7 +37,7 @@
 .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
-    background: #000;
+    background: #d9d9d9 !important;
     opacity: 0.5;
     margin: 0 5px;
     border-radius: 50%;
@@ -35,8 +48,6 @@
 .swiper-pagination-bullet-active {
     opacity: 1;
 }
-
-/* Slider.css */
 
 .swiper-slide {
     text-align: center;
@@ -52,4 +63,39 @@
     height: 100%;
     background-size: cover;
     background-position: center;
+}
+
+.swiper-button-prev:after {
+    font-size: 1.1rem !important;
+
+}
+
+.swiper-button-next:after {
+    font-size: 1.1rem !important;
+
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    background-color: #a299ac4c;
+    backdrop-filter: blur(1px);
+    border-radius: 50%;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.swiper-rtl .swiper-button-prev:after {
+    color: #000;
+}
+
+.swiper-button-next:afterr {
+    color: #000;
+}
+
+.swiper-rtl .swiper-button-next:after {
+    color: #000;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--color-1) !important;
 }

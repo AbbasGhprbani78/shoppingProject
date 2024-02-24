@@ -132,6 +132,10 @@ body {
     background-color: #f5f5f5;
 }
 
+p {
+    margin-bottom: 0 !important;
+}
+
 
 
 :root {

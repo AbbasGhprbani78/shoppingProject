@@ -3,28 +3,27 @@
 .header-container {
     padding-top: 1%;
     background-color: #ffff;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);
     padding-bottom: 1%;
+    border-radius: 0 0 8px 8px;
 }
 
-.header-wrapper {
-    width: 90%;
-    margin: 0 auto;
-}
+.header-wrapper {}
 
 .header-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #707070;
     padding-bottom: 1%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .header-info {
     display: flex;
+    align-items: center;
 }
 
-.card-wrapper,
 .user {
     background-color: var(--color-8);
     width: 2rem;
@@ -38,6 +37,13 @@
 
 .card-wrapper {
     position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 10px 0 10px;
+    cursor: pointer;
+    background-color: var(--color-8);
+    height: 2rem;
+
 }
 
 .user {
@@ -52,7 +58,7 @@
 
 .phone-user-container {
     display: flex;
-    align-items: start;
+    align-items: center;
     border-left: 1px solid var(--color-4) !important;
     margin-left: 7%;
     justify-content: space-between;
@@ -68,9 +74,15 @@
 
 .header-log {}
 
+.div-border {
+    border-bottom: 1px solid #707070
+}
+
 .header-buttom {
     direction: ltr;
     padding-top: 1%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .searchicon-header {}
@@ -96,6 +108,7 @@
 
 .searchinput::placeholder {
     color: var(--color-sub-12);
+    font-size: .9rem;
 }
 
 .number-purchase {

@@ -1,19 +1,6 @@
 @import url('../../Main.css');
 
 .home-container {
-    width: 90%;
+    width: 80%;
     margin: 0 auto
-}
-
-.slider-container {
-    margin-top: 5%;
-}
-
-.slider-container {
-    position: relative;
-    width: 100%;
-    height: 45vh;
-    border-radius: var(--border-raduis);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
 }
