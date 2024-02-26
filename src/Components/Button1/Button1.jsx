@@ -1,11 +1,15 @@
 import React from 'react'
 import './Button1.css'
-export default function Button1() {
+import { Link } from 'react-router-dom'
+export default function Button1({ link }) {
     return (
         <>
-            <button className='btn-1'>
-                بیشتر...
-            </button>
+            <Link to={link} style={{ all: "unset" }}>
+                <button className='btn-1'>
+                    بیشتر...
+                </button>
+            </Link>
+
         </>
     )
 }

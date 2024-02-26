@@ -1,0 +1,138 @@
+@import url('../../Main.css');
+
+.footer-container {
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);
+    margin-top: 3%;
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    align-items: start;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    background-color: #ffff;
+}
+
+.contact-us-wrapper {
+    margin-top: 5%;
+    color: var(--color-4);
+}
+
+.contact-us-item {
+    display: flex;
+}
+
+.contact-item-icon {
+    background-color: #e7e2e2;
+    color: var(--color-sub-11);
+    padding: 2px;
+    border-radius: 2px;
+    margin-left: 10px;
+}
+
+.title-footer {
+    color: var(--color-1);
+    font-weight: bold;
+}
+
+.contact-us-item:nth-child(2) {
+    margin: 3% 0;
+}
+
+.contact-us-item:last-child {
+    margin-bottom: 10%;
+}
+
+.more-btn-footer {
+    all: unset;
+    color: #ffffff;
+    padding: 5px 30px;
+    background-color: var(--color-1);
+    border-radius: var(--border-raduis);
+    font-size: .9rem;
+}
+
+.inputus-footer {
+    border: none;
+    outline: none;
+    background-color: #e7e2e2;
+    border-radius: var(--border-raduis);
+    padding: 3px 10px;
+    font-family: .9rem;
+}
+
+
+
+.socal-network-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.aboutus-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-4);
+    padding-bottom: 8%;
+    margin-top: 5%;
+}
+
+.socal-network-wrapper {
+    margin-top: 8%;
+}
+
+.socal-network-item {
+    background-color: #e7e2e2;
+    padding: 0 7px 4px 7px;
+    color: #03053d;
+    cursor: pointer;
+}
+
+.btn-inputus {
+    border: none;
+    outline: none;
+    color: #ffff;
+    background-color: var(--color-1);
+    padding: 3px 25px;
+    border-radius: var(--border-raduis);
+}
+
+.btns-wrapper-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8%;
+}
+
+.btn-left-footer {
+    border-color: var(--color-3);
+    outline: none;
+    border-radius: 3px;
+    background-color: var(--color-sub-10);
+    color: #ffffff;
+    padding: 3px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.system-icon {
+    margin-left: 25px;
+}
+
+@media (max-width:576px) {
+    .footer-container {
+        padding: 5% 20px;
+    }
+
+    .first-footer {
+        margin-top: 15%;
+    }
+
+    .item-footer {
+        margin-top: 10%;
+    }
+}
+
+@media (max-width:1065px) {}

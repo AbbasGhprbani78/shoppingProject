@@ -12,7 +12,7 @@ export default function Slider() {
         <div className='slider-container'>
             <Swiper
                 autoplay={{
-                    delay: 5000,
+                    delay: 3500,
                     disableOnInteraction: false,
                 }}
                 slidesPerView={1}

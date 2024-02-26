@@ -5,9 +5,10 @@
     outline: none;
     background-color: var(--color-sub-13);
     color: var(--color-4);
-    padding: 7px 14px;
+    padding: 5px 14px;
     border-radius: var(--border-raduis);
     min-width: 120px;
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.16);
     margin-bottom: 4px;
+    font-size: .9rem;
 }

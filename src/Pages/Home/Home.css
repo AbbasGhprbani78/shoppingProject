@@ -4,3 +4,19 @@
     width: 80%;
     margin: 0 auto
 }
+
+
+
+
+@media (max-width:992px) {
+    .home-container {
+        width: 90%;
+        margin: 0 auto
+    }
+}
+
+@media (max-width:576px) {
+    .home-container {
+        width: 95%;
+    }
+}

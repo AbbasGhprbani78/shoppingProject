@@ -125,3 +125,41 @@
     line-height: 14px;
 
 }
+
+
+.header-small {
+    width: 95%;
+    border: none;
+    box-shadow: var(--box-shadow);
+    margin: 3% auto;
+    background-color: #ffff;
+    border-radius: 20px;
+    overflow: hidden;
+
+}
+
+@media (max-width:992px) {
+    .header-container {
+        width: 100%;
+    }
+
+    .header-top {
+        width: 85%;
+    }
+
+    .phone-user {
+        display: none;
+    }
+
+    .phone-user-container {
+        width: auto;
+    }
+
+    .header-container {
+        padding-top: 5%;
+    }
+
+    .header-top {
+        padding-bottom: 3%;
+    }
+}

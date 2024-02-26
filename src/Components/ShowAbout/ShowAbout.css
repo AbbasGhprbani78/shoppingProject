@@ -1,0 +1,57 @@
+@import url('../../Main.css');
+
+.show-about {
+    margin-top: 3%;
+    height: 40vh;
+    width: 100%;
+    background-image: url('../../../public/Images/19.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.show-about-contect {
+    width: 70%;
+    margin: 0 auto;
+    height: 70%;
+    border: 2px dotted #ffff;
+    background-color: #ffffff60;
+    backdrop-filter: blur(2px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-raduis);
+    padding: 0 5%;
+    color: #ffff;
+}
+
+.show-about-text {
+    font-size: .9rem;
+}
+
+.link-btn {
+    all: unset;
+    margin-top: 3%;
+    background-color: var(--color-1);
+    padding: 5px 17px;
+    border-radius: var(--border-raduis);
+    cursor: pointer;
+}
+
+
+@media (max-width:576px) {
+    .show-about-register {
+        margin-top: 8%;
+    }
+
+    .show-about-contect {
+        height: 80%;
+    }
+}

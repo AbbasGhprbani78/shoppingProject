@@ -2,20 +2,24 @@ import React from 'react'
 import './BoxProduct.css'
 import ProductOff from '../ProductOff/ProductOff'
 import { Col } from 'react-bootstrap'
-import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom'
 export default function BoxProduct() {
     return (
         <>
-            <Card style={{ width: '22rem', border: "none" }}>
-                <Card.Img style={{ height: "130px" }} variant="top" src="../../../public/Images/6.jfif" />
-                <Card.Body className='card-product'>
-                    <p className="product-name">شیرالات یک</p>
-                    <p>مدل 0285</p>
-                    <p className='product-price-old text-muted'>10.000.000</p>
-                    <p><span className='price'>6.000.000</span>تومان</p>
-                </Card.Body>
-                <ProductOff />
-            </Card>
+            <Col className="product-box">
+                <Link to={"#"} style={{ all: "unset", cursor: "pointer" }}>
+                    <div className="product-img-wrapper">
+                        <ProductOff />
+                        <img className='product-img' src="../../../public/Images/8.jfif" alt="" />
+                    </div>
+                    <div className="product-body">
+                        <p className='product-name'>شیرالات یک</p>
+                        <p className='product-model'>مدل 0285</p>
+                        <strike className='old-product-price'>10.000.000</strike>
+                        <p className='new-product-price'>6.000.000<span className='currency'>تومان</span></p>
+                    </div>
+                </Link>
+            </Col>
         </>
     )
 }

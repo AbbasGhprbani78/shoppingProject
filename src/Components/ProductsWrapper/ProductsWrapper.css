@@ -4,18 +4,22 @@
     margin-top: 3%;
 }
 
-.product-container {
+.products-container {
+    display: flex;
     box-shadow: var(--box-shadow);
     position: relative;
     background-color: #ffffff;
     border-radius: var(--border-raduis);
-    height: 46vh;
-    padding: 20px 0 15px 0;
+    height: 42vh;
 }
 
-.product-container::before {
+.mySwiper-products {
+    border-radius: var(--border-raduis);
+}
+
+.products-container::before {
     content: "";
-    width: 7%;
+    width: 8%;
     position: absolute;
     right: 1%;
     top: -7px;
@@ -30,4 +34,11 @@
     color: var(--color-3);
     font-weight: bold;
     margin-right: 14px;
+    margin-bottom: 10px
+}
+
+@media (max-width:576px) {
+    .products-container::before {
+        width: 20%
+    }
 }
