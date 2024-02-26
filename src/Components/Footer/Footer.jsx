@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PhoneEnabledOutlinedIcon from '@mui/icons-material/PhoneEnabledOutlined';
@@ -30,19 +29,19 @@ export default function Footer() {
             <div className="item-footer">
                 <p className='title-footer'>درباره ما</p>
                 <div className='contact-us-wrapper'>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
                 </div>
             </div>
             <div className="item-footer">
                 <p className='title-footer'>درباره ما</p>
                 <div className='contact-us-wrapper'>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
-                    <div className='contact-item-text'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
+                    <div className='contact-item-text second'>ادرس : ادرس شرکت</div>
                 </div>
             </div>
             <div className="item-footer">

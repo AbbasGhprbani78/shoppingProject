@@ -1,1 +1,62 @@
 @import url('../../Main.css');
+
+.main-Product {
+    margin-top: 5%;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-raduis);
+    background-color: #ffffff;
+    padding: 15px;
+
+}
+
+.main-img-product-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.main-img-product {
+    width: 100%;
+    border-radius: var(--border-raduis);
+}
+
+.some-img {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(91px, 1fr));
+    margin-top: 5%;
+}
+
+.main-product-img-item {
+    height: 100px;
+    border-radius: var(--border-raduis);
+    overflow: hidden;
+}
+
+.main-product-img-item>img {
+    width: 100%;
+    height: 100%;
+}
+
+.main-product-name-score {
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 7px;
+}
+
+.main-product-attributes-wrapper {
+    padding-top: 15px;
+}
+
+.main-product-attributes-title {
+    color: var(--color-3);
+}
+
+.main-product-model-span {
+    color: var(--color-3);
+    font-weight: bold;
+    margin-left: 7px;
+}
+
+.text-main-product {
+    margin-top: 10px;
+    color: #cfc9dc;
+}

@@ -83,6 +83,9 @@
     padding-top: 1%;
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .searchicon-header {}
@@ -136,6 +139,13 @@
     border-radius: 20px;
     overflow: hidden;
 
+}
+
+
+.category-item {
+    all: unset;
+    cursor: pointer;
+    margin-left: 35px;
 }
 
 @media (max-width:992px) {

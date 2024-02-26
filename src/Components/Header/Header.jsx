@@ -103,6 +103,20 @@ export default function Header() {
                                                 placeholder='جستجو'
                                             />
                                         </div>
+                                        <div className='categorys-wrapper d-flex'>
+                                            <div>
+                                                <Link to={'/category-info/tail/1'} className='category-item'>کاشی</Link>
+                                            </div>
+                                            <div>
+                                                <Link to={'/category-info/tail/1'} className='category-item'>شیرالات</Link>
+                                            </div>
+                                            <div>
+                                                <Link to={'/category-info/tail/1'} className='category-item'>لوستر</Link>
+                                            </div>
+                                            <div>
+                                                <Link to={'/category-info/tail/1'} className='category-item'>کفپوش</Link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

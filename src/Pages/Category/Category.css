@@ -1,1 +1,123 @@
 @import url('../../Main.css');
+
+.category-wrapper {
+    margin-top: 5%;
+}
+
+.filterTitle {
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    padding: 4px 15px;
+    color: var(--color-sub-5);
+    background-color: #ffffff;
+    margin-top: 22%;
+    position: relative;
+}
+
+.all-Products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    padding: 10px;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.all-Products::before {
+    content: "";
+    width: 8%;
+    position: absolute;
+    right: 1%;
+    top: -7px;
+    height: 0;
+    height: 10px;
+    background-color: var(--color-3);
+    border-radius: var(--border-raduis);
+    z-index: -9999;
+}
+
+.btn-done-filter {
+    border: none;
+    outline: none;
+    border-radius: var(--border-raduis);
+    color: #ffffff;
+    background-color: var(--color-1);
+    width: 100%;
+    padding: 7px 0;
+
+}
+
+.filter-btn-small {
+    border: none;
+    outline: none;
+    background-color: var(--color-sub-12);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-raduis);
+    color: #ffffff;
+    margin-top: 5%;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.openfilter-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.activefilterbox {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+@media (min-width:992px) {
+    .filters-col {
+        display: block;
+    }
+}
+
+@media (max-width:992px) {
+    .filterTitle {
+        margin-top: 5%;
+    }
+
+    .filters-col {
+        display: none;
+    }
+}
+
+@media (max-width:576px) {
+    .all-Products::before {
+        width: 35%;
+    }
+
+    .all-Products {
+        grid-template-columns: repeat(auto-fit, minmax(161px, 1fr));
+    }
+}
+
+.boxFilters {
+    height: 50vh;
+    overflow-y: scroll;
+    background-color: #ffffff;
+    padding-bottom: 20px;
+    padding: 20px;
+    border-radius: var(--border-raduis);
+    display: block;
+}

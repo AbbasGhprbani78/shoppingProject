@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default function BoxProduct() {
     return (
         <>
-            <Col className="product-box">
+            <div className="product-box">
                 <Link to={"#"} style={{ all: "unset", cursor: "pointer" }}>
                     <div className="product-img-wrapper">
                         <ProductOff />
@@ -19,7 +19,7 @@ export default function BoxProduct() {
                         <p className='new-product-price'>6.000.000<span className='currency'>تومان</span></p>
                     </div>
                 </Link>
-            </Col>
+            </div>
         </>
     )
 }

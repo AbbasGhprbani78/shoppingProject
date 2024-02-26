@@ -17,8 +17,9 @@
 }
 
 .product-body {
+    color: var(--color-2);
+    text-align: center;
 
-    color: var(--color-2)
 }
 
 .product-name {
@@ -34,11 +35,11 @@
 }
 
 .old-product-price {
-    margin-left: 10%;
     color: #c8c8c8;
     font-size: .8rem;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: center;
 }
 
 .new-product-price {

@@ -1,0 +1,22 @@
+@import url('../../Main.css');
+
+
+.breadcrumb-container {
+    display: flex;
+    align-items: center;
+    margin-top: 3%;
+    background: #ffffff;
+    padding: 10px 25px;
+    color: var(--color-sub-11);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-raduis);
+}
+
+.breadcrumb-items {
+    margin-left: 4%;
+}
+
+.breadcrumb_link {
+    all: unset;
+    cursor: pointer;
+}

@@ -99,3 +99,9 @@
 .swiper-pagination-bullet-active {
     background-color: var(--color-1) !important;
 }
+
+@media (max-width:576px) {
+    .slider-container {
+        height: 30vh;
+    }
+}

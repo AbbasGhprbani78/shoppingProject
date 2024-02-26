@@ -46,7 +46,7 @@
 .more-btn-footer {
     all: unset;
     color: #ffffff;
-    padding: 5px 30px;
+    padding: 7px 30px;
     background-color: var(--color-1);
     border-radius: var(--border-raduis);
     font-size: .9rem;
@@ -94,7 +94,7 @@
     outline: none;
     color: #ffff;
     background-color: var(--color-1);
-    padding: 3px 25px;
+    padding: 5px 25px;
     border-radius: var(--border-raduis);
 }
 
@@ -111,7 +111,7 @@
     border-radius: 3px;
     background-color: var(--color-sub-10);
     color: #ffffff;
-    padding: 3px 30px;
+    padding: 5px 30px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -119,6 +119,10 @@
 
 .system-icon {
     margin-left: 25px;
+}
+
+.second {
+    margin-bottom: 12px;
 }
 
 @media (max-width:576px) {

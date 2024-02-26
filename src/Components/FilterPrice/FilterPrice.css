@@ -1,0 +1,9 @@
+@import url('../../Main.css');
+
+.filterPrice-wrapper {
+    background-color: #ffffff;
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    padding: 10px 15px 10px 10px;
+    color: var(--color-sub-5);
+}
