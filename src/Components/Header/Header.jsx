@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Header.css'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
+import LoginIcon from '@mui/icons-material/Login';
 export default function Header() {
+
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [showOptions, setShowOptions] = useState(false);
+    const subUserRef = useRef(null);
+
     useEffect(() => {
 
         const handleWindowResize = () => {
@@ -20,8 +25,39 @@ export default function Header() {
         };
     }, []);
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (subUserRef.current && !subUserRef.current.contains(event.target)) {
+                setShowOptions(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const showoptionsHandler = () => {
+        setShowOptions(prevState => !prevState)
+    }
+
+    const loginHandler = () => {
+        console.log("login")
+    }
+    const registerHandler = () => {
+        console.log("register")
+    }
+
+
+
     return (
         <>
+            <>
+            </>
+            <>
+
+            </>
             {
                 windowWidth < 992 ?
                     (
@@ -40,7 +76,13 @@ export default function Header() {
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user">
-                                                    <PersonOutlineIcon className='person-header' />
+                                                    <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
+                                                    <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
+                                                        <div className="register-wrapper">
+                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
+                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                        </div>
+                                                    </div>
                                                 </Link>
                                                 <Link to={"#"} className="card-wrapper">
                                                     <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -81,7 +123,13 @@ export default function Header() {
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user">
-                                                    <PersonOutlineIcon className='person-header' />
+                                                    <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
+                                                    <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
+                                                        <div className="register-wrapper">
+                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
+                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                        </div>
+                                                    </div>
                                                 </Link>
                                                 <Link to={"#"} className="card-wrapper">
                                                     <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
