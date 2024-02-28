@@ -1,0 +1,115 @@
+@import url('../../Main.css');
+
+.register-form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+    backdrop-filter: blur(5px);
+    overflow-y: scroll;
+}
+
+.register-form-container-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.register-form-wrapper {
+    background-color: #ffffff;
+    border-radius: var(--border-raduis);
+    color: var(--color-4);
+    box-shadow: var(--box-shadow);
+}
+
+.register-form-header {
+    border-bottom: 1px solid var(--color-sub-12);
+    padding: 5px 15px 10px 15px;
+    font-weight: bold;
+
+}
+
+.register-form-title {
+    padding: 10px 15px 10px 0;
+    font-size: .9rem;
+}
+
+.register-form {
+    margin-top: 15px;
+    padding: 0 25px 30px 25px;
+}
+
+.register-input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.lable-input {
+    margin-bottom: .5rem;
+    font-size: .8rem;
+}
+
+.input-form {
+    outline: none;
+    border: none;
+    border: 1px solid var(--color-sub-12);
+    border-radius: 5px;
+    color: #000;
+    font-size: .8rem;
+    padding: 5px 10px;
+}
+
+.input-password {
+    border: none;
+}
+
+.register-input-wrapper {}
+
+.input-eye-wrapper {
+    border: 1px solid var(--color-sub-12);
+    border-radius: 5px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register-form-gird {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+
+@media (min-width:768px) {
+    .register-form-wrapper {
+        min-width: 430px;
+    }
+
+}
+
+@media (max-width:450px) {
+    .register-form-wrapper {
+        width: 95%;
+    }
+
+    .register-form-gird {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width:361px) {
+    .register-form-wrapper {
+        height: 100vh;
+        overflow-y: scroll;
+    }
+}

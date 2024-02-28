@@ -1,0 +1,47 @@
+@import url('../../Main.css');
+
+.category-sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    right: -50%;
+    bottom: 0;
+    background-color: #ffff;
+    width: 50%;
+    z-index: 9999;
+    box-shadow: var(--box-shadow);
+    transition: right 0.3s ease
+}
+
+.category-sidebar-wrapper-active {
+    right: 0;
+}
+
+.ctegory-sidbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+}
+
+.category-sidebar-list {
+    padding: 0 !important;
+}
+
+.category-sidebar-item {
+    padding-right: 10px;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+
+.category-sidebar-list {}
+
+.category-sidebar-list a {
+    width: 100%;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--color-sub-12);
+}

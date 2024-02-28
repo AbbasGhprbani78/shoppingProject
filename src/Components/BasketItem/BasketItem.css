@@ -1,0 +1,82 @@
+@import url('../../Main.css');
+
+.basketItem-wrapper {
+    background-color: #ffffff;
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    margin: 20px 0;
+}
+
+.basket-img-text-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.img-basket-item-wrapper {
+    max-width: 160px;
+    max-height: 150px;
+    border-radius: var(--border-raduis);
+    overflow: hidden;
+}
+
+.basket-number {
+    text-align: center;
+}
+
+.basket-tops-title {
+    background-color: var(--color-sub-13);
+    color: var(--color-4);
+    padding: 7px 10px;
+    font-size: 1.2rem;
+}
+
+.img-basket-item-wrapper>img {
+    width: 100%;
+    height: 100%;
+}
+
+.basket-title {
+    text-align: center;
+}
+
+.basket-bottom {
+    padding: 15px 10px;
+
+}
+
+.basket-name,
+.basket-price,
+.basket-all-price {
+    color: var(--color-2);
+    font-weight: bold;
+}
+
+.basket-model,
+.basket-currency {
+    color: var(--color-4);
+    margin-top: 7px;
+}
+
+.basket-price {
+    color: var(--color-2);
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 5px 10px !important;
+    outline: none !important;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    width: 70px;
+}
+
+.mui-focused {
+    all: unset !important;
+}
+
+.cardMedia {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

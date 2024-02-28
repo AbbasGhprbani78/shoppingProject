@@ -1,0 +1,10 @@
+@import url('../../Main.css');
+
+.basket-items-container {
+    max-height: 800px;
+    overflow-y: scroll;
+}
+
+.basket-items-container::-webkit-scrollbar {
+    display: none;
+}

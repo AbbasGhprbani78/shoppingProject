@@ -1,0 +1,74 @@
+@import url('../../Main.css');
+
+.totalamount-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+    gap: 10px;
+    padding: 25px;
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    background-color: #ffffff;
+    margin-top: 20px;
+
+}
+
+.total-price-wrapper {
+    background-color: var(--color-sub-13);
+    color: var(--color-4);
+    height: 44px;
+    line-height: 44px;
+    padding: 0 50px;
+    font-weight: bold;
+}
+
+.amount-payable-wrapper {
+    background-color: #d3e4c9;
+    color: #6a994d;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 50px;
+    font-weight: bold;
+}
+
+.complete-basket-btn {
+    background-color: var(--color-1);
+    color: #ffff;
+    width: 60%;
+}
+
+.complete-basket-btn {
+    padding: 10px 30px;
+    border: none;
+    outline: none;
+    border-radius: var(--border-raduis);
+}
+
+.complete-basket-btn-wrapper {
+    text-align: left;
+}
+
+.total-price-wrapper,
+.amount-payable-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width:1344px) {
+    .complete-basket-btn-wrapper {
+        text-align: start;
+    }
+}
+
+@media (max-width:938px) {
+    .totalamount-wrapper {
+        flex-direction: column;
+        align-items: start;
+
+    }
+}
+
+@media (max-width:412px) {
+    .totalamount-wrapper {
+        padding: 5px;
+    }
+}
