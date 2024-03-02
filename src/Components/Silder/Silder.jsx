@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Slider.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-
-
+import axios from 'axios';
+import { IP } from '../../App';
 export default function Slider() {
+
+    const [sliderPic, setSliderPic] = useState([])
+
+    useEffect(() => {
+        getPicsSlider()
+    }, [])
+    const getPicsSlider = async () => {
+
+        try {
+            const response = axios.get(`${IP}`)
+            if (response.status === 200) {
+                console.log(response.data)
+                // setSliderPic(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
         <div className='slider-container'>
             <Swiper

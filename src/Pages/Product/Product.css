@@ -145,7 +145,7 @@
     height: 35px;
     min-width: 200px;
     padding-right: 25px;
-    line-height: 27px;
+    line-height: 35px;
     box-shadow: var(--box-shadow);
 }
 
@@ -257,6 +257,14 @@
     height: 36px;
     border-radius: var(--border-raduis);
     margin-right: 20px;
+}
+
+.off-detail {
+    width: 80%;
+}
+
+.product-services-list {
+    padding-right: 20px;
 }
 
 

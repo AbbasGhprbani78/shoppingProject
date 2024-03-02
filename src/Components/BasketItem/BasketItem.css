@@ -80,3 +80,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.basket-tops-mobile {
+    flex-direction: column;
+}

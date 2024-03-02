@@ -147,6 +147,26 @@
     all: unset;
     cursor: pointer;
     margin-left: 35px;
+    text-align: center;
+    padding-bottom: 7px;
+    position: relative;
+}
+
+.category-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-7);
+    transition: width 0.3s ease;
+
+}
+
+.category-item:hover::after {
+    width: 100%;
+
 }
 
 .sub-user-wrapper {

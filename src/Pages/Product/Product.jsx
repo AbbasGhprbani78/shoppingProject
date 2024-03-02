@@ -106,7 +106,7 @@ export default function Product() {
                                     </div>
                                 </div>
                                 <Row className="main-product-attributes-wrapper">
-                                    <Col md={6} className="main-product-attributes">
+                                    <Col md={5} className="main-product-attributes">
                                         <div>
                                             <h5 className='main-product-attributes-title mb-3'>ویژگی ها</h5>
                                             <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>مرمر سیاه</p>
@@ -129,7 +129,7 @@ export default function Product() {
                                             </button>
                                         </div>
                                     </Col>
-                                    <Col md={6} className="services-wrapper">
+                                    <Col md={5} className="services-wrapper">
                                         <div className='off-detail'>
                                             <div className="off-specials">
                                                 تخفیف ویژه
@@ -141,12 +141,15 @@ export default function Product() {
                                             </div>
                                         </div>
                                         <div className="main-services-wrapper">
-                                            <ul className='product-services-list'>
-                                                <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                                <li className='product-service-item'>نصب رایگان</li>
-                                                <li className='product-service-item'>ارسال فوری و رایگان</li>
-                                                <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                            </ul>
+                                            <div>
+                                                <ul className='product-services-list'>
+                                                    <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                    <li className='product-service-item'>نصب رایگان</li>
+                                                    <li className='product-service-item'>ارسال فوری و رایگان</li>
+                                                    <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                </ul>
+                                            </div>
+
                                         </div>
                                     </Col>
                                 </Row>

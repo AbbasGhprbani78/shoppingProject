@@ -9,6 +9,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import SignInForm from '../SignInForm/SignInForm';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import SideBarCategory from '../SideBarCategory/SideBarCategory';
+import { IP } from '../../App'
+import axios from 'axios';
 export default function Header() {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -17,7 +19,7 @@ export default function Header() {
     const [showLoginForm, setShowLoginForm] = useState(false);
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
-
+    const [allCategory, setAllCategory] = useState([])
 
     useEffect(() => {
 
@@ -67,7 +69,6 @@ export default function Header() {
         setShowRegisterForm(false)
     }
 
-
     const showSideBarMenu = () => {
         setShowSideBar(true)
     }
@@ -76,6 +77,24 @@ export default function Header() {
         setShowSideBar(false)
     }
 
+    const [allProductsHome, setAllProductsHome] = useState([])
+
+    const getProductsHome = async () => {
+        try {
+
+            const response = await axios.get(`${IP}/product/home/`)
+            if (response.status === 200) {
+                console.log(response.data)
+                setAllProductsHome(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+        getProductsHome()
+    }, [])
     return (
         <>
             <>
@@ -195,18 +214,17 @@ export default function Header() {
                                             />
                                         </div>
                                         <div className='categorys-wrapper d-flex'>
-                                            <div>
-                                                <Link to={'/category-info/tail/1'} className='category-item'>کاشی</Link>
-                                            </div>
-                                            <div>
-                                                <Link to={'/category-info/tail/1'} className='category-item'>شیرالات</Link>
-                                            </div>
-                                            <div>
-                                                <Link to={'/category-info/tail/1'} className='category-item'>لوستر</Link>
-                                            </div>
-                                            <div>
-                                                <Link to={'/category-info/tail/1'} className='category-item'>کفپوش</Link>
-                                            </div>
+                                            {
+                                                allProductsHome &&
+                                                    allProductsHome.categories ? (
+                                                    allProductsHome.categories.map((categorie, i) => (
+                                                        <div>
+                                                            <Link to={`/category-info/${categorie.name}/${categorie.category_id}/1`} className='category-item'>{categorie.name}</Link>
+                                                        </div>
+                                                    )))
+                                                    : (null)
+
+                                            }
                                         </div>
                                     </div>
                                 </div>
