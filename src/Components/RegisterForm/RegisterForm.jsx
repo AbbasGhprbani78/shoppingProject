@@ -13,10 +13,12 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
     const [confirmPass, setConfirmPass] = useState("")
     const [address, setAddress] = useState("")
     const [email, setEmail] = useState("");
+    const [formSubmitt, setFormSubmitt] = useState(false)
 
     const regexPhone = /^(\+?\d{1,3})?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
     const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
-    const regexPostalCode = /^\d{ 10}$/
+    const regexPostalCode = /^\d{5}_\d{4}$/;
+
 
     const closeHandler = () => {
         closeRegisterForm()
@@ -28,38 +30,40 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
         setConfirmPass("")
         setAddress("")
         setEmail("")
+        setFormSubmitt(false)
     }
 
-    const register = (e) => {
+    const register = async (e) => {
+
         e.preventDefault()
-        if (!name || !lastName || !postalCode || !phone || !password || !confirmPass || !address || !email) {
-            alert("لطفا تمامی فیلدها را پر کنید");
-            return;
-        }
-
-        if (!regexPhone.test(phone) || !regexEmail.test(email) || !regexPostalCode.test(postalCode)) {
-            alert("لطفا اطلاعات صحیح را وارد کنید");
-            return;
-        }
-
-        if (password !== confirmPass) {
-            alert("رمزها مطابقت ندارند");
+        setFormSubmitt(true)
+        if (!name || !lastName || !postalCode || !phone || !password || !confirmPass || !address || !email ||
+            !regexPhone.test(phone) || !regexEmail.test(email) || !regexPostalCode.test(postalCode) || password !== confirmPass) {
             return;
         }
 
         const body = {
-
+            first_name: name,
+            last_name: lastName,
+            postal_code: postalCode,
+            phone,
+            password,
+            confirm_password: confirmPass,
+            address,
+            email,
         }
 
+        const newBody = JSON.stringify(body)
+        console.log(newBody)
+
         try {
-            const response = axios.post(`${IP}`, body)
+            const response = await axios.post(`${IP}/user/signup/`, body)
             if (response.status === 201) {
-                console.log(response.data)
                 closeHandler()
             }
 
         } catch (error) {
-            console.log(error.message)
+            console.log(`${error.response.data.message}`)
         }
     }
 
@@ -81,8 +85,9 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     id='name'
                                     className='input-form'
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setName(e.target.value.trimStart())}
                                 />
+                                {name === "" && formSubmitt && <p className='error-input'>نام را وارد کنید</p>}
                             </div>
                             <div className="signIn-input-wrapper">
                                 <label htmlFor="last-name" className='lable-input'>نام خانوادگی</label>
@@ -91,8 +96,9 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     id='last-name'
                                     className='input-form'
                                     value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
+                                    onChange={(e) => setLastName(e.target.value.trimStart())}
                                 />
+                                {lastName === "" && formSubmitt && <p className='error-input'>نام خانوادگی را وارد کنید</p>}
                             </div>
                             <div className="signIn-input-wrapper">
                                 <label htmlFor="postal-code" className='lable-input'>کد پستی</label>
@@ -102,7 +108,10 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     className='input-form'
                                     value={postalCode}
                                     onChange={(e) => setPostalCode(e.target.value)}
+                                    style={{ textAlign: "right" }}
+                                    dir='ltr'
                                 />
+                                {!regexPostalCode.test(postalCode) && formSubmitt && <p className='error-input'>کد پستی معتبر نیست</p>}
                             </div>
                             <div className="signIn-input-wrapper">
                                 <label htmlFor="phone" className='lable-input'>موبایل</label>
@@ -113,6 +122,7 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
+                                {!regexPhone.test(phone) && formSubmitt && <p className='error-input'>شماره تماس معتبر نیست</p>}
                             </div>
                             <div className="signIn-input-wrapper">
                                 <label htmlFor="password" className='lable-input'>رمز</label>
@@ -121,8 +131,9 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     id='password'
                                     className='input-form'
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => setPassword(e.target.value.trimStart())}
                                 />
+                                {password === "" && formSubmitt && <p className='error-input'>رمز خود را وارد کنید</p>}
                             </div>
                             <div className="signIn-input-wrapper">
                                 <label htmlFor="confirm-pass" className='lable-input'>تایید رمز</label>
@@ -134,6 +145,7 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                     onChange={(e) => setConfirmPass(e.target.value)}
                                     onPaste={(e) => e.preventDefault()}
                                 />
+                                {confirmPass === "" && formSubmitt || confirmPass !== password && <p className='error-input'>رمز خود را تایید کنید</p>}
                             </div>
                         </div>
                         <div className="signIn-input-wrapper">
@@ -143,8 +155,9 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                 id='location'
                                 className='input-form'
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                onChange={(e) => setAddress(e.target.value.trimStart())}
                             />
+                            {address === "" && formSubmitt && <p className='error-input'>نشانی خود را وارد کنید</p>}
                         </div>
                         <div className="signIn-input-wrapper">
                             <label htmlFor="email" className='lable-input mt-3'>ایمیل</label>
@@ -155,6 +168,7 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            {!regexEmail.test(email) && formSubmitt && <p className='error-input'>ایمیل معتبر نیست</p>}
                         </div>
                         <div
                             className='mt-3 text-center'>
@@ -166,3 +180,4 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
         </>
     )
 }
+

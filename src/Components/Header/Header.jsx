@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import './Header.css'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -11,6 +11,9 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 import SideBarCategory from '../SideBarCategory/SideBarCategory';
 import { IP } from '../../App'
 import axios from 'axios';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import AuthContext from '../../Context/AuthContext';
 export default function Header() {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -19,7 +22,8 @@ export default function Header() {
     const [showLoginForm, setShowLoginForm] = useState(false);
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
-    const [allCategory, setAllCategory] = useState([])
+    const [allProductsHome, setAllProductsHome] = useState([])
+    const authContext = useContext(AuthContext)
 
     useEffect(() => {
 
@@ -77,7 +81,23 @@ export default function Header() {
         setShowSideBar(false)
     }
 
-    const [allProductsHome, setAllProductsHome] = useState([])
+    const changeInfo = async () => {
+
+        const body = {
+
+        }
+        try {
+            const response = await axios.put(`${IP}/user/edit-profile/`, body)
+            if (response.status === 200) {
+                console.log(response)
+                setShowOptions(false)
+            }
+
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
 
     const getProductsHome = async () => {
         try {
@@ -92,9 +112,38 @@ export default function Header() {
         }
     }
 
+    const logoutHandler = async () => {
+
+        const access = localStorage.getItem('user')
+        const refresh = localStorage.getItem('refresh')
+
+        const headers = {
+            Authorization: `Bearer ${access}`,
+
+        };
+        const body = {
+            refresh: refresh
+        }
+        try {
+            const response = await axios.post(`${IP}/user/logout/`, body, {
+                headers
+            })
+
+            if (response.status === 200) {
+                setShowOptions(false)
+                console.log(response)
+                authContext.logout()
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     useEffect(() => {
         getProductsHome()
     }, [])
+
+
     return (
         <>
             <>
@@ -102,7 +151,6 @@ export default function Header() {
                     showLoginForm={showLoginForm}
                     closeSignInForm={closeSignInForm}
                 />
-
             </>
             <>
                 <RegisterForm
@@ -124,6 +172,8 @@ export default function Header() {
                                                     <SideBarCategory
                                                         showSideBar={showSideBar}
                                                         hideSideBarMenu={hideSideBarMenu}
+                                                        allProductsHome={allProductsHome}
+
                                                     />
                                                 </div>
                                                 <div className="header-logo">Logo</div>
@@ -137,8 +187,22 @@ export default function Header() {
                                                     <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
                                                     <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
                                                         <div className="register-wrapper">
-                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
-                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                            {
+                                                                authContext.token ? (
+                                                                    <>
+                                                                        <li className='register-item'>سفارشات</li>
+                                                                        <li className='register-item'>علاقه مندی ها</li>
+                                                                        <li className="register-item" onClick={changeInfo} >ویرایش حساب<ModeEditOutlineIcon /></li>
+                                                                        <li className='register-item' onClick={logoutHandler}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                    </>) :
+
+                                                                    (
+                                                                        <>
+                                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
+                                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                                        </>)
+                                                            }
+
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -188,8 +252,21 @@ export default function Header() {
                                                     <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
                                                     <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
                                                         <div className="register-wrapper">
-                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
-                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                            {
+                                                                authContext.token ? (
+                                                                    <>
+                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات</li>
+                                                                        <li className='register-item'>علاقه مندی ها</li>
+                                                                        <li className="register-item" onClick={changeInfo} >ویرایش حساب<ModeEditOutlineIcon /></li>
+                                                                        <li className='register-item' onClick={logoutHandler}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                    </>) :
+
+                                                                    (
+                                                                        <>
+                                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
+                                                                            <li onClick={registerHandler} className='register-item'>ثبت نام</li>
+                                                                        </>)
+                                                            }
                                                         </div>
                                                     </div>
                                                 </Link>

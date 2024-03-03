@@ -88,6 +88,12 @@
     gap: 10px;
 }
 
+.error-input {
+    display: block;
+    color: var(--color-7);
+    font-size: .8rem;
+    transition: all .3s ease;
+}
 
 @media (min-width:768px) {
     .register-form-wrapper {

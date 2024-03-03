@@ -75,12 +75,21 @@
     all: unset !important;
 }
 
-.cardMedia {
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
 
-.basket-tops-mobile {
-    flex-direction: column;
-}
+.delete-mobile-close {}
+
+.img-mobile-wrapper {}
+
+.img-mobile {}
+
+.mobile-wrapper-content {}
+
+.mobile-name-model-wrappe {}
+
+.mobile-name {}
+
+.mobile-model {}
+
+.mobile-price {}
+
+.mobile-price-all {}

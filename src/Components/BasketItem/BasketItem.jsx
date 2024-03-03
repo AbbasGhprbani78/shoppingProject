@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './BasketItem.css'
 import { Col } from 'react-bootstrap'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 
 export default function BasketItem() {
@@ -24,7 +25,28 @@ export default function BasketItem() {
             {
                 windowWidth < 992 ? (
                     <>
-                        <div className="basketItem-wrapper basketItem-mobile">
+                        <div>
+                            <div className="delete-mobile-close">
+
+                            </div>
+                            <div className="img-mobile-wrapper">
+                                <img src="" alt="" className="img-mobile" />
+                            </div>
+                            <div className="mobile-wrapper-content">
+                                <div>
+                                    <div className="mobile-name-model-wrapper">
+                                        <p className="mobile-name"></p>
+                                        <p className="mobile-model"></p>
+                                    </div>
+                                    <TextField />
+                                </div>
+                                <div className="mobile-price">
+
+                                </div>
+                                <div className="mobile-price-all">
+
+                                </div>
+                            </div>
                         </div>
                     </>) :
                     (

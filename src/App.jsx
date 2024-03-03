@@ -5,49 +5,70 @@ import routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
+// export const IP = "http://185.79.156.226:8500"
 export const IP = "https://shop.ariisco.com"
-
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState(false);
-  const [userInfos, setUserInfos] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [token, setToken] = useState(null);
+  const [refresh, setRefresh] = useState(null);
+  const [userInfos, setUserInfos] = useState(null);
 
-  const login = (userInfos, token) => {
-    setToken(token);
+  const login = (data) => {
+    setToken(data.access);
     setIsLoggedIn(true);
-    setUserInfos(userInfos);
-    localStorage.setItem("user", token);
+    setUserInfos({
+      firstName: data.first_name,
+      lastName: data.last_name
+    });
+    setRefresh(data.refresh)
+    localStorage.setItem("user", data.access);
+    localStorage.setItem("refresh", data.refresh)
   };
 
   const logout = useCallback(() => {
     setToken(null);
-    setUserInfos({});
+    setRefresh(null)
+    setUserInfos(null);
+    setIsLoggedIn(false)
     localStorage.removeItem("user");
+    localStorage.removeItem("refresh");
   });
 
-  useEffect(() => {
-    const localStorageData = localStorage.getItem("user");
+  const checkUser = async () => {
+    const localStorageData = localStorage.getItem("refresh");
     if (localStorageData) {
-      axios.get(`${IP}`, {
-        headers: {
-          Authorization: `Bearer ${localStorageData.token}`,
-        }
-      })
-        .then(response => {
+      const body = {
+        refresh: localStorageData,
+      };
+      try {
+        const response = await axios.post(`${IP}/user/token/refresh/`, body)
+        if (response.status === 200) {
+          console.log(response.data)
+          // setToken()
           setIsLoggedIn(true);
-          setUserInfos(response.data);
-        })
-        .catch(error => {
-          setIsLoggedIn(false);
-          console.error('Error fetching user data:', error);
-        });
+          setUserInfos({})
+          // setRefresh()
+          // localStorage.setItem("user", data.access);
+          // localStorage.setItem("refresh", data.refresh)
+
+        }
+      } catch (error) {
+        console.log(error.mesage)
+      }
     } else {
       setIsLoggedIn(false);
+      setToken(null)
+      setRefresh(null)
+      setUserInfos(null)
+      localStorage.removeItem("user")
+      localStorage.removeItem("refresh")
     }
-  }, [login, logout]);
+  }
 
-
+  useEffect(() => {
+    checkUser()
+  }, [login, logout])
 
   let router = useRoutes(routes)
 
@@ -60,6 +81,7 @@ function App() {
           userInfos,
           login,
           logout,
+          refresh
         }}>
         {router}
       </AuthContext.Provider>

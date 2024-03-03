@@ -11,9 +11,9 @@ export default function Slider() {
 
     const [sliderPic, setSliderPic] = useState([])
 
-    useEffect(() => {
-        getPicsSlider()
-    }, [])
+    // useEffect(() => {
+    //     getPicsSlider()
+    // }, [])
     const getPicsSlider = async () => {
 
         try {

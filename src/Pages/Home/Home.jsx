@@ -31,9 +31,9 @@ export default function Home() {
     }
     const getTopSeling = async () => {
         try {
-            const response = await axios.get(`${IP}/top-selling-products`)
+            const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
-                // setAllProductsHome(response.data)
+                setTopSeling(response.data)
                 console.log(response)
             }
         } catch (error) {
@@ -168,9 +168,9 @@ export default function Home() {
                             }
                         >
                             {
-                                allProductsHome ? (
-                                    allProductsHome.products_without_discount &&
-                                    allProductsHome.products_without_discount.map((product) => (
+                                topSeling ? (
+                                    topSeling &&
+                                    topSeling.map((product) => (
                                         <SwiperSlide key={product.product_or_service_code}>
                                             <BoxProduct
                                                 image={product.image}

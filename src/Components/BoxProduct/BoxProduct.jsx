@@ -23,7 +23,7 @@ export default function BoxProduct({
                         <div className='product-name'>{name}</div>
                         <p className='product-model'>مدل {model}</p>
                         <strike className='old-product-price'>10.000.000</strike>
-                        <p className='new-product-price'>{price.toLocaleString()}<span className='currency'>تومان</span></p>
+                        <p className='new-product-price'>{price && price.toLocaleString()}<span className='currency'>تومان</span></p>
                     </div>
                 </Link>
             </div>

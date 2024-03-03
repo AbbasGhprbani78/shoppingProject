@@ -17,6 +17,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Comments from '../../Components/Comments/Comments';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Rating from '@mui/material/Rating';
+import ModalBuy from '../../Components/ModalBuy/ModalBuy';
 function CustomTabPanel(props) {
 
     const { children, value, index, ...other } = props;
@@ -54,11 +55,19 @@ function a11yProps(index) {
 export default function Product() {
     const [value, setValue] = useState(0)
     const [score, setScore] = useState(2);
+    const [showProductModal, setShowProductModal] = useState(false)
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const addTobasket = () => {
+        setShowProductModal(true)
+    }
     return (
         <>
+            <ModalBuy
+                showProductModal={showProductModal} setShowProductModal={setShowProductModal} />
             <Header />
             <div className="home-container">
                 <Breadcrumb
@@ -118,7 +127,7 @@ export default function Product() {
                                             <p className='main-product-price-title'>
                                                 قیمت :<strike className='main-product-price-old'>2,500,000</strike><p className='main-product-price-new'>750,000<span className='main-product-price-new-currency'>تومان</span></p>
                                             </p>
-                                            <button className='add-baskect-btn'>
+                                            <button className='add-baskect-btn' onClick={addTobasket}>
                                                 افزودن به سبد
                                                 <p className='add-baskect-btn-icon'>
                                                     <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
