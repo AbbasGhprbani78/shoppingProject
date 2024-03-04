@@ -18,6 +18,11 @@ import Comments from '../../Components/Comments/Comments';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Rating from '@mui/material/Rating';
 import ModalBuy from '../../Components/ModalBuy/ModalBuy';
+import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper';
+import BoxProduct from '../../Components/BoxProduct/BoxProduct';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import 'swiper/css';
 function CustomTabPanel(props) {
 
     const { children, value, index, ...other } = props;
@@ -127,15 +132,22 @@ export default function Product() {
                                             <p className='main-product-price-title'>
                                                 قیمت :<strike className='main-product-price-old'>2,500,000</strike><p className='main-product-price-new'>750,000<span className='main-product-price-new-currency'>تومان</span></p>
                                             </p>
-                                            <button className='add-baskect-btn' onClick={addTobasket}>
-                                                افزودن به سبد
-                                                <p className='add-baskect-btn-icon'>
-                                                    <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                    </svg>
-                                                </p>
-                                            </button>
+                                            <div className='options-buy'>
+                                                <button className='add-baskect-btn' onClick={addTobasket}>
+                                                    افزودن به سبد
+                                                    <p className='add-baskect-btn-icon'>
+                                                        <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
+                                                            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
+                                                        </svg>
+                                                    </p>
+                                                </button>
+                                                <div className="basket-options">
+                                                    <div className="plus-product">+</div>
+                                                    <div className='count-product'>1</div>
+                                                    <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </Col>
                                     <Col md={5} className="services-wrapper">
@@ -237,6 +249,80 @@ export default function Product() {
                         </Box>
                     </div>
                 </div>
+                <ProductsWrapper
+                    title="محصولات مرتبط"
+                    link={"#"}
+                >
+                    <div className="products-container">
+                        <Swiper
+                            style={{ width: "100%" }}
+                            slidesPerView={4}
+                            spaceBetween={30}
+                            loop={true}
+                            className="mySwiper-products"
+                            centeredSlides={true}
+                            breakpoints={{
+                                0: {
+                                    slidesPerView: 2
+                                },
+                                768: {
+                                    slidesPerView: 3
+                                },
+                                992: {
+                                    slidesPerView: 3
+                                },
+                                1000: {
+                                    slidesPerView: 4
+                                },
+                            }
+                            }
+                        >
+
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                        </Swiper>
+                    </div>
+                </ProductsWrapper>
+                <ProductsWrapper
+                    title="در کنارش خریداری شده"
+                    link={"#"}
+                >
+                    <div className="products-container">
+                        <Swiper
+                            style={{ width: "100%" }}
+                            slidesPerView={4}
+                            spaceBetween={30}
+                            loop={true}
+                            className="mySwiper-products"
+                            centeredSlides={true}
+                            breakpoints={{
+                                0: {
+                                    slidesPerView: 2
+                                },
+                                768: {
+                                    slidesPerView: 3
+                                },
+                                992: {
+                                    slidesPerView: 3
+                                },
+                                1000: {
+                                    slidesPerView: 4
+                                },
+                            }
+                            }
+                        >
+
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                            <SwiperSlide > <BoxProduct /></SwiperSlide>
+                        </Swiper>
+                    </div>
+                </ProductsWrapper>
             </div>
             <Footer />
         </>

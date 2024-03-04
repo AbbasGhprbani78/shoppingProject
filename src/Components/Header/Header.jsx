@@ -14,6 +14,10 @@ import axios from 'axios';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import AuthContext from '../../Context/AuthContext';
+import EditInfo from '../EditInfo/EditInfo';
+import swal from 'sweetalert';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 export default function Header() {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -21,8 +25,10 @@ export default function Header() {
     const subUserRef = useRef(null);
     const [showLoginForm, setShowLoginForm] = useState(false);
     const [showRegisterForm, setShowRegisterForm] = useState(false)
+    const [showChangeForm, setShowChangeForm] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
     const [allProductsHome, setAllProductsHome] = useState([])
+    const [infoUser, setInfoUser] = useState([])
     const authContext = useContext(AuthContext)
 
     useEffect(() => {
@@ -81,23 +87,24 @@ export default function Header() {
         setShowSideBar(false)
     }
 
-    const changeInfo = async () => {
+    const closeChangeForm = () => {
+        setShowChangeForm(false)
+    }
 
-        const body = {
-
-        }
+    const showInfoUser = async () => {
+        setShowChangeForm(true)
+        setShowOptions(false)
         try {
-            const response = await axios.put(`${IP}/user/edit-profile/`, body)
-            if (response.status === 200) {
-                console.log(response)
-                setShowOptions(false)
-            }
 
+            const response = axios.get(`${IP}/`);
+            if (response.status === 200) {
+                console.log(response.data);
+                // setInfoUser(response.data);
+            }
         } catch (error) {
             console.log(error.message)
         }
     }
-
 
     const getProductsHome = async () => {
         try {
@@ -111,7 +118,6 @@ export default function Header() {
             console.log(error.message)
         }
     }
-
     const logoutHandler = async () => {
 
         const access = localStorage.getItem('user')
@@ -131,12 +137,30 @@ export default function Header() {
 
             if (response.status === 200) {
                 setShowOptions(false)
-                console.log(response)
                 authContext.logout()
+                swal({
+                    title: "با موفقیت خارج شدید",
+                    icon: "success",
+                    button: "باشه"
+                })
             }
         } catch (e) {
             console.log(e)
         }
+    }
+
+
+    const showwarningLogout = () => {
+        swal({
+            title: "از حساب کاربری خارج می‌شوید؟",
+            icon: "warning",
+            buttons: ["انصراف", "خروج از حساب"]
+        }).then(result => {
+            if (result) {
+                logoutHandler()
+            }
+        })
+
     }
 
     useEffect(() => {
@@ -156,6 +180,12 @@ export default function Header() {
                 <RegisterForm
                     showRegisterForm={showRegisterForm}
                     closeRegisterForm={closeRegisterForm}
+                />
+            </>
+            <>
+                <EditInfo
+                    showChangeForm={showChangeForm}
+                    closeChangeForm={closeChangeForm}
                 />
             </>
             {
@@ -190,10 +220,10 @@ export default function Header() {
                                                             {
                                                                 authContext.token ? (
                                                                     <>
-                                                                        <li className='register-item'>سفارشات</li>
-                                                                        <li className='register-item'>علاقه مندی ها</li>
-                                                                        <li className="register-item" onClick={changeInfo} >ویرایش حساب<ModeEditOutlineIcon /></li>
-                                                                        <li className='register-item' onClick={logoutHandler}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات<CheckCircleOutlineIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
                                                                     </>) :
 
                                                                     (
@@ -202,7 +232,6 @@ export default function Header() {
                                                                             <li onClick={registerHandler} className='register-item'>ثبت نام</li>
                                                                         </>)
                                                             }
-
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -255,10 +284,10 @@ export default function Header() {
                                                             {
                                                                 authContext.token ? (
                                                                     <>
-                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات</li>
-                                                                        <li className='register-item'>علاقه مندی ها</li>
-                                                                        <li className="register-item" onClick={changeInfo} >ویرایش حساب<ModeEditOutlineIcon /></li>
-                                                                        <li className='register-item' onClick={logoutHandler}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات<CheckCircleOutlineIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
                                                                     </>) :
 
                                                                     (

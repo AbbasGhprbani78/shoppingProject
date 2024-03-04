@@ -25,26 +25,34 @@ export default function BasketItem() {
             {
                 windowWidth < 992 ? (
                     <>
-                        <div>
+                        <div className='mobile-wrapper'>
                             <div className="delete-mobile-close">
-
+                                <CloseIcon style={{ cursor: "pointer" }} />
                             </div>
                             <div className="img-mobile-wrapper">
-                                <img src="" alt="" className="img-mobile" />
+                                <img src="../../../public/Images/12.jfif" alt="" className="img-mobile" />
                             </div>
                             <div className="mobile-wrapper-content">
-                                <div>
+                                <div className='first'>
                                     <div className="mobile-name-model-wrapper">
-                                        <p className="mobile-name"></p>
-                                        <p className="mobile-model"></p>
+                                        <p className="mobile-name">شیرالات یک</p>
+                                        <p className="mobile-model">مدل 0285</p>
                                     </div>
                                     <TextField />
                                 </div>
                                 <div className="mobile-price">
-
+                                    <p>قیمت</p>
+                                    <div className='second'>
+                                        <p className="basket-price">6.000.000</p>
+                                        <div style={{ marginRight: "5px" }} className="basket-currency">تومان</div>
+                                    </div>
                                 </div>
                                 <div className="mobile-price-all">
-
+                                    <p>کل</p>
+                                    <div className='third'>
+                                        <p className="basket-all-price">6.000.000</p>
+                                        <div style={{ marginRight: "5px" }} className="basket-currency">تومان</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

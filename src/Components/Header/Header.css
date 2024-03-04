@@ -223,7 +223,13 @@
     backdrop-filter: blur(5px);
 }
 
+.swal-footer {
+    text-align: center;
+}
 
+.swal-button--confirm {
+    outline: none;
+}
 
 
 @media (max-width:992px) {

@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react'
-import './RegisterForm.css'
+import React, { useState, useEffect } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { IP } from '../../App';
+import './EditInfo.css';
 import axios from 'axios';
+import { IP } from '../../App'
 import swal from 'sweetalert';
-export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
-
+export default function EditInfo({ showChangeForm, closeChangeForm, userInfo }) {
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [postalCode, setPostalCode] = useState("")
@@ -15,14 +14,14 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
     const [address, setAddress] = useState("")
     const [email, setEmail] = useState("");
     const [formSubmitt, setFormSubmitt] = useState(false)
+    const [showPasswordInputs, setShowPasswordInputs] = useState(false)
 
     const regexPhone = /^(\+?\d{1,3})?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
     const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
     const regexPostalCode = /^\d{5}_\d{4}$/;
 
-
     const closeHandler = () => {
-        closeRegisterForm()
+        closeChangeForm()
         setName("")
         setLastName("")
         setPostalCode("")
@@ -34,49 +33,49 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
         setFormSubmitt(false)
     }
 
-    const register = async (e) => {
+    const changeInfo = async (e) => {
 
         e.preventDefault()
         setFormSubmitt(true)
-        if (!name || !lastName || !postalCode || !phone || !password || !confirmPass || !address || !email ||
-            !regexPhone.test(phone) || !regexEmail.test(email) || !regexPostalCode.test(postalCode) || password !== confirmPass) {
-            return;
+
+        if (showPasswordInputs) {
+
+            if (!password || !confirmPass || password !== confirmPass) {
+                return;
+            }
+        }
+        if (!name || !lastName || !postalCode || !phone || !address || !email ||
+            !regexPhone.test(phone) || !regexEmail.test(email) || !regexPostalCode.test(postalCode)) {
         }
 
-        const body = {
-            first_name: name,
-            last_name: lastName,
-            postal_code: postalCode,
-            phone,
-            password,
-            confirm_password: confirmPass,
-            address,
-            email,
-        }
+        const formData = new FormData();
+        formData.append("first_name", name)
+        formData.append("last_name", lastName)
+        formData.append("postal_code", postalCode)
+        formData.append("phone", phone)
+        formData.append("address", address)
+        formData.append("email", email)
 
-        const newBody = JSON.stringify(body)
-        console.log(newBody)
+        if (showPasswordInputs) {
+            formData.append("password", password)
+            formData.append(" confirm_password", confirmPass)
+        }
 
         try {
-            const response = await axios.post(`${IP}/user/signup/`, body)
-            if (response.status === 201) {
+            const response = await axios.put(`${IP}/`, formData)
+            if (response.status === 200) {
                 closeHandler()
-                swal({
-                    title: "با موفقیت ثبت نام کردید",
-                    icon: "success",
-                    button: "باشه"
-                })
             }
 
         } catch (error) {
-            console.log(`${error.response.data.message}`)
+            console.log(`${error.message}`)
         }
     }
 
 
     return (
         <>
-            <div className={`register-form-container ${showRegisterForm ? "register-form-container-active" : ""}`}>
+            <div className={`register-form-container ${showChangeForm ? "register-form-container-active" : ""}`}>
                 <div className="register-form-wrapper">
                     <div className="register-form-header d-flex justify-content-between align-items-center">ثبت نام<CloseOutlinedIcon style={{ cursor: "pointer" }}
                         onClick={closeHandler} />
@@ -130,29 +129,6 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                                 />
                                 {!regexPhone.test(phone) && formSubmitt && <p className='error-input'>شماره تماس معتبر نیست</p>}
                             </div>
-                            <div className="signIn-input-wrapper">
-                                <label htmlFor="password" className='lable-input'>رمز</label>
-                                <input
-                                    type="text"
-                                    id='password'
-                                    className='input-form'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value.trimStart())}
-                                />
-                                {password === "" && formSubmitt && <p className='error-input'>رمز خود را وارد کنید</p>}
-                            </div>
-                            <div className="signIn-input-wrapper">
-                                <label htmlFor="confirm-pass" className='lable-input'>تایید رمز</label>
-                                <input
-                                    type="text"
-                                    id='confirm-pass'
-                                    className='input-form'
-                                    value={confirmPass}
-                                    onChange={(e) => setConfirmPass(e.target.value)}
-                                    onPaste={(e) => e.preventDefault()}
-                                />
-                                {confirmPass === "" && formSubmitt || confirmPass !== password && <p className='error-input'>رمز خود را تایید کنید</p>}
-                            </div>
                         </div>
                         <div className="signIn-input-wrapper">
                             <label htmlFor="location" className='lable-input mt-3' >آدرس</label>
@@ -176,9 +152,45 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                             />
                             {!regexEmail.test(email) && formSubmitt && <p className='error-input'>ایمیل معتبر نیست</p>}
                         </div>
+                        <div className='mt-2 d-flex align-items-center'>
+                            <input
+                                type="checkbox"
+                                onChange={() => setShowPasswordInputs(!showPasswordInputs)}
+                            />
+                            <label style={{ marginRight: "5px" }} className='lable-input mt-1'>ایا مایل به تغییر رمز هستید ؟</label>
+                        </div>
+                        {
+                            showPasswordInputs &&
+                            <div className="register-form-gird">
+                                <div className="signIn-input-wrapper">
+                                    <label htmlFor="password" className='lable-input'>رمز</label>
+                                    <input
+                                        type="text"
+                                        id='password'
+                                        className='input-form'
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value.trimStart())}
+                                    />
+                                    {password === "" && formSubmitt && <p className='error-input'>رمز خود را وارد کنید</p>}
+                                </div>
+                                <div className="signIn-input-wrapper">
+                                    <label htmlFor="confirm-pass" className='lable-input'>تایید رمز</label>
+                                    <input
+                                        type="text"
+                                        id='confirm-pass'
+                                        className='input-form'
+                                        value={confirmPass}
+                                        onChange={(e) => setConfirmPass(e.target.value)}
+                                        onPaste={(e) => e.preventDefault()}
+                                    />
+                                    {confirmPass === "" && formSubmitt || confirmPass !== password && <p className='error-input'>رمز خود را تایید کنید</p>}
+                                </div>
+                            </div>
+                        }
+
                         <div
                             className='mt-3 text-center'>
-                            <button className='signIn-btn' onClick={(e) => register(e)}>ثبت نام</button>
+                            <button className='signIn-btn' onClick={(e) => changeInfo(e)}>ثبت نام</button>
                         </div>
                     </form>
                 </div>
@@ -186,4 +198,3 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
         </>
     )
 }
-

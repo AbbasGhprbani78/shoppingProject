@@ -7,6 +7,7 @@ import { IP } from '../../App';
 import axios from 'axios';
 import { useContext } from 'react';
 import AuthContext from '../../Context/AuthContext';
+import swal from 'sweetalert';
 export default function SignInForm({ showLoginForm, closeSignInForm }) {
 
     const [isPrivate, setIsPerivate] = useState(true);
@@ -42,16 +43,24 @@ export default function SignInForm({ showLoginForm, closeSignInForm }) {
         try {
             const response = await axios.post(`${IP}/user/login/`, body)
             if (response.status === 200) {
-                console.log(response.data)
-                closeHandler()
                 authContext.login(response.data)
+                swal({
+                    title: `خوش اومدی ${authContext.userInfos.firstName}`,
+                    icon: "success",
+                    button: "باشه"
+                })
+                closeHandler()
             }
         } catch (error) {
+            swal({
+                title: `چنین کاربری وجود ندارد`,
+                icon: "error",
+                button: "باشه"
+            })
             console.log(`${error.response.data.message}`)
+            console.log(error.message)
         }
     }
-    console.log(authContext)
-
 
 
     return (
