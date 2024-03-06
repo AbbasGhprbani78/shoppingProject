@@ -28,7 +28,6 @@ export default function Header() {
     const [showChangeForm, setShowChangeForm] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
     const [allProductsHome, setAllProductsHome] = useState([])
-    const [infoUser, setInfoUser] = useState([])
     const authContext = useContext(AuthContext)
 
     useEffect(() => {

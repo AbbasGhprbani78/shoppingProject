@@ -17,13 +17,13 @@ export default function BoxProduct({
                 <Link to={`/product-info/${name}/${id}`} style={{ all: "unset", cursor: "pointer" }}>
                     <div className="product-img-wrapper">
                         <ProductOff />
-                        <img className='product-img' src={`${IP}${image}`} alt="" />
+                        <img className='product-img' src={`../../../public/Images/1.jpeg`} alt="" />
                     </div>
                     <div className="product-body">
-                        <div className='product-name'>{name}</div>
-                        <p className='product-model'>مدل {model}</p>
-                        <strike className='old-product-price'>10.000.000</strike>
-                        <p className='new-product-price'>{price && price.toLocaleString()}<span className='currency'>تومان</span></p>
+                        <div className='product-name'>ماشین مسابفه</div>
+                        <p className='product-model'>مدل 4578</p>
+                        <strike className='old-product-price'>{Number(1000000).toLocaleString("fa")}</strike>
+                        <p className='new-product-price'>{Number(17000000).toLocaleString("fa")}<span className='currency'>تومان</span></p>
                     </div>
                 </Link>
             </div>

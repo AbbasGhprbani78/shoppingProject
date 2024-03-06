@@ -53,6 +53,7 @@ export default function Home() {
                 <ProductsWrapper
                     title="تخفیف خورده ها"
                     link={"#"}
+                    isMore={true}
                 >
                     <div className="products-container">
                         <Swiper
@@ -94,6 +95,7 @@ export default function Home() {
                 <ProductsWrapper
                     title="جدید ترین ها"
                     link={"#"}
+                    isMore={true}
                 >
                     <div className="products-container">
                         <Swiper
@@ -142,6 +144,7 @@ export default function Home() {
                 <ProductsWrapper
                     title="پرفروش ها"
                     link={"#"}
+                    isMore={true}
                 >
                     <div className="products-container">
                         <Swiper

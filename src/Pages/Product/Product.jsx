@@ -60,7 +60,18 @@ function a11yProps(index) {
 export default function Product() {
     const [value, setValue] = useState(0)
     const [score, setScore] = useState(2);
-    const [showProductModal, setShowProductModal] = useState(false)
+    const [showProductModal, setShowProductModal] = useState(false);
+
+    const [hours, setHours] = useState(100);
+    const [minutes, setMinutes] = useState(34);
+    const [seconds, setSeconds] = useState(45);
+
+    const [mainImageSrc, setMainImageSrc] = useState("../../../public/Images/18.jpg");
+
+    const handleImageHover = (newSrc) => {
+        setMainImageSrc(newSrc);
+    };
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -69,6 +80,31 @@ export default function Product() {
     const addTobasket = () => {
         setShowProductModal(true)
     }
+
+    useEffect(() => {
+        const offTimer = setInterval(() => {
+            if (seconds === 0) {
+                setSeconds(59);
+                if (minutes === 0) {
+                    setMinutes(59);
+                    if (hours == 0) {
+                        clearInterval(offTimer)
+                        return
+                    } else {
+                        setHours(prevHour => prevHour - 1)
+                    }
+                } else {
+                    setMinutes(prevSecond => prevSecond - 1)
+                }
+            } else {
+                setSeconds(prevSecond => prevSecond - 1)
+            }
+        }, 1000)
+
+        return () => clearInterval(offTimer)
+
+    }, [hours, minutes, seconds])
+
     return (
         <>
             <ModalBuy
@@ -94,17 +130,32 @@ export default function Product() {
                             <Col xs={12} className='images-wrapper' lg={4}>
                                 <div className="main-img-product-wrapper">
                                     <ProductOff />
-                                    <img className='main-img-product' src="../../../public/Images/18.jpg" alt="image product" />
+                                    <img className='main-img-product' src={mainImageSrc} alt="image product" />
                                 </div>
                                 <div className="some-img">
                                     <div className="main-product-img-item">
-                                        <img src="../../../public/Images/15.png" alt="" />
+                                        <img className='sub-img-product'
+                                            src="../../../public/Images/15.png"
+                                            alt=""
+                                            onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                            onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                        />
                                     </div>
                                     <div className="main-product-img-item">
-                                        <img src="../../../public/Images/17.jpg" alt="" />
+                                        <img className='sub-img-product'
+                                            src="../../../public/Images/17.jpg"
+                                            alt=""
+                                            onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                            onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                        />
                                     </div>
                                     <div className="main-product-img-item">
-                                        <img src="../../../public/Images/16.jpg" alt="" />
+                                        <img className='sub-img-product'
+                                            src="../../../public/Images/16.jpg"
+                                            alt=""
+                                            onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                            onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                        />
                                     </div>
                                 </div>
                             </Col>
@@ -156,9 +207,9 @@ export default function Product() {
                                                 تخفیف ویژه
                                             </div>
                                             <div className="timing-off-wrapper d-flex align-items-center">
-                                                <div className="time-day time-off">12</div>:
-                                                <div className="time-hour time-off">34</div>:
-                                                <div className="time minute time-off">45</div>
+                                                <div className="time-day time-off">{seconds}</div>:
+                                                <div className="time-hour time-off">{minutes}</div>:
+                                                <div className="time minute time-off">{hours}</div>
                                             </div>
                                         </div>
                                         <div className="main-services-wrapper">
@@ -232,6 +283,7 @@ export default function Product() {
                                             }}
                                         >
                                             <Rating
+                                                dir='ltr'
                                                 name="simple-controlled"
                                                 value={score}
                                                 onChange={(event, newValue) => {
@@ -252,6 +304,7 @@ export default function Product() {
                 <ProductsWrapper
                     title="محصولات مرتبط"
                     link={"#"}
+                    isMore={true}
                 >
                     <div className="products-container">
                         <Swiper
@@ -289,6 +342,7 @@ export default function Product() {
                 <ProductsWrapper
                     title="در کنارش خریداری شده"
                     link={"#"}
+                    isMore={true}
                 >
                     <div className="products-container">
                         <Swiper

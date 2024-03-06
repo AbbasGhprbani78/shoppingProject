@@ -37,6 +37,10 @@
     margin-bottom: 10px
 }
 
+.pd {
+    padding-bottom: 10px;
+}
+
 @media (max-width:576px) {
     .products-container::before {
         width: 35%

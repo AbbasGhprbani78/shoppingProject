@@ -197,12 +197,17 @@
     padding: 10px;
     justify-content: space-between;
     cursor: pointer;
+    transition: all .3s;
 }
 
 .register-item:first-child {
-    border-bottom: 1px solid var(--color-sub-11);
     min-width: 200px;
 }
+
+.register-item:hover {
+    background-color: var(--color-sub-7);
+}
+
 
 
 

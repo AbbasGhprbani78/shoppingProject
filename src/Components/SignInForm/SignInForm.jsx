@@ -45,19 +45,19 @@ export default function SignInForm({ showLoginForm, closeSignInForm }) {
             if (response.status === 200) {
                 authContext.login(response.data)
                 swal({
-                    title: `خوش اومدی ${authContext.userInfos.firstName}`,
+                    title: `خوش اومدی`,
                     icon: "success",
                     button: "باشه"
                 })
                 closeHandler()
             }
+
         } catch (error) {
             swal({
                 title: `چنین کاربری وجود ندارد`,
                 icon: "error",
                 button: "باشه"
             })
-            console.log(`${error.response.data.message}`)
             console.log(error.message)
         }
     }

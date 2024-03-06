@@ -1,33 +1,21 @@
 @import url('../../Main.css');
 
-.off-product {
-    width: 36px;
-    height: 70px;
-    background-color: var(--color-7);
-    text-align: center;
-    border-radius: 8px 8px 0 0;
+.clip-path {
+    padding-top: 13px;
+    font-size: .85rem;
     position: absolute;
+    color: #ffff;
+    text-align: center;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: center;
-
-}
-
-
-.off-text {
-    padding-top: 17px;
-    font-size: .9rem;
-
-}
-
-.clip-path {
-    clip-path: polygon(51% 42%, 0% 100%, 100% 100%);
+    clip-path: polygon(100% 0, 100% 100%, 49% 70%, 49% 70%, 1% 100%, 0 0);
     width: 100%;
     height: 50px;
-    background-color: #FFF;
+    background-color: var(--color-7);
     position: absolute;
     bottom: -2px;
+    width: 36px;
+    height: 60px;
 }
 
 @media (max-width:576px) {

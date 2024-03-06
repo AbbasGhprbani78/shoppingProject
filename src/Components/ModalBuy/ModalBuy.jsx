@@ -24,7 +24,9 @@ export default function ModalBuy({ showProductModal, setShowProductModal }) {
                     </div>
                 </div>
                 <div className='ModalBuy-btn-wrapper'>
-                    <button className="ModalBuy-btn">برو به سبد خرید</button>
+                    <Link to={'/basket'} style={{ all: "unset" }}>
+                        <button className="ModalBuy-btn">برو به سبد خرید</button>
+                    </Link>
                 </div>
             </div>
         </div>
