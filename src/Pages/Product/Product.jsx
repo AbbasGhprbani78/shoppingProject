@@ -23,6 +23,9 @@ import BoxProduct from '../../Components/BoxProduct/BoxProduct';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import 'swiper/css';
+import axios from 'axios';
+import { IP } from '../../App';
+import swal from 'sweetalert';
 function CustomTabPanel(props) {
 
     const { children, value, index, ...other } = props;
@@ -61,11 +64,10 @@ export default function Product() {
     const [value, setValue] = useState(0)
     const [score, setScore] = useState(2);
     const [showProductModal, setShowProductModal] = useState(false);
-
     const [hours, setHours] = useState(100);
     const [minutes, setMinutes] = useState(34);
     const [seconds, setSeconds] = useState(45);
-
+    const [comment, setComment] = useState(null)
     const [mainImageSrc, setMainImageSrc] = useState("../../../public/Images/18.jpg");
 
     const handleImageHover = (newSrc) => {
@@ -104,6 +106,28 @@ export default function Product() {
         return () => clearInterval(offTimer)
 
     }, [hours, minutes, seconds])
+
+    const sendComment = async () => {
+
+        const comments = {
+            comment,
+            score
+        }
+
+        try {
+            const response = await axios.post(`${IP}`, comments)
+            if (response.status === 200) {
+                console.log(response.data)
+                swal({
+                    title: "پیام شما با موفقیت ثبت شد",
+                    icon: "success",
+                    button: "باشه"
+                })
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <>
@@ -207,9 +231,9 @@ export default function Product() {
                                                 تخفیف ویژه
                                             </div>
                                             <div className="timing-off-wrapper d-flex align-items-center">
-                                                <div className="time-day time-off">{seconds}</div>:
-                                                <div className="time-hour time-off">{minutes}</div>:
-                                                <div className="time minute time-off">{hours}</div>
+                                                <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
+                                                <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
+                                                <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
                                             </div>
                                         </div>
                                         <div className="main-services-wrapper">
@@ -274,7 +298,12 @@ export default function Product() {
                                         ثبت دیدگاه شما
                                     </div>
                                     <div className='comment-place-wrapper'>
-                                        <textarea className='comment-place'></textarea>
+                                        <textarea
+                                            onChange={(e) => setComment(e.target.value)}
+                                            value={comment}
+                                            className='comment-place'
+
+                                        ></textarea>
                                     </div>
                                     <div className="send-score">
                                         <Box
@@ -291,7 +320,7 @@ export default function Product() {
                                                 }}
                                             />
                                         </Box>
-                                        <button className='btn-send-comment'>ارسال</button>
+                                        <button className='btn-send-comment' onClick={sendComment}>ارسال</button>
                                     </div>
                                 </div>
                             </CustomTabPanel>

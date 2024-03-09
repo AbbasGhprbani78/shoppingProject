@@ -102,7 +102,7 @@ export default function BasketItem() {
                                                 type="number"
                                                 variant="outlined"
                                                 className="basket-number"
-                                                inputProps={{ min: 0 }}
+                                                inputProps={{ min: 1 }}
                                             />
 
                                         </div>

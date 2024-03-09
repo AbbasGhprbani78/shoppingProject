@@ -12,23 +12,14 @@ import 'swiper/css/pagination';
 import BoxProduct from '../../Components/BoxProduct/BoxProduct'
 import { IP } from '../../App'
 import axios from 'axios'
-
+import AuthContext from '../../Context/AuthContext'
+import { useContext } from 'react'
 
 export default function Home() {
 
     const [allProductsHome, setAllProductsHome] = useState([])
     const [topSeling, setTopSeling] = useState([])
-
-    const getProductsHome = async () => {
-        try {
-            const response = await axios.get(`${IP}/product/home/`)
-            if (response.status === 200) {
-                setAllProductsHome(response.data)
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
+    const authContext = useContext(AuthContext)
     const getTopSeling = async () => {
         try {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
@@ -42,9 +33,9 @@ export default function Home() {
     }
 
     useEffect(() => {
-        getProductsHome()
         getTopSeling()
     }, [])
+
     return (
         <>
             <Header />
@@ -181,6 +172,7 @@ export default function Home() {
                                                 name={product.name}
                                                 id={product.product_or_service_code}
                                                 price={product.price}
+
                                             />
                                         </SwiperSlide>
                                     ))

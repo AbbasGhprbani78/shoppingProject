@@ -105,18 +105,6 @@ export default function Header() {
         }
     }
 
-    const getProductsHome = async () => {
-        try {
-
-            const response = await axios.get(`${IP}/product/home/`)
-            if (response.status === 200) {
-                console.log(response.data)
-                setAllProductsHome(response.data)
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
     const logoutHandler = async () => {
 
         const access = localStorage.getItem('user')
@@ -162,10 +150,7 @@ export default function Header() {
 
     }
 
-    useEffect(() => {
-        getProductsHome()
-    }, [])
-
+    console.log(authContext.data)
 
     return (
         <>

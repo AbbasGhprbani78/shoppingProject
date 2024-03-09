@@ -1,5 +1,13 @@
 @import url('../../Main.css');
 
+@font-face {
+    font-family: 'IranYekan';
+    src: url('../src /Font/IRYekan.eot') format('eot'),
+        url('../src /Font/IRYekan.woff') format('woff'),
+        url('../src/Font/IRYekan.woff2') format('woff2'),
+        url('../src/Font/IRYekan.ttf') format('ttf');
+}
+
 .main-Product {
     margin-top: 5%;
     box-shadow: var(--box-shadow);
@@ -61,7 +69,6 @@
     justify-content: space-around;
     align-items: center;
     margin-top: 10px;
-    font-weight: bold
 }
 
 .time-off {
@@ -90,13 +97,13 @@
 
 .main-product-model-span {
     color: var(--color-3);
-    font-weight: bold;
     margin-left: 7px;
 }
 
 .text-main-product {
     margin-top: 10px;
     color: #cfc9dc;
+    font-size: .9rem
 }
 
 .main-services-wrapper {
@@ -119,20 +126,17 @@
     display: flex;
     align-items: center;
     color: var(--color-1);
-    font-weight: bold;
     font-size: 1.1rem;
 }
 
 .main-product-price-old {
     font-size: .8rem;
     color: var(--color-4);
-    font-weight: bold;
     margin-right: 10px;
 }
 
 .main-product-price-new {
     font-size: 1.1rem;
-    font-weight: bold;
     color: var(--color-7);
     margin-right: 10px;
 }
@@ -155,6 +159,7 @@
     padding-right: 25px;
     line-height: 35px;
     box-shadow: var(--box-shadow);
+    font-size: .8rem !important
 }
 
 .add-baskect-btn-icon {
@@ -166,6 +171,11 @@
 
 .product-about {
     margin-top: 5%;
+
+}
+
+.MuiButtonBase-root {
+    font-family: "IranYekan" !important;
 }
 
 .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
@@ -204,6 +214,10 @@
     height: 100%;
     overflow-y: scroll;
     color: var(--color-4);
+    font-family: "IranYekan";
+    font-size: .8rem;
+    line-height: 1.4rem;
+    padding: 10px 0;
 }
 
 .product-specifications-text::-webkit-scrollbar {
@@ -225,8 +239,13 @@
     color: var(--color-3);
     display: flex;
     align-items: center;
-    font-weight: bold;
     margin-top: 20px;
+}
+
+.comment-text {
+    font-family: "IranYekan";
+    font-size: .7rem;
+    line-height: 1.4rem;
 }
 
 .comment-place {
@@ -273,6 +292,7 @@
 
 .product-services-list {
     padding-right: 20px;
+    font-size: .8rem;
 }
 
 .options-buy {

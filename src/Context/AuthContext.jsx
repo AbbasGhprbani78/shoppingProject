@@ -9,6 +9,7 @@ const AuthContext = createContext({
     userInfos: null,
     login: () => { },
     logout: () => { },
+    data: null
 });
 
 export const AuthProvider = ({ children }) => {
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
         token: null,
         refresh: null,
         userInfos: null,
+        data: null
     });
 
     // const getAllInfo = async () => {

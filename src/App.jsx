@@ -13,6 +13,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [refresh, setRefresh] = useState(null);
   const [userInfos, setUserInfos] = useState(null);
+  const [data, setdata] = useState(null)
 
   const login = (data) => {
     setToken(data.access);
@@ -66,6 +67,22 @@ function App() {
     }
   }
 
+  const getProductsHome = async () => {
+    try {
+      const response = await axios.get(`${IP}/product/home/`)
+      if (response.status === 200) {
+
+        setdata(response.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  useEffect(() => {
+    getProductsHome()
+  }, [])
+
   useEffect(() => {
     checkUser()
   }, [login, logout])
@@ -81,7 +98,8 @@ function App() {
           userInfos,
           login,
           logout,
-          refresh
+          refresh,
+          data
         }}>
         {router}
       </AuthContext.Provider>

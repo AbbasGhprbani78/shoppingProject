@@ -63,7 +63,6 @@
     border-left: 1px solid var(--color-4) !important;
     margin-left: 7%;
     justify-content: space-between;
-    width: 200px;
     padding-left: 7%;
     color: var(--color-4);
     cursor: pointer;
@@ -71,6 +70,7 @@
 
 .phone-user {
     direction: ltr;
+    width: 200px;
 }
 
 .header-log {}
@@ -189,6 +189,7 @@
 
 .register-wrapper {
     color: var(--color-4);
+    font-size: .8rem;
 }
 
 .register-item {

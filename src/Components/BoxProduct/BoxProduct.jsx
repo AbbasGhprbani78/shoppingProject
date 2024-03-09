@@ -14,7 +14,7 @@ export default function BoxProduct({
     return (
         <>
             <div className="product-box">
-                <Link to={`/product-info/${name}/${id}`} style={{ all: "unset", cursor: "pointer" }}>
+                <Link to={`/product-info/tail/1`} style={{ all: "unset", cursor: "pointer" }}>
                     <div className="product-img-wrapper">
                         <ProductOff />
                         <img className='product-img' src={`../../../public/Images/1.jpeg`} alt="" />

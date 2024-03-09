@@ -61,6 +61,7 @@ export default function Category() {
     const removeFilterBrand = () => {
         setSelectedBrands([])
     };
+
     const sendFinalFilter = async () => {
 
         try {
