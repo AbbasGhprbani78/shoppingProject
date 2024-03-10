@@ -17,14 +17,14 @@ import { useContext } from 'react'
 
 export default function Home() {
 
-    const [allProductsHome, setAllProductsHome] = useState([])
     const [topSeling, setTopSeling] = useState([])
-    const authContext = useContext(AuthContext)
+    const authContext = useContext(AuthContext);
+
     const getTopSeling = async () => {
         try {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
-                setTopSeling(response.data)
+                setTopSeling(response.data.products)
                 console.log(response)
             }
         } catch (error) {
@@ -36,6 +36,7 @@ export default function Home() {
         getTopSeling()
     }, [])
 
+    console.log(authContext.data)
     return (
         <>
             <Header />
@@ -43,7 +44,7 @@ export default function Home() {
                 <Silder />
                 <ProductsWrapper
                     title="تخفیف خورده ها"
-                    link={"#"}
+                    link={"/products/offs/1"}
                     isMore={true}
                 >
                     <div className="products-container">
@@ -70,12 +71,22 @@ export default function Home() {
                             }
                             }
                         >
-
                             {
-                                allProductsHome ? (
-                                    allProductsHome.products_with_discount &&
-                                    allProductsHome.products_with_discount.map((product, i) => (
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
+                                authContext ? (
+                                    authContext.data &&
+                                    authContext.data.products_with_discount.map((product, i) => (
+                                        <SwiperSlide >
+                                            <BoxProduct
+                                                availability_count={product.availability_count}
+                                                discount_percentage={product.discount_percentage}
+                                                price={product.price}
+                                                old_price={product.old_price}
+                                                image={product.image}
+                                                name={product.name}
+                                                model={product.model}
+                                                is_discount={product.is_discount}
+                                            />
+                                        </SwiperSlide>
                                     ))
 
                                 ) : (null)
@@ -85,7 +96,7 @@ export default function Home() {
                 </ProductsWrapper>
                 <ProductsWrapper
                     title="جدید ترین ها"
-                    link={"#"}
+                    link={"/products/newest/1"}
                     isMore={true}
                 >
                     <div className="products-container">
@@ -113,16 +124,19 @@ export default function Home() {
                             }
                         >
                             {
-                                allProductsHome ? (
-                                    allProductsHome.products_without_discount &&
-                                    allProductsHome.products_without_discount.map((product) => (
+                                authContext ? (
+                                    authContext.data &&
+                                    authContext.data.products_without_discount.map((product) => (
                                         <SwiperSlide key={product.product_or_service_code}>
                                             <BoxProduct
-                                                image={product.image}
-                                                model={product.model}
-                                                name={product.name}
-                                                id={product.product_or_service_code}
+                                                availability_count={product.availability_count}
+                                                discount_percentage={product.discount_percentage}
                                                 price={product.price}
+                                                old_price={product.old_price}
+                                                image={product.image}
+                                                name={product.name}
+                                                model={product.model}
+                                                is_discount={product.is_discount}
                                             />
                                         </SwiperSlide>
                                     ))
@@ -134,7 +148,7 @@ export default function Home() {
                 </ProductsWrapper>
                 <ProductsWrapper
                     title="پرفروش ها"
-                    link={"#"}
+                    link={"/products/topssellers/1"}
                     isMore={true}
                 >
                     <div className="products-container">
@@ -167,12 +181,14 @@ export default function Home() {
                                     topSeling.map((product) => (
                                         <SwiperSlide key={product.product_or_service_code}>
                                             <BoxProduct
-                                                image={product.image}
-                                                model={product.model}
-                                                name={product.name}
-                                                id={product.product_or_service_code}
+                                                availability_count={product.availability_count}
+                                                discount_percentage={product.discount_percentage}
                                                 price={product.price}
-
+                                                old_price={product.price_with_discount}
+                                                image={product.product_or_service.image}
+                                                name={product.product_or_service.name}
+                                                model={product.product_or_service.model}
+                                                is_discount={product.is_discount}
                                             />
                                         </SwiperSlide>
                                     ))

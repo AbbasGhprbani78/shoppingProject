@@ -2,12 +2,12 @@
 
 .product-box {
     height: 100%;
-    padding-top: 20px;
+    height: 100%;
 }
 
 .product-img-wrapper {
     width: 100%;
-    height: 50%;
+    height: 170px;
     position: relative;
     border-radius: var(--border-raduis);
     overflow: hidden;
@@ -52,4 +52,8 @@
 .currency {
     font-size: .7rem;
     margin-right: 2%;
+}
+
+.price-m {
+    margin-top: 10px;
 }

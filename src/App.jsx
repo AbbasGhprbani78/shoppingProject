@@ -45,14 +45,14 @@ function App() {
       try {
         const response = await axios.post(`${IP}/user/token/refresh/`, body)
         if (response.status === 200) {
-          console.log(response.data)
-          // setToken()
+          setToken(response.data.access)
           setIsLoggedIn(true);
-          setUserInfos({})
-          // setRefresh()
-          // localStorage.setItem("user", data.access);
-          // localStorage.setItem("refresh", data.refresh)
+          setUserInfos({
+            firstName: data.first_name,
+            lastName: data.last_name
+          });
 
+          localStorage.setItem("user", response.data.access);
         }
       } catch (error) {
         console.log(error.mesage)
@@ -71,7 +71,6 @@ function App() {
     try {
       const response = await axios.get(`${IP}/product/home/`)
       if (response.status === 200) {
-
         setdata(response.data)
       }
     } catch (error) {
@@ -85,7 +84,7 @@ function App() {
 
   useEffect(() => {
     checkUser()
-  }, [login, logout])
+  }, [])
 
   let router = useRoutes(routes)
 

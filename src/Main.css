@@ -26,10 +26,9 @@ p {
 }
 
 html,
-body {
+body:lang(fa) {
     font-family: 'IranYekan', sans-serif !important;
 }
-
 
 :root {
     --color-1: #523f81;

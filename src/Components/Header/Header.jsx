@@ -27,8 +27,9 @@ export default function Header() {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showChangeForm, setShowChangeForm] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
-    const [allProductsHome, setAllProductsHome] = useState([])
+    const [infoUser, setInfoUser] = useState(null)
     const authContext = useContext(AuthContext)
+    const [sideBarCategory, setSideBarCategory] = useState(authContext.data && authContext.data.categories);
 
     useEffect(() => {
 
@@ -91,19 +92,33 @@ export default function Header() {
     }
 
     const showInfoUser = async () => {
-        setShowChangeForm(true)
-        setShowOptions(false)
-        try {
+        setShowChangeForm(true);
+        setShowOptions(false);
 
-            const response = axios.get(`${IP}/`);
+        const access = localStorage.getItem('user');
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+
+
+        try {
+            const response = await axios.get(`${IP}/user/get-user`, {
+                headers,
+            });
+
             if (response.status === 200) {
                 console.log(response.data);
-                // setInfoUser(response.data);
+                setInfoUser(response.data);
             }
         } catch (error) {
-            console.log(error.message)
+            if (error.response && error.response.status === 401) {
+                console.log("Unauthorized access. Please check your credentials.");
+            } else {
+                console.log("Error:", error.message);
+            }
         }
     }
+
 
     const logoutHandler = async () => {
 
@@ -150,7 +165,7 @@ export default function Header() {
 
     }
 
-    console.log(authContext.data)
+
 
     return (
         <>
@@ -170,6 +185,7 @@ export default function Header() {
                 <EditInfo
                     showChangeForm={showChangeForm}
                     closeChangeForm={closeChangeForm}
+                    infoUser={infoUser}
                 />
             </>
             {
@@ -186,7 +202,7 @@ export default function Header() {
                                                     <SideBarCategory
                                                         showSideBar={showSideBar}
                                                         hideSideBarMenu={hideSideBarMenu}
-                                                        allProductsHome={allProductsHome}
+                                                        sideBarCategory={sideBarCategory}
 
                                                     />
                                                 </div>
@@ -305,11 +321,11 @@ export default function Header() {
                                         </div>
                                         <div className='categorys-wrapper d-flex'>
                                             {
-                                                allProductsHome &&
-                                                    allProductsHome.categories ? (
-                                                    allProductsHome.categories.map((categorie, i) => (
+                                                authContext.data &&
+                                                    authContext.data.categories ? (
+                                                    authContext.data.categories.map((categorie, i) => (
                                                         <div>
-                                                            <Link to={`/category-info/${categorie.name}/${categorie.category_id}/1`} className='category-item'>{categorie.name}</Link>
+                                                            <Link to={`/category-info/${categorie.name}/1`} className='category-item'>{categorie.name}</Link>
                                                         </div>
                                                     )))
                                                     : (null)

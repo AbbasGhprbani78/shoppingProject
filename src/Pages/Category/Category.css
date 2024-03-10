@@ -16,7 +16,7 @@
 
 .all-Products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 250px));
     border-radius: var(--border-raduis);
     box-shadow: var(--box-shadow);
     padding: 10px;

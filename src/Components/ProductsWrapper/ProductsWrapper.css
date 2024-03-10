@@ -10,7 +10,8 @@
     position: relative;
     background-color: #ffffff;
     border-radius: var(--border-raduis);
-    height: 42vh;
+    height: auto;
+    padding-bottom: 10px;
 }
 
 .mySwiper-products {
@@ -44,6 +45,14 @@
 @media (max-width:576px) {
     .products-container::before {
         width: 35%
+    }
+
+    .products-container {
+        height: 45vh;
+    }
+
+    .show-about-text {
+        font-size: .8rem !important;
     }
 
     .Products-Wrapper {

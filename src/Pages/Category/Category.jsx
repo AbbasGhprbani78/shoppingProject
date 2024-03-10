@@ -15,15 +15,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios'
 import { IP } from '../../App.jsx'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useParams } from 'react-router-dom'
 
 export default function Category() {
-
+    const [categoryProducts, setCategoryProducts] = useState([])
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [valuePrice, setValuePrice] = useState({});
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
     const colRef = useRef(null);
+    const { categoryName } = useParams()
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -84,7 +86,6 @@ export default function Category() {
         }
     };
 
-
     const showList = () => {
         setShowDrop(prevShow => !prevShow)
     }
@@ -92,6 +93,27 @@ export default function Category() {
     const chnageMainTextContent = (e) => {
         setMainContent(e.target.textContent)
     }
+
+
+    const getProductCategory = async () => {
+
+        const body = {
+            category: categoryName
+        }
+        try {
+            const response = await axios.post(`${IP}/product/get-category-product`, body)
+            if (response.status === 200) {
+                console.log(response)
+            }
+        } catch (error) {
+
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getProductCategory()
+    }, [])
 
     return (
 
@@ -201,7 +223,7 @@ export default function Category() {
                                     <BoxProduct />
                                 </div>
                             </ProductsWrapper>
-                            <Pagination />
+                            {/* <Pagination /> */}
                         </Col>
                     </Row>
                 </div>
@@ -211,12 +233,6 @@ export default function Category() {
         </>
     )
 }
-
-
-
-
-
-
 
 
 
@@ -246,3 +262,36 @@ export default function Category() {
 //         }
 //     });
 // };
+
+
+
+
+
+
+
+// useEffect(() => {
+//     switch (status) {
+//         case "free": {
+//             const freeCourses = courses.filter((course) => course.price === 0);
+//             setOrderedCourses(freeCourses);
+//             break;
+//         }
+//         case "money": {
+//             const notFreeCourses = courses.filter((course) => course.price !== 0);
+//             setOrderedCourses(notFreeCourses);
+//             break;
+//         }
+//         case "last": {
+//             setOrderedCourses(courses);
+//             break;
+//         }
+//         case "first": {
+//             const reversedCourses = courses.slice().reverse();
+//             setOrderedCourses(reversedCourses);
+//             break;
+//         }
+//         default: {
+//             setOrderedCourses(courses);
+//         }
+//     }
+// }, [status]);

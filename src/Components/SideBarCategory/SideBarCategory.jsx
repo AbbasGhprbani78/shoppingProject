@@ -2,8 +2,7 @@ import React from 'react'
 import './SideBarCategory.css'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { NavLink } from 'react-router-dom';
-export default function SideBarCategory({ showSideBar, hideSideBarMenu, allProductsHome }) {
-
+export default function SideBarCategory({ showSideBar, hideSideBarMenu, sideBarCategory }) {
     return (
         <>
             <div className={`category-sidebar-wrapper ${showSideBar ? "category-sidebar-wrapper-active" : ""}`}>
@@ -13,12 +12,12 @@ export default function SideBarCategory({ showSideBar, hideSideBarMenu, allProdu
                 </div>
                 <ul className="category-sidebar-list">
                     {
-                        allProductsHome &&
-                            allProductsHome.categories ? (
-                            allProductsHome.categories.map((categorie, i) => (
+                        sideBarCategory &&
+                            sideBarCategory ? (
+                            sideBarCategory.map((categorie, i) => (
                                 <div>
-                                    <NavLink to={`/category-info/${categorie.name}/${categorie.category_id}/1`} className="category-sidebar-item">
-                                        کاشی
+                                    <NavLink to={`/category-info/${categorie.name}/1`} className="category-sidebar-item">
+                                        {categorie.name}
                                     </NavLink>
                                 </div>
                             )))

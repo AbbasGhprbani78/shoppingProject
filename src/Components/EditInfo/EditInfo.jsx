@@ -4,21 +4,31 @@ import './EditInfo.css';
 import axios from 'axios';
 import { IP } from '../../App'
 import swal from 'sweetalert';
-export default function EditInfo({ showChangeForm, closeChangeForm, userInfo }) {
+export default function EditInfo({ showChangeForm, closeChangeForm, infoUser }) {
+
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [postalCode, setPostalCode] = useState("")
     const [phone, setPhone] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPass, setConfirmPass] = useState("")
     const [address, setAddress] = useState("")
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
+    const [confirmPass, setConfirmPass] = useState("")
     const [formSubmitt, setFormSubmitt] = useState(false)
     const [showPasswordInputs, setShowPasswordInputs] = useState(false)
 
     const regexPhone = /^(\+?\d{1,3})?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
     const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
     const regexPostalCode = /^\d{5}_\d{4}$/;
+
+    useEffect(() => {
+        setName(infoUser && infoUser[0].first_name)
+        setLastName(infoUser && infoUser[0].last_name)
+        setPostalCode(infoUser && infoUser[0].postal_code)
+        setPhone(infoUser && infoUser[0].phone)
+        setAddress(infoUser && infoUser[0].address)
+        setEmail(infoUser && infoUser[0].email)
+    }, [infoUser])
 
     const closeHandler = () => {
         closeChangeForm()
@@ -61,10 +71,22 @@ export default function EditInfo({ showChangeForm, closeChangeForm, userInfo }) 
             formData.append(" confirm_password", confirmPass)
         }
 
+        const access = localStorage.getItem('user')
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+
         try {
-            const response = await axios.put(`${IP}/`, formData)
+            const response = await axios.put(`${IP}/user/edit-profile/`, formData, {
+                headers,
+            })
             if (response.status === 200) {
                 closeHandler()
+                swal({
+                    title: "اطلاعات با موفقیت ویرایش شد",
+                    icon: "success",
+                    buttons: "باشه"
+                })
             }
 
         } catch (error) {
@@ -75,7 +97,7 @@ export default function EditInfo({ showChangeForm, closeChangeForm, userInfo }) 
 
     return (
         <>
-            <div className={`register-form-container ${showChangeForm ? "register-form-container-active" : ""}`}>
+            <div className={`register-form-container ${showChangeForm && name ? "register-form-container-active" : ""}`}>
                 <div className="register-form-wrapper">
                     <div className="register-form-header d-flex justify-content-between align-items-center">ثبت نام<CloseOutlinedIcon style={{ cursor: "pointer" }}
                         onClick={closeHandler} />
