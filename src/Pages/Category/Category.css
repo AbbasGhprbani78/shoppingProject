@@ -16,7 +16,7 @@
 
 .all-Products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 250px));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 285px));
     border-radius: var(--border-raduis);
     box-shadow: var(--box-shadow);
     padding: 10px;
@@ -48,6 +48,16 @@
     padding: 7px 0;
     margin-top: 25px;
 
+}
+
+.scroll-product {
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.scroll-product::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
 }
 
 .filter-btn-small {

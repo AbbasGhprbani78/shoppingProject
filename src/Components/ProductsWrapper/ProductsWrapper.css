@@ -18,19 +18,6 @@
     border-radius: var(--border-raduis);
 }
 
-.products-container::before {
-    content: "";
-    width: 8%;
-    position: absolute;
-    right: 1%;
-    top: -7px;
-    height: 0;
-    height: 10px;
-    background-color: var(--color-3);
-    border-radius: var(--border-raduis);
-    z-index: -9999;
-}
-
 .Products-Wrapper-title {
     color: var(--color-3);
     font-weight: bold;

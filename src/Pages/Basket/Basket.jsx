@@ -5,8 +5,10 @@ import BasketItem from '../../Components/BasketItem/BasketItem'
 import Footer from '../../Components/Footer/Footer'
 import TotalAmount from '../../Components/TotalAmount/TotalAmount'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
+import { useSearchContext } from '../../Context/SearchContext'
 
 export default function Basket() {
+    const { searchResults } = useSearchContext();
     return (
         <>
             <Header />
@@ -20,7 +22,7 @@ export default function Basket() {
                             to: "",
                         },
                         {
-                            title: "کاشی"
+                            title: "سبد خرید"
                         }
                     ]} />
                 <div className="basket-items-container">

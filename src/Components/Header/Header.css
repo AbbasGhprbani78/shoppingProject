@@ -161,13 +161,13 @@
     height: 2px;
     background-color: var(--color-7);
     transition: width 0.3s ease;
-
 }
 
 .category-item:hover::after {
     width: 100%;
 
 }
+
 
 .sub-user-wrapper {
     position: absolute;

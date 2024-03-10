@@ -7,10 +7,10 @@ import Products from './Pages/Products/Products'
 
 let routes = [
     { path: "/", element: <Home /> },
-    { path: "/category-info/:categoryName/:page", element: <Category /> },
+    { path: "/category-info/:categoryName", element: <Category /> },
     { path: "/product-info/:productName/:id", element: <Product /> },
     { path: "/basket", element: <Basket /> },
-    { path: "/search", element: <Search /> },
+    { path: "/search/:value", element: <Search /> },
     { path: "/Products/:issue/:number", element: <Products /> },
 ]
 

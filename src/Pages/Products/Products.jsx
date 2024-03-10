@@ -9,12 +9,14 @@ import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper'
 import BoxProduct from '../../Components/BoxProduct/BoxProduct'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import Paginations from '../../Components/Pagination/Pagination'
+import { useSearchContext } from '../../Context/SearchContext'
 export default function Products() {
 
     const [products, setProducts] = useState([])
     const [topProduct, setTopProduct] = useState([])
     const [shownProducts, setShownProducts] = useState([])
     const [showTopProduct, setShowTopProduct] = useState([])
+    const { searchResults } = useSearchContext();
     const { issue } = useParams()
 
     useEffect(() => {
@@ -65,7 +67,6 @@ export default function Products() {
         }
     }
 
-
     return (
         <>
             <Header />
@@ -79,7 +80,7 @@ export default function Products() {
                             to: "",
                         },
                         {
-                            title: "کاشی"
+                            title: `${issue}`
                         }
                     ]}
                 />

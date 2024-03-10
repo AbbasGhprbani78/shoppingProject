@@ -8,24 +8,26 @@ import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper.js
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FilterBrands from '../../Components/FIlterBrans/FilterBrands.jsx';
 import FilterPrice from '../../Components/FIlterPrice/FIlterPrice.jsx'
-import FilterMaterial from '../../Components/FilterMaterial/FilterMaterial.jsx'
 import BoxProduct from '../../Components/BoxProduct/BoxProduct.jsx';
-import Pagination from '../../Components/Pagination/Pagination.jsx';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios'
 import { IP } from '../../App.jsx'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useParams } from 'react-router-dom'
+import { useSearchContext } from '../../Context/SearchContext.jsx'
 
 export default function Category() {
-    const [categoryProducts, setCategoryProducts] = useState([])
+    const [allcategoryProducts, setAllCategoryProducts] = useState([])
+    const [sortProducts, setSortProducts] = useState([])
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [valuePrice, setValuePrice] = useState({});
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
+    const [filterItem, setFilterItem] = useState([])
     const colRef = useRef(null);
     const { categoryName } = useParams()
+    const { searchResults } = useSearchContext();
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -94,26 +96,59 @@ export default function Category() {
         setMainContent(e.target.textContent)
     }
 
-
     const getProductCategory = async () => {
-
-        const body = {
-            category: categoryName
-        }
         try {
-            const response = await axios.post(`${IP}/product/get-category-product`, body)
+            const response = await axios.get(`${IP}/product/get-category-product/${categoryName}`)
             if (response.status === 200) {
                 console.log(response)
+                setAllCategoryProducts(response.data)
+                setSortProducts(response.data.products)
             }
         } catch (error) {
-
             console.log(error)
         }
     }
 
+    const getFilterItem = async () => {
+
+        try {
+            const response = await axios.get(`${IP}/`)
+            if (response.status === 200) {
+                console.log(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    useEffect(() => {
+        // getFilterItem()
+    }, [])
+
     useEffect(() => {
         getProductCategory()
-    }, [])
+    }, [categoryName])
+
+
+    useEffect(() => {
+        switch (mainContent) {
+            case "بیشترین قیمت": {
+                setSortProducts(allcategoryProducts.high_price_product)
+                break;
+            }
+            case "کم ترین قیمت": {
+                setSortProducts(allcategoryProducts.low_price_product)
+                break;
+            }
+            case "جدیدترین": {
+                setSortProducts(allcategoryProducts.last_products)
+                break;
+            }
+            default: {
+                setSortProducts(allcategoryProducts.products)
+            }
+        }
+    }, [mainContent]);
+
 
     return (
 
@@ -152,7 +187,7 @@ export default function Category() {
                                 to: "",
                             },
                             {
-                                title: "کاشی"
+                                title: `${categoryName}`
                             }
                         ]}
                     />
@@ -211,19 +246,30 @@ export default function Category() {
                                 </ul>
                             </div>
                             <ProductsWrapper
-                                title="کاشی ها"
+                                title={`${categoryName}`}
                                 link={"#"}
                                 isMore={false}
                             >
-                                <div className="all-Products">
-                                    <BoxProduct />
-                                    <BoxProduct />
-                                    <BoxProduct />
-                                    <BoxProduct />
-                                    <BoxProduct />
+                                <div className="all-Products scroll-product">
+                                    {/* {
+                                        sortProducts &&
+                                        sortProducts.map(product => (
+                                            <BoxProduct
+                                                key={product.code}
+                                                availability_count={product.availability_count}
+                                                discount_percentage={product.discount_percentage}
+                                                price={product.price}
+                                                old_price={product.old_price}
+                                                image={product.image}
+                                                name={product.name}
+                                                model={product.model}
+                                                is_discount={product.is_discount}
+                                            />
+                                        ))
+                                    } */}
                                 </div>
                             </ProductsWrapper>
-                            {/* <Pagination /> */}
+
                         </Col>
                     </Row>
                 </div>
@@ -268,30 +314,3 @@ export default function Category() {
 
 
 
-
-// useEffect(() => {
-//     switch (status) {
-//         case "free": {
-//             const freeCourses = courses.filter((course) => course.price === 0);
-//             setOrderedCourses(freeCourses);
-//             break;
-//         }
-//         case "money": {
-//             const notFreeCourses = courses.filter((course) => course.price !== 0);
-//             setOrderedCourses(notFreeCourses);
-//             break;
-//         }
-//         case "last": {
-//             setOrderedCourses(courses);
-//             break;
-//         }
-//         case "first": {
-//             const reversedCourses = courses.slice().reverse();
-//             setOrderedCourses(reversedCourses);
-//             break;
-//         }
-//         default: {
-//             setOrderedCourses(courses);
-//         }
-//     }
-// }, [status]);

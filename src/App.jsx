@@ -5,7 +5,8 @@ import routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
-// export const IP = "http://185.79.156.226:8500"
+import { SearchProvider } from './Context/SearchContext';
+// export const IP = "http://185.79.156.226:9500"
 export const IP = "https://shop.ariisco.com"
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
   const [refresh, setRefresh] = useState(null);
   const [userInfos, setUserInfos] = useState(null);
   const [data, setdata] = useState(null)
+
 
   const login = (data) => {
     setToken(data.access);
@@ -78,6 +80,7 @@ function App() {
     }
   }
 
+
   useEffect(() => {
     getProductsHome()
   }, [])
@@ -90,19 +93,20 @@ function App() {
 
   return (
     <>
-      <AuthContext.Provider
-        value={{
-          isLoggedIn,
-          token,
-          userInfos,
-          login,
-          logout,
-          refresh,
-          data
-        }}>
-        {router}
-      </AuthContext.Provider>
-
+      <SearchProvider>
+        <AuthContext.Provider
+          value={{
+            isLoggedIn,
+            token,
+            userInfos,
+            login,
+            logout,
+            refresh,
+            data,
+          }}>
+          {router}
+        </AuthContext.Provider >
+      </SearchProvider>
     </>
   )
 }

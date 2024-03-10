@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
-import { IP } from "../App";
+
 
 const AuthContext = createContext({
     isLoggedIn: false,
@@ -9,7 +8,7 @@ const AuthContext = createContext({
     userInfos: null,
     login: () => { },
     logout: () => { },
-    data: null
+    data: null,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -19,23 +18,9 @@ export const AuthProvider = ({ children }) => {
         token: null,
         refresh: null,
         userInfos: null,
-        data: null
+        data: null,
     });
 
-    // const getAllInfo = async () => {
-
-    //     try {
-    //         const response = await axios.get(`${IP}`)
-    //         if (response.status === 200) {
-
-    //             console.log(response.data)
-    //             setAllData(response.data)
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error.message)
-    //     }
-    // }
 
     const login = () => {
 

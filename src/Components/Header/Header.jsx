@@ -4,7 +4,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import SignInForm from '../SignInForm/SignInForm';
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -17,7 +17,9 @@ import AuthContext from '../../Context/AuthContext';
 import EditInfo from '../EditInfo/EditInfo';
 import swal from 'sweetalert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';;
+import { useSearchContext } from '../../Context/SearchContext';
+
 export default function Header() {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -30,6 +32,8 @@ export default function Header() {
     const [infoUser, setInfoUser] = useState(null)
     const authContext = useContext(AuthContext)
     const [sideBarCategory, setSideBarCategory] = useState(authContext.data && authContext.data.categories);
+    const [searchValue, setSearchValue] = useState(null)
+    const { updateSearchResults } = useSearchContext();
 
     useEffect(() => {
 
@@ -165,6 +169,24 @@ export default function Header() {
 
     }
 
+    const searchProduct = async () => {
+        try {
+            const response = await axios.get(`${IP}/product/search/`, {
+                params: {
+                    query: searchValue
+                }
+            });
+            if (response.status === 200) {
+                updateSearchResults(response.data)
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    useEffect(() => {
+        searchProduct()
+    }, [searchValue])
 
 
     return (
@@ -256,6 +278,8 @@ export default function Header() {
                                         className='searchinput'
                                         type="text"
                                         placeholder='جستجو'
+                                        value={searchValue}
+                                        onChange={e => setSearchValue(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -314,9 +338,11 @@ export default function Header() {
                                         <div className='searchinput-wrapper'>
                                             <SearchOutlinedIcon className='searchicon-header' />
                                             <input
+                                                value={searchValue}
                                                 className='searchinput'
                                                 type="text"
                                                 placeholder='جستجو'
+                                                onChange={e => setSearchValue(e.target.value)}
                                             />
                                         </div>
                                         <div className='categorys-wrapper d-flex'>
@@ -324,8 +350,14 @@ export default function Header() {
                                                 authContext.data &&
                                                     authContext.data.categories ? (
                                                     authContext.data.categories.map((categorie, i) => (
-                                                        <div>
-                                                            <Link to={`/category-info/${categorie.name}/1`} className='category-item'>{categorie.name}</Link>
+                                                        <div
+                                                            key={i}>
+                                                            <Link
+                                                                to={`/category-info/${categorie.name}`}
+                                                                className='category-item'
+
+                                                            >{categorie.name}
+                                                            </Link>
                                                         </div>
                                                     )))
                                                     : (null)

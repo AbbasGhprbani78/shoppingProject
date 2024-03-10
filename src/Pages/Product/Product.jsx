@@ -26,6 +26,7 @@ import 'swiper/css';
 import axios from 'axios';
 import { IP } from '../../App';
 import swal from 'sweetalert';
+import { useSearchContext } from '../../Context/SearchContext';
 function CustomTabPanel(props) {
 
     const { children, value, index, ...other } = props;
@@ -61,6 +62,7 @@ function a11yProps(index) {
 }
 
 export default function Product() {
+    const { searchResults } = useSearchContext();
     const [value, setValue] = useState(0)
     const [score, setScore] = useState(2);
     const [showProductModal, setShowProductModal] = useState(false);
