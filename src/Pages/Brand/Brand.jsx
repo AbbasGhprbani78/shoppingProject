@@ -18,11 +18,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 export default function Brand() {
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const colRef = useRef(null);
-    const { brandName } = useParams()
+    const { id } = useParams()
     const { searchResults } = useSearchContext();
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
-
+    const [productsBrand, setProductsBrand] = useState(null)
 
     const showList = () => {
         setShowDrop(prevShow => !prevShow)
@@ -31,6 +31,26 @@ export default function Brand() {
     const chnageMainTextContent = (e) => {
         setMainContent(e.target.textContent)
     }
+
+
+    const getProductsBrand = async () => {
+        try {
+            const response = await axios.get(`${IP}/product/slider-detail/${id}`)
+            if (response.status === 200) {
+                console.log(response.data.products)
+                setProductsBrand(response.data.products)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+
+    }
+
+    useEffect(() => {
+        getProductsBrand()
+
+    }, [])
+
     return (
         <>
             <div className={`openfilter-container ${showBoxFilter ? "activefilterbox" : ""}`}>
@@ -44,13 +64,9 @@ export default function Brand() {
                             onClick={() => setShowBoxFilter(false)}
                         />
                     </div>
-                    <FilterBrands
-                        selectedBrands={"selectedBrands"}
-                        onBrandToggle={"handleBrandToggle"}
-                        removeFilterBrand={""}
-                    />
                     <FilterPrice
                         setValuePrice={""}
+
                     />
                     <button className='btn-done-filter' onClick={""}>اعمال فیلتر ها</button>
                 </Col>
@@ -66,7 +82,7 @@ export default function Brand() {
                             to: "",
                         },
                         {
-                            title: `${brandName}`
+                            title: `${id}`
                         }
                     ]}
                 />
@@ -85,13 +101,13 @@ export default function Brand() {
                                             <BoxProduct
                                                 key={product.code}
                                                 availability_count={product.availability_count}
-                                                discount_percentage={product.discount_percentage}
-                                                price={product.price}
-                                                old_price={product.old_price}
+                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                price={product && product.sellers[0] && product.sellers[0].price}
+                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
                                                 image={product.image}
                                                 name={product.name}
                                                 model={product.model}
-                                                is_discount={product.is_discount}
+                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
                                             />
                                         ))
                                     }
@@ -114,13 +130,9 @@ export default function Brand() {
                                             onClick={() => setShowBoxFilter(false)}
                                         />
                                     </div>
-                                    <FilterBrands
-                                        selectedBrands={""}
-                                        onBrandToggle={""}
-                                        removeFilterBrand={""}
-                                    />
                                     <FilterPrice
                                         setValuePrice={''}
+                                        classProp={"qqqq"}
                                     />
 
                                     <button className='btn-done-filter' onClick={"sendFinalFilter"}>اعمال فیلتر ها</button>
@@ -154,14 +166,14 @@ export default function Brand() {
                                         </ul>
                                     </div>
                                     <ProductsWrapper
-                                        title={`${brandName}`}
+                                        title={`${id}`}
                                         link={"#"}
                                         isMore={false}
                                     >
                                         <div className="all-Products scroll-product">
-                                            {/* {
-                                                sortProducts &&
-                                                sortProducts.map(product => (
+                                            {
+                                                productsBrand &&
+                                                productsBrand.map(product => (
                                                     <BoxProduct
                                                         key={product.code}
                                                         availability_count={product.availability_count}
@@ -174,7 +186,7 @@ export default function Brand() {
                                                         is_discount={product.is_discount}
                                                     />
                                                 ))
-                                            } */}
+                                            }
                                         </div>
                                     </ProductsWrapper>
 

@@ -173,13 +173,13 @@ export default function Product() {
                                             <BoxProduct
                                                 key={product.code}
                                                 availability_count={product.availability_count}
-                                                discount_percentage={product.discount_percentage}
-                                                price={product.price}
-                                                old_price={product.old_price}
+                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                price={product && product.sellers[0] && product.sellers[0].price}
+                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
                                                 image={product.image}
                                                 name={product.name}
                                                 model={product.model}
-                                                is_discount={product.is_discount}
+                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
                                             />
                                         ))
                                     }

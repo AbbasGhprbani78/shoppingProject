@@ -2,10 +2,11 @@ import React from 'react';
 import './FilterBrands.css';
 import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
 
-export default function FilterBrands({ selectedBrands = [], onBrandToggle, removeFilterBrand }) {
+export default function FilterBrands({ onBrandToggle, removeFilterBrand, brandFilter }) {
     const handleCheckboxChange = (id, value) => {
         onBrandToggle(id, value);
     };
+
 
     return (
         <div className="brands-filter">

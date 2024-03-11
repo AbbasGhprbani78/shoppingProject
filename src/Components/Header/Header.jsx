@@ -31,15 +31,18 @@ export default function Header() {
     const [showSideBar, setShowSideBar] = useState(false)
     const [infoUser, setInfoUser] = useState(null)
     const authContext = useContext(AuthContext)
-    const [sideBarCategory, setSideBarCategory] = useState(authContext.data && authContext.data.categories);
+    const [sideBarCategory, setSideBarCategory] = useState(null);
     const [searchValue, setSearchValue] = useState()
     const { updateSearchResults } = useSearchContext();
     const { searchResults } = useSearchContext();
 
     useEffect(() => {
-        console.log("hello")
         updateSearchResults(null)
     }, [])
+
+    useEffect(() => {
+        setSideBarCategory(authContext.data && authContext.data.categories)
+    }, [authContext.data])
 
     useEffect(() => {
 
@@ -183,7 +186,8 @@ export default function Header() {
                 }
             });
             if (response.status === 200) {
-                updateSearchResults(response.data)
+                updateSearchResults(response.data.products)
+                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message);
@@ -192,7 +196,12 @@ export default function Header() {
 
     useEffect(() => {
         searchProduct()
+        if (searchValue === "") {
+            updateSearchResults(null)
+        }
     }, [searchValue])
+
+
 
 
     return (
@@ -288,7 +297,7 @@ export default function Header() {
                                     />
                                     <SearchOutlinedIcon className='searchicon-header' />
                                     {
-                                        searchValue && searchResults.length === 0 &&
+                                        searchValue && searchResults && searchResults.length === 0 &&
                                         <div className="result-search">
                                             نتیجه ای یافت نشد
                                         </div>

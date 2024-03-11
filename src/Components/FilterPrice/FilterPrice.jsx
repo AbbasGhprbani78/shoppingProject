@@ -3,12 +3,20 @@ import './FilterPrice.css';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import Slider from '@mui/material/Slider';
 
-const MIN_PRICE = 100000;
-const MAX_PRICE = 10000000;
 
-export default function FilterPrice({ setValuePrice }) {
-    const [value, setValue] = useState([MIN_PRICE, MAX_PRICE]);
+
+export default function FilterPrice({ setValuePrice, priceFilter, classProp }) {
+
+    const MIN_PRICE = priceFilter && priceFilter[0] && priceFilter[0].min_price;
+    const MAX_PRICE = priceFilter && priceFilter[0] && priceFilter[0].max_price;
+
+    const [value, setValue] = useState(null);
     const [sliderValue, setSliderValue] = useState([0, 1]);
+
+
+    useEffect(() => {
+        setValue([MIN_PRICE, MAX_PRICE])
+    }, [MIN_PRICE, MAX_PRICE])
 
     useEffect(() => {
         const calculateSliderValue = (val) => {
@@ -18,8 +26,10 @@ export default function FilterPrice({ setValuePrice }) {
             return [relativeMin, relativeMax];
         };
 
-        setSliderValue(calculateSliderValue(value));
-    }, [value]);
+        if (typeof MIN_PRICE === 'number' && typeof MAX_PRICE === 'number') {
+            setSliderValue(calculateSliderValue(value));
+        }
+    }, [value, MIN_PRICE, MAX_PRICE]);
 
     const handleChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -50,7 +60,7 @@ export default function FilterPrice({ setValuePrice }) {
 
     return (
         <>
-            <div className="filterPrice-wrapper">
+            <div className={`filterPrice-wrapper ${classProp}`}>
                 <div className="filter-price-title">
                     <MonetizationOnOutlinedIcon />
                     قیمت
@@ -68,7 +78,7 @@ export default function FilterPrice({ setValuePrice }) {
                         type="number"
                         className='input-price'
                         onChange={handleInputChange}
-                        value={value[0]}
+                        value={value && value[0]}
                     />
                 </div>
                 <div className="input-price-wrapper">
@@ -78,7 +88,7 @@ export default function FilterPrice({ setValuePrice }) {
                         type="number"
                         className='input-price'
                         onChange={handleInputChange}
-                        value={value[1]}
+                        value={value && value[1]}
                     />
                 </div>
             </div>

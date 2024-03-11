@@ -7,25 +7,27 @@ import 'swiper/css/pagination';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import axios from 'axios';
 import { IP } from '../../App';
+import { Link } from 'react-router-dom';
 export default function Slider() {
 
-    const [sliderPic, setSliderPic] = useState([])
+    const [sliderInfo, setSliderInfo] = useState([])
 
-    // useEffect(() => {
-    //     getPicsSlider()
-    // }, [])
     const getPicsSlider = async () => {
 
         try {
-            const response = axios.get(`${IP}`)
+            const response = await axios.get(`${IP}/product/get-slider/`)
             if (response.status === 200) {
-                console.log(response.data)
-                // setSliderPic(response.data)
+
+                setSliderInfo(response.data)
             }
         } catch (error) {
             console.log(error.message)
         }
     }
+    useEffect(() => {
+        getPicsSlider()
+    }, [])
+
     return (
         <div className='slider-container'>
             <Swiper
@@ -44,11 +46,20 @@ export default function Slider() {
                 className="mySwiper"
                 centeredSlides={true}
             >
-                <SwiperSlide className='slider-item'><img className="image" src="../../../public/Images/1.jpeg" alt="" /></SwiperSlide>
-                <SwiperSlide className='slider-item'><img className="image" src="../../../public/Images/2.jpg" alt="" /></SwiperSlide>
-                <SwiperSlide className='slider-item'><img className="image" src="../../../public/Images/6.jpg" alt="" /></SwiperSlide>
-                <SwiperSlide className='slider-item'><img className="image" src="../../../public/Images/4.jpg" alt="" /></SwiperSlide>
-                <SwiperSlide className='slider-item'><img className="image" src="../../../public/Images/5.jpg" alt="" /></SwiperSlide>
+                {
+                    sliderInfo &&
+                    sliderInfo.map(slide => (
+                        <SwiperSlide
+                            className='slider-item'
+                            key={slide.brand}
+                        >
+                            <Link to={`/brand/${slide.brand}`} style={{ all: "unset" }}>
+                                <img className="image" src={`${IP}${slide.image}`} alt="" />
+                            </Link>
+                        </SwiperSlide>
+                    ))
+                }
+
             </Swiper>
         </div>
     );

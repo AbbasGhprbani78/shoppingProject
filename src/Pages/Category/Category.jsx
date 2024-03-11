@@ -15,7 +15,8 @@ import { IP } from '../../App.jsx'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useParams } from 'react-router-dom'
 import { useSearchContext } from '../../Context/SearchContext.jsx'
-
+import AuthContext from '../../Context/AuthContext.jsx'
+import { useContext } from 'react'
 export default function Category() {
     const [allcategoryProducts, setAllCategoryProducts] = useState([])
     const [sortProducts, setSortProducts] = useState([])
@@ -24,7 +25,9 @@ export default function Category() {
     const [valuePrice, setValuePrice] = useState({});
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
-    const [filterItem, setFilterItem] = useState([])
+    const [brandFilter, setBrandFilter] = useState(null)
+    const [priceFilter, setpriceFilter] = useState([])
+    const authContext = useContext(AuthContext)
     const colRef = useRef(null);
     const { categoryName } = useParams()
     const { searchResults } = useSearchContext();
@@ -112,16 +115,18 @@ export default function Category() {
     const getFilterItem = async () => {
 
         try {
-            const response = await axios.get(`${IP}/`)
+            const response = await axios.post(`${IP}/product/get-filter/`)
             if (response.status === 200) {
                 console.log(response.data)
+                setpriceFilter(response.data.price_range)
+                setBrandFilter(response.data.brands)
             }
         } catch (error) {
             console.log(error.message)
         }
     }
     useEffect(() => {
-        // getFilterItem()
+        getFilterItem()
     }, [])
 
     useEffect(() => {
@@ -172,6 +177,7 @@ export default function Category() {
                         />
                         <FilterPrice
                             setValuePrice={setValuePrice}
+                            priceFilter={priceFilter}
                         />
                         <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                     </Col>
@@ -206,13 +212,13 @@ export default function Category() {
                                                 <BoxProduct
                                                     key={product.code}
                                                     availability_count={product.availability_count}
-                                                    discount_percentage={product.discount_percentage}
-                                                    price={product.price}
-                                                    old_price={product.old_price}
+                                                    discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                    price={product && product.sellers[0] && product.sellers[0].price}
+                                                    old_price={product && product.sellers[0] && product.sellers[0].old_price}
                                                     image={product.image}
                                                     name={product.name}
                                                     model={product.model}
-                                                    is_discount={product.is_discount}
+                                                    is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
                                                 />
                                             ))
                                         }
@@ -242,6 +248,7 @@ export default function Category() {
                                         />
                                         <FilterPrice
                                             setValuePrice={setValuePrice}
+                                            priceFilter={priceFilter}
                                         />
 
                                         <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
