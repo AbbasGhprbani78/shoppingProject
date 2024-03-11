@@ -32,8 +32,14 @@ export default function Header() {
     const [infoUser, setInfoUser] = useState(null)
     const authContext = useContext(AuthContext)
     const [sideBarCategory, setSideBarCategory] = useState(authContext.data && authContext.data.categories);
-    const [searchValue, setSearchValue] = useState(null)
+    const [searchValue, setSearchValue] = useState()
     const { updateSearchResults } = useSearchContext();
+    const { searchResults } = useSearchContext();
+
+    useEffect(() => {
+        console.log("hello")
+        updateSearchResults(null)
+    }, [])
 
     useEffect(() => {
 
@@ -173,7 +179,7 @@ export default function Header() {
         try {
             const response = await axios.get(`${IP}/product/search/`, {
                 params: {
-                    query: searchValue
+                    query: searchValue.toString().toLowerCase()
                 }
             });
             if (response.status === 200) {
@@ -272,15 +278,21 @@ export default function Header() {
                             </div>
                             <div className="header-buttom header-small">
                                 <div style={{ width: "100%", border: "none", padding: "0 10px" }} className='searchinput-wrapper'>
-                                    <SearchOutlinedIcon className='searchicon-header' />
                                     <input
-                                        style={{ width: "100%" }}
-                                        className='searchinput'
-                                        type="text"
-                                        placeholder='جستجو'
                                         value={searchValue}
+                                        className='searchinput'
+                                        type="search"
+                                        placeholder='جستجو'
                                         onChange={e => setSearchValue(e.target.value)}
+                                        style={{ width: "100%" }}
                                     />
+                                    <SearchOutlinedIcon className='searchicon-header' />
+                                    {
+                                        searchValue && searchResults.length === 0 &&
+                                        <div className="result-search">
+                                            نتیجه ای یافت نشد
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </>) :
@@ -336,14 +348,21 @@ export default function Header() {
                                     </div>
                                     <div className="header-buttom">
                                         <div className='searchinput-wrapper'>
-                                            <SearchOutlinedIcon className='searchicon-header' />
                                             <input
                                                 value={searchValue}
                                                 className='searchinput'
-                                                type="text"
+                                                type="search"
                                                 placeholder='جستجو'
                                                 onChange={e => setSearchValue(e.target.value)}
                                             />
+                                            <SearchOutlinedIcon className='searchicon-header' />
+                                            {
+                                                searchValue && searchResults && searchResults.length === 0 &&
+                                                <div className="result-search">
+                                                    نتیجه ای یافت نشد
+                                                </div>
+                                            }
+
                                         </div>
                                         <div className='categorys-wrapper d-flex'>
                                             {

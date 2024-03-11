@@ -4,6 +4,7 @@ import Category from "./Pages/Category/Category";
 import Basket from "./Pages/Basket/Basket";
 import Search from './Pages/Search/Search';
 import Products from './Pages/Products/Products'
+import Brand from "./Pages/Brand/Brand";
 
 let routes = [
     { path: "/", element: <Home /> },
@@ -12,6 +13,7 @@ let routes = [
     { path: "/basket", element: <Basket /> },
     { path: "/search/:value", element: <Search /> },
     { path: "/Products/:issue/:number", element: <Products /> },
+    { path: "/brand/:brandName", element: <Brand /> }
 ]
 
 export default routes
