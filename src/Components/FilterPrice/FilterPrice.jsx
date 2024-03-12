@@ -26,10 +26,15 @@ export default function FilterPrice({ setValuePrice, priceFilter, classProp }) {
             return [relativeMin, relativeMax];
         };
 
-        if (typeof MIN_PRICE === 'number' && typeof MAX_PRICE === 'number') {
+        if (
+            typeof value === 'number' &&
+            typeof MIN_PRICE === 'number' &&
+            typeof MAX_PRICE === 'number'
+        ) {
             setSliderValue(calculateSliderValue(value));
         }
     }, [value, MIN_PRICE, MAX_PRICE]);
+
 
     const handleChange = (event, newValue) => {
         setSliderValue(newValue);

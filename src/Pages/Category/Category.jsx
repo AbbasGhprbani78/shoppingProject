@@ -18,6 +18,7 @@ import { useSearchContext } from '../../Context/SearchContext.jsx'
 import AuthContext from '../../Context/AuthContext.jsx'
 import { useContext } from 'react'
 export default function Category() {
+
     const [allcategoryProducts, setAllCategoryProducts] = useState([])
     const [sortProducts, setSortProducts] = useState([])
     const [showBoxFilter, setShowBoxFilter] = useState(false)
@@ -31,6 +32,7 @@ export default function Category() {
     const colRef = useRef(null);
     const { categoryName } = useParams()
     const { searchResults } = useSearchContext();
+
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -77,13 +79,15 @@ export default function Category() {
                 price: valuePrice
             };
 
+            console.log(finalFilter)
+
             if (selectedBrands.length > 0) {
                 finalFilter.brands = selectedBrands;
             }
-
-            const response = await axios.post(`${IP}`, finalFilter);
+            const response = await axios.post(`${IP}/product/product-filter/`, finalFilter);
             if (response.status === 200) {
-                console.log(response.data);
+                setSortProducts(response.data.products)
+                setShowBoxFilter(false)
             }
 
         } catch (error) {
@@ -106,28 +110,13 @@ export default function Category() {
                 console.log(response)
                 setAllCategoryProducts(response.data)
                 setSortProducts(response.data.products)
+                setpriceFilter(response.data.price_range)
+                setBrandFilter(response.data.brands)
             }
         } catch (error) {
             console.log(error)
         }
     }
-
-    const getFilterItem = async () => {
-
-        try {
-            const response = await axios.post(`${IP}/product/get-filter/`)
-            if (response.status === 200) {
-                console.log(response.data)
-                setpriceFilter(response.data.price_range)
-                setBrandFilter(response.data.brands)
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-    useEffect(() => {
-        getFilterItem()
-    }, [])
 
     useEffect(() => {
         getProductCategory()
@@ -174,6 +163,7 @@ export default function Category() {
                             selectedBrands={selectedBrands}
                             onBrandToggle={handleBrandToggle}
                             removeFilterBrand={removeFilterBrand}
+                            brandFilter={brandFilter}
                         />
                         <FilterPrice
                             setValuePrice={setValuePrice}
@@ -226,6 +216,8 @@ export default function Category() {
                                 </ProductsWrapper>
                             </> :
                             <>
+
+
                                 <button className="filter-btn-small d-lg-none" onClick={openFilterBox}>
                                     فیلتر ها
                                     <span style={{ marginRight: "45px" }}> <KeyboardArrowDownIcon /></span>
@@ -245,6 +237,7 @@ export default function Category() {
                                             selectedBrands={selectedBrands}
                                             onBrandToggle={handleBrandToggle}
                                             removeFilterBrand={removeFilterBrand}
+                                            brandFilter={brandFilter}
                                         />
                                         <FilterPrice
                                             setValuePrice={setValuePrice}
@@ -288,20 +281,28 @@ export default function Category() {
                                         >
                                             <div className="all-Products scroll-product">
                                                 {
-                                                    sortProducts &&
-                                                    sortProducts.map(product => (
-                                                        <BoxProduct
-                                                            key={product.code}
-                                                            availability_count={product.availability_count}
-                                                            discount_percentage={product.discount_percentage}
-                                                            price={product.price}
-                                                            old_price={product.old_price}
-                                                            image={product.image}
-                                                            name={product.name}
-                                                            model={product.model}
-                                                            is_discount={product.is_discount}
-                                                        />
-                                                    ))
+                                                    sortProducts && sortProducts.length > 0 ?
+                                                        <>
+                                                            {
+                                                                sortProducts.map(product => (
+                                                                    <BoxProduct
+                                                                        key={product.code}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                    />
+                                                                ))
+                                                            }
+                                                        </> :
+                                                        <>
+                                                            محصولی یافت نشد
+                                                        </>
+
                                                 }
                                             </div>
                                         </ProductsWrapper>
@@ -319,35 +320,6 @@ export default function Category() {
         </>
     )
 }
-
-
-
-
-// const [selectedMaterail, setSelectedMaterail] = useState([]);
-
-{/* <FilterMaterial
-                                selectedMaterail={selectedMaterail}
-                                handleMaterialoggle={handleMaterialoggle}
-                                removeFilterMaterial={removeFilterMaterial}
-                            /> */}
-
-// const removeFilterMaterial = () => {
-//     setSelectedMaterail([])
-// }
-
-// const handleMaterialoggle = (id, value) => {
-//     setSelectedMaterail(prevSelectedMaterial => {
-//         const index = prevSelectedMaterial.findIndex(material => material.id === id);
-//         if (index !== -1) {
-
-//             const updatedMaterial = [...prevSelectedMaterial.slice(0, index), ...prevSelectedMaterial.slice(index + 1)];
-//             return updatedMaterial;
-//         } else {
-
-//             return [...prevSelectedMaterial, { id: id, material: value }];
-//         }
-//     });
-// };
 
 
 

@@ -18,27 +18,32 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 export default function Brand() {
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const colRef = useRef(null);
-    const { id } = useParams()
+    const { id } = useParams();
+    const { brandName } = useParams()
     const { searchResults } = useSearchContext();
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
-    const [productsBrand, setProductsBrand] = useState(null)
+    const [sortProducts, setSortProducts] = useState([])
+    const [priceFilter, setpriceFilter] = useState([])
+    const [productFilter, setProductFilter] = useState([])
+    const [valuePrice, setValuePrice] = useState({});
+    const [allProduct, setAllProduct] = useState(null)
 
-    const showList = () => {
-        setShowDrop(prevShow => !prevShow)
-    }
 
     const chnageMainTextContent = (e) => {
         setMainContent(e.target.textContent)
     }
 
+    const showList = () => {
+        setShowDrop(prevShow => !prevShow)
+    }
 
     const getProductsBrand = async () => {
         try {
             const response = await axios.get(`${IP}/product/slider-detail/${id}`)
             if (response.status === 200) {
-                console.log(response.data.products)
-                setProductsBrand(response.data.products)
+                setAllProduct(response.data.products)
+                setSortProducts(response.data.products)
             }
         } catch (error) {
             console.log(error.message)
@@ -46,10 +51,73 @@ export default function Brand() {
 
     }
 
+
+    const getFilterBrand = async () => {
+        try {
+
+            const response = await axios.get(`${IP}/product/get-brand-product/${brandName}`)
+            if (response.status === 200) {
+                console.log(response.data)
+                setProductFilter(response.data)
+                setSortProducts(response.data.products)
+                setpriceFilter(response.data.price_range)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    const sendFinalFilter = async () => {
+        try {
+
+            let finalFilter = {
+                price: valuePrice
+            };
+
+            console.log(finalFilter)
+
+            const response = await axios.post(`${IP}/product/brand-product-filter/`, finalFilter);
+            if (response.status === 200) {
+                console.log(response.data);
+                setShowBoxFilter(false)
+            }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    useEffect(() => {
+
+        switch (mainContent) {
+            case "بیشترین قیمت": {
+                setSortProducts(productFilter.high_price_product)
+                break;
+            }
+            case "کم ترین قیمت": {
+                setSortProducts(productFilter.low_price_product)
+                break;
+            }
+            case "جدیدترین": {
+                setSortProducts(productFilter.last_products)
+                break;
+            }
+            default: {
+                setSortProducts(allProduct)
+            }
+        }
+    }, [mainContent]);
+
+
     useEffect(() => {
         getProductsBrand()
-
     }, [])
+
+    useEffect(() => {
+        getFilterBrand();
+    }, [mainContent]);
+
+
 
     return (
         <>
@@ -65,10 +133,10 @@ export default function Brand() {
                         />
                     </div>
                     <FilterPrice
-                        setValuePrice={""}
-
+                        priceFilter={priceFilter}
+                        setValuePricer={setValuePrice}
                     />
-                    <button className='btn-done-filter' onClick={""}>اعمال فیلتر ها</button>
+                    <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                 </Col>
             </div>
             <Header />
@@ -82,7 +150,7 @@ export default function Brand() {
                             to: "",
                         },
                         {
-                            title: `${id}`
+                            title: `${brandName}`
                         }
                     ]}
                 />
@@ -131,11 +199,12 @@ export default function Brand() {
                                         />
                                     </div>
                                     <FilterPrice
-                                        setValuePrice={''}
+                                        priceFilter={priceFilter}
                                         classProp={"qqqq"}
+                                        setValuePrice={setValuePrice}
                                     />
 
-                                    <button className='btn-done-filter' onClick={"sendFinalFilter"}>اعمال فیلتر ها</button>
+                                    <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                                 </Col>
                                 <Col className='category-product-wrapper mt-4' xs={12} md={9} style={{ position: "relative" }}>
                                     <div className='dropdown'>
@@ -166,14 +235,14 @@ export default function Brand() {
                                         </ul>
                                     </div>
                                     <ProductsWrapper
-                                        title={`${id}`}
+                                        title={`${brandName}`}
                                         link={"#"}
                                         isMore={false}
                                     >
                                         <div className="all-Products scroll-product">
                                             {
-                                                productsBrand &&
-                                                productsBrand.map(product => (
+                                                sortProducts &&
+                                                sortProducts.map(product => (
                                                     <BoxProduct
                                                         key={product.code}
                                                         availability_count={product.availability_count}

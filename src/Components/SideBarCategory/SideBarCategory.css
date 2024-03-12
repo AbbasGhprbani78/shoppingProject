@@ -45,3 +45,7 @@
     font-size: 1.3rem;
     border-bottom: 1px solid var(--color-sub-12);
 }
+
+.category-sidebar-list a.active {
+    color: var(--color-7);
+}

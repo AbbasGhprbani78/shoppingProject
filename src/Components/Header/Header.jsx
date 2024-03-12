@@ -4,7 +4,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import SignInForm from '../SignInForm/SignInForm';
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -182,7 +182,7 @@ export default function Header() {
         try {
             const response = await axios.get(`${IP}/product/search/`, {
                 params: {
-                    query: searchValue.toString().toLowerCase()
+                    query: searchValue.toLowerCase()
                 }
             });
             if (response.status === 200) {
@@ -200,8 +200,6 @@ export default function Header() {
             updateSearchResults(null)
         }
     }, [searchValue])
-
-
 
 
     return (
@@ -380,12 +378,11 @@ export default function Header() {
                                                     authContext.data.categories.map((categorie, i) => (
                                                         <div
                                                             key={i}>
-                                                            <Link
+                                                            <NavLink
                                                                 to={`/category-info/${categorie.name}`}
                                                                 className='category-item'
-
                                                             >{categorie.name}
-                                                            </Link>
+                                                            </NavLink>
                                                         </div>
                                                     )))
                                                     : (null)

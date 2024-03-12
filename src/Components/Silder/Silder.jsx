@@ -17,7 +17,7 @@ export default function Slider() {
         try {
             const response = await axios.get(`${IP}/product/get-slider/`)
             if (response.status === 200) {
-
+                console.log(response.data)
                 setSliderInfo(response.data)
             }
         } catch (error) {
@@ -51,9 +51,9 @@ export default function Slider() {
                     sliderInfo.map(slide => (
                         <SwiperSlide
                             className='slider-item'
-                            key={slide.brand}
+                            key={slide.brand.id}
                         >
-                            <Link to={`/brand/${slide.brand}`} style={{ all: "unset" }}>
+                            <Link to={`/brand/${slide.brand.brand_name}/${slide.brand.id}`} style={{ all: "unset" }}>
                                 <img className="image" src={`${IP}${slide.image}`} alt="" />
                             </Link>
                         </SwiperSlide>

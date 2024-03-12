@@ -13,7 +13,7 @@ let routes = [
     { path: "/basket", element: <Basket /> },
     { path: "/search/:value", element: <Search /> },
     { path: "/Products/:issue/:number", element: <Products /> },
-    { path: "/brand/:id", element: <Brand /> }
+    { path: "/brand/:brandName/:id", element: <Brand /> }
 ]
 
 export default routes
