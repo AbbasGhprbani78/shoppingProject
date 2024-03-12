@@ -17,7 +17,6 @@ export default function Slider() {
         try {
             const response = await axios.get(`${IP}/product/get-slider/`)
             if (response.status === 200) {
-                console.log(response.data)
                 setSliderInfo(response.data)
             }
         } catch (error) {

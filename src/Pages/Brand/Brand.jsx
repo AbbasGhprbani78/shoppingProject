@@ -51,7 +51,6 @@ export default function Brand() {
 
     }
 
-
     const getFilterBrand = async () => {
         try {
 
@@ -59,7 +58,6 @@ export default function Brand() {
             if (response.status === 200) {
                 console.log(response.data)
                 setProductFilter(response.data)
-                setSortProducts(response.data.products)
                 setpriceFilter(response.data.price_range)
             }
         } catch (error) {
@@ -71,15 +69,16 @@ export default function Brand() {
         try {
 
             let finalFilter = {
-                price: valuePrice
+                price: valuePrice,
+                brand: brandName
             };
 
-            console.log(finalFilter)
 
             const response = await axios.post(`${IP}/product/brand-product-filter/`, finalFilter);
             if (response.status === 200) {
                 console.log(response.data);
                 setShowBoxFilter(false)
+                setSortProducts(response.data.products)
             }
 
         } catch (error) {

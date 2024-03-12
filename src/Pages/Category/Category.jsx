@@ -76,7 +76,8 @@ export default function Category() {
         try {
 
             let finalFilter = {
-                price: valuePrice
+                price: valuePrice,
+                category: categoryName
             };
 
             console.log(finalFilter)

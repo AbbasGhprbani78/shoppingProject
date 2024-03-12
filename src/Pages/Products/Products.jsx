@@ -36,7 +36,7 @@ export default function Products() {
             const response = await axios.get(`${IP}/product/discount-products/`);
             if (response.status === 200) {
                 setProducts(response.data.products)
-                console.log(response.data)
+
             }
         } catch (error) {
             console.log(error.message);
@@ -49,6 +49,7 @@ export default function Products() {
             const response = await axios.get(`${IP}/product/last-products/`);
             if (response.status === 200) {
                 setProducts(response.data.products)
+                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message);

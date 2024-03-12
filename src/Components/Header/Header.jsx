@@ -182,7 +182,7 @@ export default function Header() {
         try {
             const response = await axios.get(`${IP}/product/search/`, {
                 params: {
-                    query: searchValue.toLowerCase()
+                    query: searchValue
                 }
             });
             if (response.status === 200) {

@@ -27,6 +27,7 @@ import axios from 'axios';
 import { IP } from '../../App';
 import swal from 'sweetalert';
 import { useSearchContext } from '../../Context/SearchContext';
+import { useParams } from 'react-router-dom';
 
 function CustomTabPanel(props) {
 
@@ -73,6 +74,11 @@ export default function Product() {
     const [seconds, setSeconds] = useState(45);
     const [comment, setComment] = useState(null)
     const [mainImageSrc, setMainImageSrc] = useState("../../../public/Images/18.jpg");
+    const [productInfo, setProductInfo] = useState(null)
+    const { productName } = useParams()
+    const { id } = useParams()
+
+    console.log(productName, id)
 
     const handleImageHover = (newSrc) => {
         setMainImageSrc(newSrc);
@@ -92,29 +98,29 @@ export default function Product() {
         updateSearchResults(null)
     }, [])
 
-    useEffect(() => {
-        const offTimer = setInterval(() => {
-            if (seconds === 0) {
-                setSeconds(59);
-                if (minutes === 0) {
-                    setMinutes(59);
-                    if (hours == 0) {
-                        clearInterval(offTimer)
-                        return
-                    } else {
-                        setHours(prevHour => prevHour - 1)
-                    }
-                } else {
-                    setMinutes(prevSecond => prevSecond - 1)
-                }
-            } else {
-                setSeconds(prevSecond => prevSecond - 1)
-            }
-        }, 1000)
+    // useEffect(() => {
+    //     const offTimer = setInterval(() => {
+    //         if (seconds === 0) {
+    //             setSeconds(59);
+    //             if (minutes === 0) {
+    //                 setMinutes(59);
+    //                 if (hours == 0) {
+    //                     clearInterval(offTimer)
+    //                     return
+    //                 } else {
+    //                     setHours(prevHour => prevHour - 1)
+    //                 }
+    //             } else {
+    //                 setMinutes(prevSecond => prevSecond - 1)
+    //             }
+    //         } else {
+    //             setSeconds(prevSecond => prevSecond - 1)
+    //         }
+    //     }, 1000)
 
-        return () => clearInterval(offTimer)
+    //     return () => clearInterval(offTimer)
 
-    }, [hours, minutes, seconds])
+    // }, [hours, minutes, seconds])
 
 
 
@@ -139,6 +145,23 @@ export default function Product() {
             console.log(error.message)
         }
     }
+
+
+    const getProductInfo = async () => {
+
+        try {
+            const response = await axios.get(`${IP}//${productName}`)
+            if (response.status === 200) {
+                console.log(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+        getProductInfo()
+    }, [])
 
     return (
         <>

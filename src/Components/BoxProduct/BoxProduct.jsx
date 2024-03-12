@@ -17,7 +17,7 @@ export default function BoxProduct({
     return (
         <>
             <div className="product-box">
-                <Link to={`/product-info/tail/1`} style={{ all: "unset", cursor: "pointer" }}>
+                <Link to={`/product-info/${name}/1`} style={{ all: "unset", cursor: "pointer" }}>
                     <div className="product-img-wrapper">{
                         discount_percentage ?
                             <>
