@@ -9,6 +9,8 @@ const AuthContext = createContext({
     login: () => { },
     logout: () => { },
     data: null,
+    numberBoughtProduct: () => { },
+    productNumber: null
 });
 
 export const AuthProvider = ({ children }) => {
@@ -19,6 +21,7 @@ export const AuthProvider = ({ children }) => {
         refresh: null,
         userInfos: null,
         data: null,
+        productNumber: null
     });
 
 
@@ -30,8 +33,12 @@ export const AuthProvider = ({ children }) => {
 
     };
 
+    const numberBoughtProduct = () => {
+
+    };
+
     return (
-        <AuthContext.Provider value={{ ...authData, login, logout }}>
+        <AuthContext.Provider value={{ ...authData, login, logout, numberBoughtProduct }}>
             {children}
         </AuthContext.Provider>
     );

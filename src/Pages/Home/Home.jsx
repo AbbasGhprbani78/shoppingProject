@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import BoxProduct from '../../Components/BoxProduct/BoxProduct'
+import BoxProduct from '../../Components/BoxProduct/BoxProduct';
 import { IP } from '../../App'
 import axios from 'axios'
 import AuthContext from '../../Context/AuthContext'
@@ -55,6 +55,7 @@ export default function Home() {
                                         searchResults &&
                                         searchResults.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -109,6 +110,7 @@ export default function Home() {
                                                     authContext.data.products_with_discount.map((product, i) => (
                                                         <SwiperSlide >
                                                             <BoxProduct
+                                                                id={product.id}
                                                                 availability_count={product.availability_count}
                                                                 discount_percentage={product.discount_percentage}
                                                                 price={product.price}
@@ -166,6 +168,7 @@ export default function Home() {
                                                     authContext.data.products_without_discount.map((product) => (
                                                         <SwiperSlide key={product.product_or_service_code}>
                                                             <BoxProduct
+                                                                id={product.id}
                                                                 availability_count={product.availability_count}
                                                                 discount_percentage={product.discount_percentage}
                                                                 price={product.price}
@@ -223,6 +226,7 @@ export default function Home() {
                                                     topSeling.map((product) => (
                                                         <SwiperSlide key={product.product_or_service_code}>
                                                             <BoxProduct
+                                                                id={product.id}
                                                                 availability_count={product.availability_count}
                                                                 discount_percentage={product.discount_percentage}
                                                                 price={product.price}

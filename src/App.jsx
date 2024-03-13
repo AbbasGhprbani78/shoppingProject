@@ -15,28 +15,32 @@ function App() {
   const [refresh, setRefresh] = useState(null);
   const [userInfos, setUserInfos] = useState(null);
   const [data, setdata] = useState(null)
+  const [productNumber, setProductNumber] = useState(null)
 
 
-  const login = (data) => {
-    setToken(data.access);
-    setIsLoggedIn(true);
-    setUserInfos({
-      firstName: data.first_name,
-      lastName: data.last_name
-    });
-    setRefresh(data.refresh)
-    localStorage.setItem("user", data.access);
-    localStorage.setItem("refresh", data.refresh)
-  };
+  const getProductsHome = async () => {
+    try {
+      const response = await axios.get(`${IP}/product/home/`)
+      if (response.status === 200) {
+        setdata(response.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
-  const logout = useCallback(() => {
-    setToken(null);
-    setRefresh(null)
-    setUserInfos(null);
-    setIsLoggedIn(false)
-    localStorage.removeItem("user");
-    localStorage.removeItem("refresh");
-  });
+  const numberBoughtProduct = async () => {
+    try {
+
+      const response = await axios.get(`${IP}/`)
+      if (response.status === 200) {
+        console.log(response.data)
+        // setProductNumber()
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   const checkUser = async () => {
     const localStorageData = localStorage.getItem("refresh");
@@ -55,6 +59,7 @@ function App() {
           });
 
           localStorage.setItem("user", response.data.access);
+          numberBoughtProduct()
         }
       } catch (error) {
         console.log(error.mesage)
@@ -66,19 +71,33 @@ function App() {
       setUserInfos(null)
       localStorage.removeItem("user")
       localStorage.removeItem("refresh")
+      setProductNumber(null)
     }
   }
 
-  const getProductsHome = async () => {
-    try {
-      const response = await axios.get(`${IP}/product/home/`)
-      if (response.status === 200) {
-        setdata(response.data)
-      }
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
+  const login = (data) => {
+    setToken(data.access);
+    setIsLoggedIn(true);
+    setUserInfos({
+      firstName: data.first_name,
+      lastName: data.last_name
+    });
+    setRefresh(data.refresh)
+    localStorage.setItem("user", data.access);
+    localStorage.setItem("refresh", data.refresh)
+    numberBoughtProduct()
+  };
+
+
+  const logout = useCallback(() => {
+    setToken(null);
+    setRefresh(null)
+    setUserInfos(null);
+    setIsLoggedIn(false)
+    localStorage.removeItem("user");
+    localStorage.removeItem("refresh");
+    setProductNumber(null)
+  });
 
 
   useEffect(() => {
@@ -103,6 +122,8 @@ function App() {
             logout,
             refresh,
             data,
+            numberBoughtProduct,
+            productNumber
           }}>
           {router}
         </AuthContext.Provider >

@@ -201,6 +201,7 @@ export default function Category() {
                                             searchResults &&
                                             searchResults.map(product => (
                                                 <BoxProduct
+                                                    id={product.id}
                                                     key={product.code}
                                                     availability_count={product.availability_count}
                                                     discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -287,6 +288,7 @@ export default function Category() {
                                                             {
                                                                 sortProducts.map(product => (
                                                                     <BoxProduct
+                                                                        id={product.id}
                                                                         key={product.code}
                                                                         availability_count={product.availability_count}
                                                                         discount_percentage={product.discount_percentage}
@@ -296,6 +298,7 @@ export default function Category() {
                                                                         name={product.name}
                                                                         model={product.model}
                                                                         is_discount={product.is_discount}
+
                                                                     />
                                                                 ))
                                                             }

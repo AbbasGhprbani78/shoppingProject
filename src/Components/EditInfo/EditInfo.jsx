@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import './EditInfo.css';
 import axios from 'axios';
@@ -16,6 +16,7 @@ export default function EditInfo({ showChangeForm, closeChangeForm, infoUser }) 
     const [confirmPass, setConfirmPass] = useState("")
     const [formSubmitt, setFormSubmitt] = useState(false)
     const [showPasswordInputs, setShowPasswordInputs] = useState(false)
+    const checkboxRef = useRef(null);
 
     const regexPhone = /^(\+?\d{1,3})?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
     const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
@@ -41,6 +42,8 @@ export default function EditInfo({ showChangeForm, closeChangeForm, infoUser }) 
         setAddress("")
         setEmail("")
         setFormSubmitt(false)
+        setShowPasswordInputs(false)
+        checkboxRef.current.checked = false;
     }
 
     const changeInfo = async (e) => {
@@ -178,6 +181,7 @@ export default function EditInfo({ showChangeForm, closeChangeForm, infoUser }) 
                             <input
                                 type="checkbox"
                                 onChange={() => setShowPasswordInputs(!showPasswordInputs)}
+                                ref={checkboxRef}
                             />
                             <label style={{ marginRight: "5px" }} className='lable-input mt-1'>ایا مایل به تغییر رمز هستید ؟</label>
                         </div>

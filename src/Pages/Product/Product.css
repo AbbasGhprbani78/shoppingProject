@@ -8,8 +8,16 @@
         url('../src/Font/IRYekan.ttf') format('ttf');
 }
 
+.dropdown-product {
+    display: flex;
+    background-color: #ffffff;
+    color: var(--color-sub-5);
+    z-index: 999;
+    position: relative;
+}
+
 .main-Product {
-    margin-top: 5%;
+
     box-shadow: var(--box-shadow);
     border-radius: var(--border-raduis);
     background-color: #ffffff;

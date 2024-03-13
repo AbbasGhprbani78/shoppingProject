@@ -166,6 +166,7 @@ export default function Brand() {
                                         searchResults &&
                                         searchResults.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -243,6 +244,7 @@ export default function Brand() {
                                                 sortProducts &&
                                                 sortProducts.map(product => (
                                                     <BoxProduct
+                                                        id={product.id}
                                                         key={product.code}
                                                         availability_count={product.availability_count}
                                                         discount_percentage={product.discount_percentage}

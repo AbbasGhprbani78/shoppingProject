@@ -5,7 +5,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 
-export default function BasketItem() {
+export default function BasketItem({ deleteProduct }) {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     useEffect(() => {
@@ -27,7 +27,10 @@ export default function BasketItem() {
                     <>
                         <div className='mobile-wrapper'>
                             <div className="delete-mobile-close">
-                                <CloseIcon style={{ cursor: "pointer" }} />
+                                <CloseIcon
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => deleteProduct("id")}
+                                />
                             </div>
                             <div className="img-mobile-wrapper">
                                 <img src="../../../public/Images/12.jfif" alt="" className="img-mobile" />
@@ -79,7 +82,7 @@ export default function BasketItem() {
                                         <div className="basket-img-text-icon-wrapper">
                                             <DeleteOutlineOutlinedIcon
                                                 style={{ color: "#f14444", cursor: "pointer" }}
-
+                                                onClick={() => deleteProduct("id")}
                                             />
                                             <div className="img-basket-item-wrapper">
                                                 <img src="../../../public/Images/12.jfif" alt="" />

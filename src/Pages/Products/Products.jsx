@@ -98,6 +98,7 @@ export default function Products() {
                                         searchResults &&
                                         searchResults.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -123,6 +124,7 @@ export default function Products() {
                                         shownProducts &&
                                         shownProducts.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.product_or_service_code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product.discount_percentage}
@@ -139,6 +141,7 @@ export default function Products() {
                                         showTopProduct &&
                                         showTopProduct.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.product_or_service_code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product.discount_percentage}

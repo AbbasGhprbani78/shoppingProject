@@ -8,24 +8,30 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import axios from 'axios';
 import { IP } from '../../App';
 import { Link } from 'react-router-dom';
-export default function Slider() {
 
-    const [sliderInfo, setSliderInfo] = useState([])
+export default function Slider() {
+    const [sliderInfo, setSliderInfo] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getPicsSlider = async () => {
-
         try {
-            const response = await axios.get(`${IP}/product/get-slider/`)
+            const response = await axios.get(`${IP}/product/get-slider/`);
             if (response.status === 200) {
-                setSliderInfo(response.data)
+                setSliderInfo(response.data);
+                setLoading(false);
             }
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
         }
-    }
+    };
+
     useEffect(() => {
-        getPicsSlider()
-    }, [])
+        getPicsSlider();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className='slider-container'>
@@ -45,20 +51,13 @@ export default function Slider() {
                 className="mySwiper"
                 centeredSlides={true}
             >
-                {
-                    sliderInfo &&
-                    sliderInfo.map(slide => (
-                        <SwiperSlide
-                            className='slider-item'
-                            key={slide.brand.id}
-                        >
-                            <Link to={`/brand/${slide.brand.brand_name}/${slide.brand.id}`} style={{ all: "unset" }}>
-                                <img className="image" src={`${IP}${slide.image}`} alt="" />
-                            </Link>
-                        </SwiperSlide>
-                    ))
-                }
-
+                {sliderInfo.map((slide) => (
+                    <SwiperSlide className='slider-item' key={slide.brand.id}>
+                        <Link to={`/brand/${slide.brand.brand_name}/${slide.brand.id}`} style={{ all: 'unset' }}>
+                            <img className="image" src={`${IP}${slide.image}`} alt="" />
+                        </Link>
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </div>
     );

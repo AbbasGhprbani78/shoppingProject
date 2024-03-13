@@ -54,9 +54,6 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
             email,
         }
 
-        const newBody = JSON.stringify(body)
-        console.log(newBody)
-
         try {
             const response = await axios.post(`${IP}/user/signup/`, body)
             if (response.status === 201) {

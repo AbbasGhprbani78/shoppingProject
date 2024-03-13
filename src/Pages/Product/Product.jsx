@@ -28,6 +28,7 @@ import { IP } from '../../App';
 import swal from 'sweetalert';
 import { useSearchContext } from '../../Context/SearchContext';
 import { useParams } from 'react-router-dom';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function CustomTabPanel(props) {
 
@@ -77,8 +78,10 @@ export default function Product() {
     const [productInfo, setProductInfo] = useState(null)
     const { productName } = useParams()
     const { id } = useParams()
+    const [showDrop, setShowDrop] = useState(false)
+    const [mainContent, setMainContent] = useState('مرتب سازی براساس')
+    const [isBought, setIsBought] = useState(false)
 
-    console.log(productName, id)
 
     const handleImageHover = (newSrc) => {
         setMainImageSrc(newSrc);
@@ -90,13 +93,21 @@ export default function Product() {
     };
 
     const addTobasket = () => {
+        const access = localStorage.getItem("user")
+        if (!access) {
+            alert("برای خرید محصول ثبت نام کنید")
+            return false
+        }
         setShowProductModal(true)
     }
 
     useEffect(() => {
-
         updateSearchResults(null)
     }, [])
+
+    useEffect(() => {
+        updateSearchResults(null)
+    }, [productName])
 
     // useEffect(() => {
     //     const offTimer = setInterval(() => {
@@ -146,11 +157,19 @@ export default function Product() {
         }
     }
 
+    const showList = () => {
+        setShowDrop(prevShow => !prevShow)
+    }
+
+    const chnageMainTextContent = (e) => {
+        setMainContent(e.target.textContent)
+    }
+
 
     const getProductInfo = async () => {
 
         try {
-            const response = await axios.get(`${IP}//${productName}`)
+            const response = await axios.get(`${IP}/product/product-detail/${id}`)
             if (response.status === 200) {
                 console.log(response.data)
             }
@@ -158,6 +177,7 @@ export default function Product() {
             console.log(error.message)
         }
     }
+
 
     useEffect(() => {
         getProductInfo()
@@ -178,10 +198,11 @@ export default function Product() {
                             to: "",
                         },
                         {
-                            title: "کاشی"
+                            title: `${productName}`
                         }
                     ]}
-                />{
+                />
+                {
                     searchResults &&
                         searchResults.length > 0 ?
                         <>
@@ -194,6 +215,7 @@ export default function Product() {
                                         searchResults &&
                                         searchResults.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -210,6 +232,33 @@ export default function Product() {
                             </ProductsWrapper>
                         </> :
                         <>
+                            <div className='dropdown-product my-4'>
+                                <p
+                                    className='mainitem'
+                                    onClick={showList}>
+                                    {mainContent}
+                                    <KeyboardArrowDownIcon />
+                                </p>
+                                <ul className={`dropdown-list ${showDrop ? "showlist" : ""}`}>
+                                    <li className='dropdown-item1' onClick={(e) => {
+                                        chnageMainTextContent(e)
+                                        setShowDrop(false)
+
+                                    }}> مرتب سازی براساس</li>
+                                    <li className='dropdown-item1' onClick={(e) => {
+                                        chnageMainTextContent(e)
+                                        setShowDrop(false)
+                                    }}>بیشترین قیمت</li>
+                                    <li className='dropdown-item1' onClick={(e) => {
+                                        chnageMainTextContent(e)
+                                        setShowDrop(false)
+                                    }}>کم ترین قیمت</li>
+                                    <li className='dropdown-item1' onClick={(e) => {
+                                        chnageMainTextContent(e)
+                                        setShowDrop(false)
+                                    }}>جدیدترین</li>
+                                </ul>
+                            </div>
                             <div className="main-Product">
                                 <div className="product-info">
                                     <Row>

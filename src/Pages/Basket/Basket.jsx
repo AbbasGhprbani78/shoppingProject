@@ -8,9 +8,38 @@ import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import { useSearchContext } from '../../Context/SearchContext'
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper'
 import BoxProduct from '../../Components/BoxProduct/BoxProduct'
+import axios from 'axios'
+import { IP } from '../../App'
+import swal from 'sweetalert'
 
 export default function Basket() {
     const { searchResults } = useSearchContext();
+
+    const deleteProduct = async (id) => {
+        swal({
+            title: "ایااز حذف محصول اطمینان دارید",
+            icon: "warning",
+            buttons: ["نه", "آره"]
+        }).then(async result => {
+            if (result) {
+                try {
+                    const response = await axios.delete(`${IP}/`);
+
+                    if (response.status === 200) {
+                        console.log(response.data)
+                        swal({
+                            title: "محصول باموفقیت از سبد خرید حذف شد",
+                            icon: "success",
+                            button: "باشه"
+                        })
+                    }
+                } catch (error) {
+                    console.log(error.message);
+                }
+            }
+        });
+    };
+
     return (
         <>
             <Header />
@@ -41,6 +70,7 @@ export default function Basket() {
                                         searchResults &&
                                         searchResults.map(product => (
                                             <BoxProduct
+                                                id={product.id}
                                                 key={product.code}
                                                 availability_count={product.availability_count}
                                                 discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
@@ -58,7 +88,7 @@ export default function Basket() {
                         </> :
                         <>
                             <div className="basket-items-container">
-                                <BasketItem />
+                                <BasketItem deleteProduct={deleteProduct} />
                                 <BasketItem />
                                 <BasketItem />
                                 <BasketItem />
