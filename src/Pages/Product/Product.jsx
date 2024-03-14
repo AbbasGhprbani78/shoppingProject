@@ -29,6 +29,11 @@ import swal from 'sweetalert';
 import { useSearchContext } from '../../Context/SearchContext';
 import { useParams } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CloseIcon from '@mui/icons-material/Close';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation } from 'swiper/modules';
 
 function CustomTabPanel(props) {
 
@@ -80,7 +85,9 @@ export default function Product() {
     const { id } = useParams()
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
-    const [isBought, setIsBought] = useState(false)
+    const [isShowImages, setIsShowImage] = useState(false)
+    const [isexistence, setIsExistence] = useState(false)
+
 
 
     const handleImageHover = (newSrc) => {
@@ -179,12 +186,51 @@ export default function Product() {
     }
 
 
+
+
     useEffect(() => {
         getProductInfo()
     }, [])
 
     return (
         <>
+
+            <div className={`product-more-img ${isShowImages ? "product-more-img-active" : ""}`}>
+                <div className="product-more-img-top d-flex align-items-center justify-content-between">
+                    <p className='title-more-image'>تصاویر رسمی</p>
+                    <CloseIcon onClick={() => setIsShowImage(false)} />
+                </div>
+                <div className="roduct-more-img-content d-flex">
+                    <div className="roduct-more-img-slider">
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={30}
+                            loop={true}
+                            navigation={true}
+                            modules={[Navigation]}
+                            className="mySwiper"
+                            centeredSlides={true}
+                        >
+                            <SwiperSlide className='slider-item'>
+                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                            </SwiperSlide>
+                            <SwiperSlide className='slider-item'>
+                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                            </SwiperSlide>
+                            <SwiperSlide className='slider-item'>
+                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                            </SwiperSlide>
+                            <SwiperSlide className='slider-item'>
+                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                            </SwiperSlide>
+                        </Swiper>
+                    </div>
+                    <div className="roduct-more-img-info">
+                        <p className='product-more-img-content-text'>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                    </div>
+                </div>
+            </div>
+
             <ModalBuy
                 showProductModal={showProductModal} setShowProductModal={setShowProductModal} />
             <Header />
@@ -263,7 +309,7 @@ export default function Product() {
                                 <div className="product-info">
                                     <Row>
                                         <Col xs={12} className='images-wrapper' lg={4}>
-                                            <div className="main-img-product-wrapper">
+                                            <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
                                                 <ProductOff />
                                                 <img className='main-img-product' src={mainImageSrc} alt="image product" />
                                             </div>
@@ -308,7 +354,7 @@ export default function Product() {
                                             <Row className="main-product-attributes-wrapper">
                                                 <Col md={5} className="main-product-attributes">
                                                     <div>
-                                                        <h5 className='main-product-attributes-title mb-3'>ویژگی ها</h5>
+                                                        <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
                                                         <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>مرمر سیاه</p>
                                                         <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
                                                         <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
@@ -319,7 +365,11 @@ export default function Product() {
                                                             قیمت :<strike className='main-product-price-old'>2,500,000</strike><p className='main-product-price-new'>750,000<span className='main-product-price-new-currency'>تومان</span></p>
                                                         </p>
                                                         <div className='options-buy'>
-                                                            <button className='add-baskect-btn' onClick={addTobasket}>
+                                                            <button
+                                                                className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
+                                                                onClick={addTobasket}
+                                                                disabled={isexistence ? true : false}
+                                                            >
                                                                 افزودن به سبد
                                                                 <p className='add-baskect-btn-icon'>
                                                                     <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -334,6 +384,11 @@ export default function Product() {
                                                                 <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
                                                             </div>
                                                         </div>
+                                                        {
+                                                            isexistence &&
+                                                            <p className='existence'>موجود نیست !</p>
+                                                        }
+
                                                     </div>
                                                 </Col>
                                                 <Col md={5} className="services-wrapper">
@@ -470,7 +525,6 @@ export default function Product() {
                                         }
                                         }
                                     >
-
                                         <SwiperSlide > <BoxProduct /></SwiperSlide>
                                         <SwiperSlide > <BoxProduct /></SwiperSlide>
                                         <SwiperSlide > <BoxProduct /></SwiperSlide>

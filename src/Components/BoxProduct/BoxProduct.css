@@ -57,3 +57,9 @@
 .price-m {
     margin-top: 10px;
 }
+
+.existence {
+    color: var(--color-7);
+    font-size: .95rem;
+    margin-top: 5px;
+}

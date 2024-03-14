@@ -33,16 +33,18 @@
 }
 
 .show-about-text {
-    font-size: .9rem;
+    font-size: var(--font-size2);
+    line-height: 1.7rem;
 }
 
 .link-btn {
     all: unset;
     margin-top: 3%;
     background-color: var(--color-1);
-    padding: 5px 17px;
+    padding: 7px 20px;
     border-radius: var(--border-raduis);
     cursor: pointer;
+    font-size: var(--font-size1);
 }
 
 

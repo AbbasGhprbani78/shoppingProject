@@ -119,6 +119,8 @@ export default function Home() {
                                                                 name={product.name}
                                                                 model={product.model}
                                                                 is_discount={product.is_discount}
+                                                                existence={""}
+
                                                             />
                                                         </SwiperSlide>
                                                     ))

@@ -26,9 +26,15 @@ p {
 }
 
 html,
-body:lang(fa) {
+body {
     font-family: 'IranYekan', sans-serif !important;
 }
+
+html,
+body:lang('en') {
+    font-family: sans-serif !important;
+}
+
 
 :root {
     --color-1: #523f81;
@@ -54,4 +60,11 @@ body:lang(fa) {
     --color-sub-13: #f1f1f1;
     --border-raduis: 8px;
     --box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.16);
+    --font-size1: .9rem;
+    --font-size2: .85rem;
+}
+
+.title-section {
+    font-size: .9rem;
+    font-weight: bold;
 }

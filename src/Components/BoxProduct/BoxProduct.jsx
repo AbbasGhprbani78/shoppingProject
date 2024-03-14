@@ -13,7 +13,8 @@ export default function BoxProduct({
     name,
     model,
     is_discount,
-    id
+    id,
+    existence
 }) {
     return (
         <>
@@ -39,6 +40,10 @@ export default function BoxProduct({
                             <strike className='old-product-price'>{Number(old_price).toLocaleString("fa")}</strike>
                         }
                         <p className={`new-product-price ${old_price ? "" : "price-m"}`}>{Number(price).toLocaleString("fa")}<span className='currency'>تومان</span></p>
+                        {/* {
+                            !existence && <p className='existence'>موجود نیست !</p>
+                        } */}
+
                     </div>
                 </Link>
             </div>

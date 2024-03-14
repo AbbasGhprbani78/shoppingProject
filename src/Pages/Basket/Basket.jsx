@@ -17,7 +17,7 @@ export default function Basket() {
 
     const deleteProduct = async (id) => {
         swal({
-            title: "ایااز حذف محصول اطمینان دارید",
+            title: "ایا از حذف محصول اطمینان دارید",
             icon: "warning",
             buttons: ["نه", "آره"]
         }).then(async result => {
@@ -96,6 +96,11 @@ export default function Basket() {
                                 <BasketItem />
                             </div>
                             <TotalAmount />
+                            {/* <div className='d-flex flex-column justify-content-center align-items-center'>
+                                <img src="../../../public/Images/empty-cart.svg" alt="" />
+                                <p className='text-empty-basket'> سبد خرید شما خالی است !</p>
+                            </div> */}
+
                         </>
                 }
 

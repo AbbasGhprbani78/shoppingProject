@@ -41,6 +41,7 @@
     border: none;
     outline: none;
     border-radius: var(--border-raduis);
+    font-size: var(--font-size1);
 }
 
 .complete-basket-btn-wrapper {

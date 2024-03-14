@@ -94,11 +94,13 @@
     padding-left: 7%;
     color: var(--color-4);
     cursor: pointer;
+
 }
 
 .phone-user {
     direction: ltr;
     width: 200px;
+    font-size: var(--font-size1)
 }
 
 .header-log {}

@@ -8,3 +8,13 @@
 .basket-items-container::-webkit-scrollbar {
     display: none;
 }
+
+.basket-title {
+    font-size: var(--font-size1);
+}
+
+.text-empty-basket {
+    margin-top: 20px;
+    color: var(--color-4);
+    font-weight: bold;
+}

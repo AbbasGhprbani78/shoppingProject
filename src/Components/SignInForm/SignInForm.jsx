@@ -85,7 +85,7 @@ export default function SignInForm({ showLoginForm, closeSignInForm }) {
                             />
                             {!regexEmail.test(email) && formSubmitt && <p className='error-input'>ایمیل معتبر نیست</p>}
                         </div>
-                        <div className="signIn-input-wrapper">
+                        <div className="signIn-input-wrapper" style={{ marginTop: "5px" }}>
                             <label htmlFor="passwordSign" className='lable-input'>رمز</label>
                             <div className="input-eye-wrapper">
                                 {isPrivate ? (

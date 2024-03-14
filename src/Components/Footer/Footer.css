@@ -16,6 +16,7 @@
 .contact-us-wrapper {
     margin-top: 5%;
     color: var(--color-4);
+    font-size: var(--font-size1);
 }
 
 .contact-us-item {
@@ -46,7 +47,7 @@
 .more-btn-footer {
     all: unset;
     color: #ffffff;
-    padding: 7px 30px;
+    padding: 5px 30px;
     background-color: var(--color-1);
     border-radius: var(--border-raduis);
     font-size: .9rem;

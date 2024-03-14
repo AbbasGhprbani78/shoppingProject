@@ -7,7 +7,7 @@ export default function ProductsWrapper({ title, link, children, isMore }) {
     return (
         <div className='Products-Wrapper'>
             <div className='Products-Wrapper-top d-flex  justify-content-between'>
-                <p className={`Products-Wrapper-title ${isMore ? "" : "pd"}`}>{title}</p>
+                <p className={`Products-Wrapper-title  title-section ${isMore ? "" : "pd"}`}>{title}</p>
                 {
                     isMore ?
                         <div style={{ marginLeft: "2%" }}>

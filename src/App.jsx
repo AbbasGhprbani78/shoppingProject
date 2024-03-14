@@ -62,9 +62,9 @@ function App() {
           numberBoughtProduct()
         }
       } catch (error) {
-        console.log(error.mesage)
       }
     } else {
+
       setIsLoggedIn(false);
       setToken(null)
       setRefresh(null)
