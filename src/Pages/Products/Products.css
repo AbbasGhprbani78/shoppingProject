@@ -1,1 +1,12 @@
 @import url('../../Main.css');
+
+.all-Products-more {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 285px));
+    border-radius: var(--border-raduis);
+    box-shadow: var(--box-shadow);
+    padding: 10px;
+    position: relative;
+    background-color: #ffffff;
+    gap: 10px;
+}

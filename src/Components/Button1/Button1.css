@@ -11,4 +11,9 @@
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.16);
     margin-bottom: 4px;
     font-size: .9rem;
+    transition: all .3s;
+}
+
+.btn-1:hover {
+    background-color: #e9e2e2;
 }

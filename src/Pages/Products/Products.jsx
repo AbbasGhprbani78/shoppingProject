@@ -76,11 +76,6 @@ export default function Products() {
                     links={[
                         { id: 1, title: "خانه", to: "" },
                         {
-                            id: 2,
-                            title: "فروشگاه",
-                            to: "",
-                        },
-                        {
                             title: `${issue}`
                         }
                     ]}
@@ -93,7 +88,7 @@ export default function Products() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products scroll-product">
+                                <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
@@ -119,7 +114,7 @@ export default function Products() {
                                 isMore={false}
                                 title={issue === "newest" ? "جدیدترین ها" : issue === "topssellers" ? "پرفروش ها" : "تخفیف خورده ها"}
                             >
-                                <div className="all-Products">
+                                <div className="all-Products-more">
                                     {
                                         shownProducts &&
                                         shownProducts.map(product => (

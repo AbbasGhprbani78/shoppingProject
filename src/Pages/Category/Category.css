@@ -16,7 +16,7 @@
 
 .all-Products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 285px));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     border-radius: var(--border-raduis);
     box-shadow: var(--box-shadow);
     padding: 10px;
@@ -145,6 +145,35 @@
 
 .dropdown-item1:hover {
     background-color: var(--color-sub-7);
+}
+
+.spinner {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    animation: spinner-plncf9 4s infinite;
+}
+
+.spinner::before,
+.spinner::after {
+    content: "";
+    grid-area: 1/1;
+    border: 9px solid;
+    border-radius: 50%;
+    border-color: #474bff #474bff #0000 #0000;
+    mix-blend-mode: darken;
+    animation: spinner-plncf9 1s infinite linear;
+}
+
+.spinner::after {
+    border-color: #0000 #0000 #dbdcef #dbdcef;
+    animation-direction: reverse;
+}
+
+@keyframes spinner-plncf9 {
+    100% {
+        transform: rotate(1turn);
+    }
 }
 
 

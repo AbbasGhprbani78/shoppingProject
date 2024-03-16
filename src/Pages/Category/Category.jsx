@@ -32,6 +32,7 @@ export default function Category() {
     const colRef = useRef(null);
     const { categoryName } = useParams()
     const { searchResults } = useSearchContext();
+    const [allProduct, setAllProduct] = useState(null)
 
 
     useEffect(() => {
@@ -111,6 +112,7 @@ export default function Category() {
                 console.log(response)
                 setAllCategoryProducts(response.data)
                 setSortProducts(response.data.products)
+                setAllProduct(response.data.products)
                 setpriceFilter(response.data.price_range)
                 setBrandFilter(response.data.brands)
             }
@@ -179,11 +181,6 @@ export default function Category() {
                         links={[
                             { id: 1, title: "خانه", to: "" },
                             {
-                                id: 2,
-                                title: "فروشگاه",
-                                to: "",
-                            },
-                            {
                                 title: `${categoryName}`
                             }
                         ]}
@@ -196,7 +193,7 @@ export default function Category() {
                                     isMore={false}
                                 >
 
-                                    <div className="all-Products scroll-product">
+                                    <div className="all-Products-more scroll-product">
                                         {
                                             searchResults &&
                                             searchResults.map(product => (
@@ -283,31 +280,43 @@ export default function Category() {
                                         >
                                             <div className="all-Products scroll-product">
                                                 {
-                                                    sortProducts && sortProducts.length > 0 ?
+                                                    allProduct && allProduct.length > 0 ?
                                                         <>
                                                             {
-                                                                sortProducts.map(product => (
-                                                                    <BoxProduct
-                                                                        id={product.id}
-                                                                        key={product.code}
-                                                                        availability_count={product.availability_count}
-                                                                        discount_percentage={product.discount_percentage}
-                                                                        price={product.price}
-                                                                        old_price={product.old_price}
-                                                                        image={product.image}
-                                                                        name={product.name}
-                                                                        model={product.model}
-                                                                        is_discount={product.is_discount}
+                                                                sortProducts && sortProducts.length > 0 ?
+                                                                    <>
+                                                                        {
+                                                                            sortProducts.map(product => (
+                                                                                <BoxProduct
+                                                                                    id={product.id}
+                                                                                    key={product.code}
+                                                                                    availability_count={product.availability_count}
+                                                                                    discount_percentage={product.discount_percentage}
+                                                                                    price={product.price}
+                                                                                    old_price={product.old_price}
+                                                                                    image={product.image}
+                                                                                    name={product.name}
+                                                                                    model={product.model}
+                                                                                    is_discount={product.is_discount}
 
-                                                                    />
-                                                                ))
+                                                                                />
+                                                                            ))
+                                                                        }
+                                                                    </> :
+                                                                    <>
+                                                                        محصولی یافت نشد
+                                                                    </>
+
                                                             }
                                                         </> :
                                                         <>
-                                                            محصولی یافت نشد
-                                                        </>
+                                                            <div className='d-flex justify-content-center'>
+                                                                <div class="spinner"></div>
+                                                            </div>
 
+                                                        </>
                                                 }
+
                                             </div>
                                         </ProductsWrapper>
 

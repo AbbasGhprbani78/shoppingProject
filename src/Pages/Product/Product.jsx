@@ -70,6 +70,7 @@ function a11yProps(index) {
 }
 
 export default function Product() {
+    let seller;
     const { searchResults } = useSearchContext();
     const { updateSearchResults } = useSearchContext();
     const [value, setValue] = useState(0)
@@ -78,15 +79,15 @@ export default function Product() {
     const [hours, setHours] = useState(100);
     const [minutes, setMinutes] = useState(34);
     const [seconds, setSeconds] = useState(45);
-    const [comment, setComment] = useState(null)
-    const [mainImageSrc, setMainImageSrc] = useState("../../../public/Images/18.jpg");
-    const [productInfo, setProductInfo] = useState(null)
-    const { productName } = useParams()
-    const { id } = useParams()
-    const [showDrop, setShowDrop] = useState(false)
-    const [mainContent, setMainContent] = useState('مرتب سازی براساس')
-    const [isShowImages, setIsShowImage] = useState(false)
-    const [isexistence, setIsExistence] = useState(false)
+    const [comment, setComment] = useState(null);
+    const [mainImageSrc, setMainImageSrc] = useState(null);
+    const [productInfo, setProductInfo] = useState(null);
+    const { productName } = useParams();
+    const { id } = useParams();
+    const [showDrop, setShowDrop] = useState(false);
+    const [mainContent, setMainContent] = useState(null);
+    const [isShowImages, setIsShowImage] = useState(false);
+    const [isexistence, setIsExistence] = useState(false);
 
 
 
@@ -102,7 +103,13 @@ export default function Product() {
     const addTobasket = () => {
         const access = localStorage.getItem("user")
         if (!access) {
-            alert("برای خرید محصول ثبت نام کنید")
+            swal({
+                title: "برای خرید محصول ثبت نام کنید",
+                icon: "warning",
+                button: "باشه"
+
+            })
+
             return false
         }
         setShowProductModal(true)
@@ -141,7 +148,6 @@ export default function Product() {
     // }, [hours, minutes, seconds])
 
 
-
     const sendComment = async () => {
 
         const comments = {
@@ -168,29 +174,50 @@ export default function Product() {
         setShowDrop(prevShow => !prevShow)
     }
 
-    const chnageMainTextContent = (e) => {
-        setMainContent(e.target.textContent)
+
+    const getotherProduct = async (id) => {
+        const body = {
+            id: id
+        }
+        try {
+            const response = await axios.post(`${IP}/product/product-detail/`, body)
+            if (response.status === 200) {
+
+                setProductInfo(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+
     }
 
+    const chnageMainTextContent = (e, id) => {
+        setMainContent(e.target.textContent)
+        getotherProduct(id)
+    }
 
     const getProductInfo = async () => {
 
+        const body = {
+            id: id
+        }
+
         try {
-            const response = await axios.get(`${IP}/product/product-detail/${id}`)
+            const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
-                console.log(response.data)
+                setProductInfo(response.data)
+                seller = productInfo.other_sellers.find(seller => seller.id === productInfo.product[0].id)
+                setMainContent(seller.brand_name)
             }
         } catch (error) {
             console.log(error.message)
         }
     }
 
-
-
-
     useEffect(() => {
         getProductInfo()
     }, [])
+
 
     return (
         <>
@@ -232,17 +259,14 @@ export default function Product() {
             </div>
 
             <ModalBuy
-                showProductModal={showProductModal} setShowProductModal={setShowProductModal} />
+                showProductModal={showProductModal}
+                setShowProductModal={setShowProductModal}
+            />
             <Header />
             <div className="home-container">
                 <Breadcrumb
                     links={[
                         { id: 1, title: "خانه", to: "" },
-                        {
-                            id: 2,
-                            title: "فروشگاه",
-                            to: "",
-                        },
                         {
                             title: `${productName}`
                         }
@@ -256,7 +280,7 @@ export default function Product() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products scroll-product">
+                                <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
@@ -286,136 +310,145 @@ export default function Product() {
                                     <KeyboardArrowDownIcon />
                                 </p>
                                 <ul className={`dropdown-list ${showDrop ? "showlist" : ""}`}>
-                                    <li className='dropdown-item1' onClick={(e) => {
-                                        chnageMainTextContent(e)
-                                        setShowDrop(false)
+                                    {
+                                        productInfo && productInfo.other_sellers.length > 0 &&
+                                        productInfo.other_sellers.map(seller => (
+                                            <li className='dropdown-item1' onClick={(e) => {
+                                                chnageMainTextContent(e, seller.id)
+                                                setShowDrop(false)
 
-                                    }}> مرتب سازی براساس</li>
-                                    <li className='dropdown-item1' onClick={(e) => {
-                                        chnageMainTextContent(e)
-                                        setShowDrop(false)
-                                    }}>بیشترین قیمت</li>
-                                    <li className='dropdown-item1' onClick={(e) => {
-                                        chnageMainTextContent(e)
-                                        setShowDrop(false)
-                                    }}>کم ترین قیمت</li>
-                                    <li className='dropdown-item1' onClick={(e) => {
-                                        chnageMainTextContent(e)
-                                        setShowDrop(false)
-                                    }}>جدیدترین</li>
+                                            }}>{seller.brand_name}</li>
+                                        ))
+                                    }
                                 </ul>
                             </div>
                             <div className="main-Product">
                                 <div className="product-info">
                                     <Row>
-                                        <Col xs={12} className='images-wrapper' lg={4}>
-                                            <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
-                                                <ProductOff />
-                                                <img className='main-img-product' src={mainImageSrc} alt="image product" />
-                                            </div>
-                                            <div className="some-img">
-                                                <div className="main-product-img-item">
-                                                    <img className='sub-img-product'
-                                                        src="../../../public/Images/15.png"
-                                                        alt=""
-                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                        onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                    />
-                                                </div>
-                                                <div className="main-product-img-item">
-                                                    <img className='sub-img-product'
-                                                        src="../../../public/Images/17.jpg"
-                                                        alt=""
-                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                        onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                    />
-                                                </div>
-                                                <div className="main-product-img-item">
-                                                    <img className='sub-img-product'
-                                                        src="../../../public/Images/16.jpg"
-                                                        alt=""
-                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                        onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col xs={12} className='main-product-info' lg={8}>
-                                            <div className="main-product-name-score d-flex justify-content-between align-items-center">
-                                                <p className='main-product-title'>کاشی مرجان مدل 0251 </p>
-                                                <div className="main-product-score">
-                                                    <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                    <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                    <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                    <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                    <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                </div>
-                                            </div>
-                                            <Row className="main-product-attributes-wrapper">
-                                                <Col md={5} className="main-product-attributes">
-                                                    <div>
-                                                        <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
-                                                        <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>مرمر سیاه</p>
-                                                        <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
-                                                        <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
-                                                        <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span>مشکی ، کرمی ، صورتی ، طوسی</p>
-                                                    </div>
-                                                    <div className="main-product-price-wrapper">
-                                                        <p className='main-product-price-title'>
-                                                            قیمت :<strike className='main-product-price-old'>2,500,000</strike><p className='main-product-price-new'>750,000<span className='main-product-price-new-currency'>تومان</span></p>
-                                                        </p>
-                                                        <div className='options-buy'>
-                                                            <button
-                                                                className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
-                                                                onClick={addTobasket}
-                                                                disabled={isexistence ? true : false}
-                                                            >
-                                                                افزودن به سبد
-                                                                <p className='add-baskect-btn-icon'>
-                                                                    <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                                    </svg>
-                                                                </p>
-                                                            </button>
-                                                            <div className="basket-options">
-                                                                <div className="plus-product">+</div>
-                                                                <div className='count-product'>1</div>
-                                                                <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
-                                                            </div>
-                                                        </div>
+                                        {
+                                            productInfo &&
+                                            <>
+                                                <Col xs={12} className='images-wrapper' lg={4}>
+                                                    <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
                                                         {
-                                                            isexistence &&
-                                                            <p className='existence'>موجود نیست !</p>
+                                                            productInfo.product[0].is_discount === true &&
+                                                            <ProductOff off={productInfo.product[0].discount_percentage} />
                                                         }
-
+                                                        <img className='main-img-product' alt="image product" src={`${IP}${productInfo.product[0].image}`} />
                                                     </div>
+                                                    {/* <div className="some-img">
+                                                        <div className="main-product-img-item">
+                                                            <img className='sub-img-product'
+                                                                src="../../../public/Images/15.png"
+                                                                alt=""
+                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                                            />
+                                                        </div>
+                                                        <div className="main-product-img-item">
+                                                            <img className='sub-img-product'
+                                                                src="../../../public/Images/17.jpg"
+                                                                alt=""
+                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                                            />
+                                                        </div>
+                                                        <div className="main-product-img-item">
+                                                            <img className='sub-img-product'
+                                                                src="../../../public/Images/16.jpg"
+                                                                alt=""
+                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
+                                                            />
+                                                        </div>
+                                                    </div> */}
                                                 </Col>
-                                                <Col md={5} className="services-wrapper">
-                                                    <div className='off-detail'>
-                                                        <div className="off-specials">
-                                                            تخفیف ویژه
-                                                        </div>
-                                                        <div className="timing-off-wrapper d-flex align-items-center">
-                                                            <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
-                                                            <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
-                                                            <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
+                                                <Col xs={12} className='main-product-info' lg={8}>
+                                                    <div className="main-product-name-score d-flex justify-content-between align-items-center">
+                                                        <p className='main-product-title'>{productInfo.product[0].name}  مدل {productInfo.product[0].model}</p>
+                                                        <div className="main-product-score">
+                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
                                                         </div>
                                                     </div>
-                                                    <div className="main-services-wrapper">
-                                                        <div>
-                                                            <ul className='product-services-list'>
-                                                                <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                                                <li className='product-service-item'>نصب رایگان</li>
-                                                                <li className='product-service-item'>ارسال فوری و رایگان</li>
-                                                                <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                                            </ul>
-                                                        </div>
+                                                    <Row className="main-product-attributes-wrapper">
+                                                        <Col md={5} className="main-product-attributes">
+                                                            <div>
+                                                                <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
+                                                                <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
+                                                                <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
+                                                                <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
+                                                                <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span>مشکی ، کرمی ، صورتی ، طوسی</p>
+                                                            </div>
+                                                            <div className="main-product-price-wrapper">
 
-                                                    </div>
+                                                                <p className='main-product-price-title'>{
+                                                                    productInfo.product[0].is_discount === true &&
+                                                                    <strike className='main-product-price-old'>{productInfo.product[0].old_price}</strike>
+                                                                }
+
+                                                                    <p className='main-product-price-new'>{productInfo.product[0].
+                                                                        price
+                                                                    }<span className='main-product-price-new-currency'>تومان</span></p>
+                                                                </p>
+                                                                <div className='options-buy'>
+                                                                    <button
+                                                                        className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
+                                                                        onClick={addTobasket}
+                                                                        disabled={!productInfo.product[0].availability_status ? true : false}
+                                                                    >
+                                                                        افزودن به سبد
+                                                                        <p className='add-baskect-btn-icon'>
+                                                                            <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                                <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
+                                                                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
+                                                                            </svg>
+                                                                        </p>
+                                                                    </button>
+                                                                    <div className="basket-options">
+                                                                        <div className="plus-product">+</div>
+                                                                        <div className='count-product'>1</div>
+                                                                        <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    !productInfo.product[0].availability_status &&
+                                                                    <p className='existence'>موجود نیست !</p>
+                                                                }
+
+                                                            </div>
+                                                        </Col>
+                                                        <Col md={5} className="services-wrapper">
+                                                            <div className='off-detail'>
+                                                                <div className="off-specials">
+                                                                    تخفیف ویژه
+                                                                </div>
+                                                                <div className="timing-off-wrapper d-flex align-items-center">
+                                                                    <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
+                                                                    <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
+                                                                    <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="main-services-wrapper">
+                                                                <div>
+                                                                    <ul className='product-services-list'>
+                                                                        <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                                        <li className='product-service-item'>نصب رایگان</li>
+                                                                        <li className='product-service-item'>ارسال فوری و رایگان</li>
+                                                                        <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
                                                 </Col>
-                                            </Row>
-                                        </Col>
+                                            </>
+                                        }
+
                                     </Row>
                                 </div>
                                 <div className="product-about">

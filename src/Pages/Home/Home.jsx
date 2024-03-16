@@ -27,6 +27,7 @@ export default function Home() {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
                 setTopSeling(response.data.products)
+                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -50,7 +51,7 @@ export default function Home() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products scroll-product">
+                                <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (

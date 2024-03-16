@@ -48,11 +48,6 @@ export default function Basket() {
                     links={[
                         { id: 1, title: "خانه", to: "" },
                         {
-                            id: 2,
-                            title: "فروشگاه",
-                            to: "",
-                        },
-                        {
                             title: "سبد خرید"
                         }
                     ]} />
@@ -65,7 +60,7 @@ export default function Basket() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products scroll-product">
+                                <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
