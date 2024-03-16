@@ -33,6 +33,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import Alert from 'react-bootstrap/Alert';
 import { Navigation } from 'swiper/modules';
 
 function CustomTabPanel(props) {
@@ -85,16 +86,16 @@ export default function Product() {
     const { productName } = useParams();
     const { id } = useParams();
     const [showDrop, setShowDrop] = useState(false);
-    const [mainContent, setMainContent] = useState(null);
     const [isShowImages, setIsShowImage] = useState(false);
     const [isexistence, setIsExistence] = useState(false);
-
+    const [mainId, setMainId] = useState(id)
+    const [allComment, setAllComment] = useState([])
+    const [mainContent, setMainContent] = useState([]);
 
 
     const handleImageHover = (newSrc) => {
         setMainImageSrc(newSrc);
     };
-
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -123,6 +124,10 @@ export default function Product() {
         updateSearchResults(null)
     }, [productName])
 
+    const showList = () => {
+        setShowDrop(prevShow => !prevShow)
+    }
+
     // useEffect(() => {
     //     const offTimer = setInterval(() => {
     //         if (seconds === 0) {
@@ -147,21 +152,46 @@ export default function Product() {
 
     // }, [hours, minutes, seconds])
 
+    const getcomment = async (id) => {
+        try {
+            const response = await axios.get(`${IP}/product/get-comment/${id}`)
+            if (response.status === 200) {
+                // console.log(response.data)
+                setAllComment(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     const sendComment = async () => {
-
+        const access = localStorage.getItem('user')
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
         const comments = {
             comment,
-            score
+            product_seller_id: mainId,
+            user_id: productInfo.product[0].user_id
         }
 
         try {
-            const response = await axios.post(`${IP}`, comments)
-            if (response.status === 200) {
+            const response = await axios.post(`${IP}/product/send-comment/`, comments, {
+                headers
+            })
+            if (response.status === 201) {
                 console.log(response.data)
                 swal({
                     title: "پیام شما با موفقیت ثبت شد",
                     icon: "success",
+                    button: "باشه"
+                })
+                setComment("")
+                getcomment(id)
+            } if (response.status === 400) {
+                swal({
+                    title: "برای ثبت نظر بایدثبت نام کنید",
+                    icon: "warning",
                     button: "باشه"
                 })
             }
@@ -170,10 +200,16 @@ export default function Product() {
         }
     }
 
-    const showList = () => {
-        setShowDrop(prevShow => !prevShow)
-    }
+    const getProductRelatedBoughtNext = async (id) => {
+        try {
+            const response = await axios.get(`${IP}/`)
+            if (response.status === 200) {
+                console.log(response.data)
+            }
+        } catch (error) {
 
+        }
+    }
 
     const getotherProduct = async (id) => {
         const body = {
@@ -194,6 +230,8 @@ export default function Product() {
     const chnageMainTextContent = (e, id) => {
         setMainContent(e.target.textContent)
         getotherProduct(id)
+        setMainId(id)
+        // getProductRelatedBoughtNext(id)
     }
 
     const getProductInfo = async () => {
@@ -205,14 +243,15 @@ export default function Product() {
         try {
             const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
+                getcomment(id)
                 setProductInfo(response.data)
-                seller = productInfo.other_sellers.find(seller => seller.id === productInfo.product[0].id)
-                setMainContent(seller.brand_name)
+                setMainContent(productInfo.product[0].brand_name)
             }
         } catch (error) {
             console.log(error.message)
         }
     }
+
 
     useEffect(() => {
         getProductInfo()
@@ -221,42 +260,44 @@ export default function Product() {
 
     return (
         <>
-
-            <div className={`product-more-img ${isShowImages ? "product-more-img-active" : ""}`}>
-                <div className="product-more-img-top d-flex align-items-center justify-content-between">
-                    <p className='title-more-image'>تصاویر رسمی</p>
-                    <CloseIcon onClick={() => setIsShowImage(false)} />
-                </div>
-                <div className="roduct-more-img-content d-flex">
-                    <div className="roduct-more-img-slider">
-                        <Swiper
-                            slidesPerView={1}
-                            spaceBetween={30}
-                            loop={true}
-                            navigation={true}
-                            modules={[Navigation]}
-                            className="mySwiper"
-                            centeredSlides={true}
-                        >
-                            <SwiperSlide className='slider-item'>
-                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide className='slider-item'>
-                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide className='slider-item'>
-                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide className='slider-item'>
-                                <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                            </SwiperSlide>
-                        </Swiper>
+            {
+                productInfo &&
+                <div className={`product-more-img ${isShowImages ? "product-more-img-active" : ""}`}>
+                    <div className="product-more-img-top d-flex align-items-center justify-content-between">
+                        <p className='title-more-image'>تصاویر رسمی</p>
+                        <CloseIcon onClick={() => setIsShowImage(false)} />
                     </div>
-                    <div className="roduct-more-img-info">
-                        <p className='product-more-img-content-text'>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                    <div className="roduct-more-img-content d-flex">
+                        <div className="roduct-more-img-slider">
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={30}
+                                loop={true}
+                                navigation={true}
+                                modules={[Navigation]}
+                                className="mySwiper"
+                                centeredSlides={true}
+                            >
+                                <SwiperSlide className='slider-item'>
+                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                                </SwiperSlide>
+                                <SwiperSlide className='slider-item'>
+                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                                </SwiperSlide>
+                                <SwiperSlide className='slider-item'>
+                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                                </SwiperSlide>
+                                <SwiperSlide className='slider-item'>
+                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
+                                </SwiperSlide>
+                            </Swiper>
+                        </div>
+                        <div className="roduct-more-img-info">
+                            <p className='product-more-img-content-text'>{productInfo.product[0].description}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
             <ModalBuy
                 showProductModal={showProductModal}
@@ -279,7 +320,6 @@ export default function Product() {
                             <ProductsWrapper
                                 isMore={false}
                             >
-
                                 <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
@@ -302,27 +342,7 @@ export default function Product() {
                             </ProductsWrapper>
                         </> :
                         <>
-                            <div className='dropdown-product my-4'>
-                                <p
-                                    className='mainitem'
-                                    onClick={showList}>
-                                    {mainContent}
-                                    <KeyboardArrowDownIcon />
-                                </p>
-                                <ul className={`dropdown-list ${showDrop ? "showlist" : ""}`}>
-                                    {
-                                        productInfo && productInfo.other_sellers.length > 0 &&
-                                        productInfo.other_sellers.map(seller => (
-                                            <li className='dropdown-item1' onClick={(e) => {
-                                                chnageMainTextContent(e, seller.id)
-                                                setShowDrop(false)
-
-                                            }}>{seller.brand_name}</li>
-                                        ))
-                                    }
-                                </ul>
-                            </div>
-                            <div className="main-Product">
+                            <div className="main-Product mt-5">
                                 <div className="product-info">
                                     <Row>
                                         {
@@ -390,8 +410,8 @@ export default function Product() {
                                                                     <strike className='main-product-price-old'>{productInfo.product[0].old_price}</strike>
                                                                 }
 
-                                                                    <p className='main-product-price-new'>{productInfo.product[0].
-                                                                        price
+                                                                    <p className='main-product-price-new'> {Math.round(productInfo.product[0].
+                                                                        price)
                                                                     }<span className='main-product-price-new-currency'>تومان</span></p>
                                                                 </p>
                                                                 <div className='options-buy'>
@@ -432,6 +452,28 @@ export default function Product() {
                                                                     <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
                                                                 </div>
                                                             </div>
+                                                            {
+                                                                mainContent &&
+                                                                <div className='dropdown-product my-5'>
+                                                                    <p
+                                                                        className='mainitem'
+                                                                        onClick={showList}>
+                                                                        {mainContent}
+                                                                        <KeyboardArrowDownIcon />
+                                                                    </p>
+                                                                    <ul className={`dropdown-list ${showDrop ? "showlist" : ""}`}>
+                                                                        {productInfo && productInfo.other_sellers.length > 0 && productInfo.other_sellers.map(seller => (
+                                                                            <li className='dropdown-item1' onClick={(e) => {
+                                                                                chnageMainTextContent(e, seller.id)
+                                                                                setShowDrop(false)
+                                                                            }}>
+                                                                                {seller.brand_name}
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            }
+
                                                             <div className="main-services-wrapper">
                                                                 <div>
                                                                     <ul className='product-services-list'>
@@ -451,83 +493,104 @@ export default function Product() {
 
                                     </Row>
                                 </div>
-                                <div className="product-about">
-                                    <Box sx={{ width: '100%' }}>
-                                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                            <Tabs
-                                                value={value}
-                                                onChange={handleChange}
-                                                aria-label="basic tabs example"
-                                                variant="scrollable"
-                                            >
-                                                <Tab label={<><SellOutlinedIcon fontSize="small" /> مشخصات محصول</>} {...a11yProps(0)} />
-                                                <Tab label={<><ChatBubbleOutlineIcon fontSize="small" /> دیدگاه مشتریان</>} {...a11yProps(1)} />
-                                                <Tab label={<><CreditCardIcon fontSize="small" /> پرداخت الکترونیکی</>} {...a11yProps(2)} />
-                                            </Tabs>
-                                        </Box>
-                                        <CustomTabPanel value={value} index={0}>
-                                            <Row className='product-specifications-top'>
-                                                <Col style={{ height: "100%" }} className='product-specifications-text-wrapper' md={7}>
-                                                    <p className='product-specifications-text'>
-                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-                                                    </p>
-                                                </Col>
-                                                <Col className='product-specifications-img-wrapper-col' md={5}>
-                                                    <div className='product-specifications-img-wrapper'>
-                                                        <img className='product-specifications-img' src="../../../public/Images/18.jpg" alt="" />
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-
-                                            </Row>
-                                        </CustomTabPanel>
-                                        <CustomTabPanel value={value} index={1}>
-                                            <div className='comments-wrapper'>
-                                                <Comments />
-                                                <Comments />
-                                                <Comments />
-                                                <Comments />
-                                                <Comments />
-                                                <Comments />
-                                            </div>
-                                            <div className="send-comment-wrapper">
-                                                <div className="send-comment-wrapper-title">
-                                                    <EmailOutlinedIcon style={{ marginLeft: "12px" }} />
-                                                    ثبت دیدگاه شما
-                                                </div>
-                                                <div className='comment-place-wrapper'>
-                                                    <textarea
-                                                        onChange={(e) => setComment(e.target.value)}
-                                                        value={comment}
-                                                        className='comment-place'
-
-                                                    ></textarea>
-                                                </div>
-                                                <div className="send-score">
-                                                    <Box
-                                                        sx={{
-                                                            '& > legend': { mt: 2 },
-                                                        }}
+                                {
+                                    productInfo &&
+                                    <>
+                                        <div className="product-about">
+                                            <Box sx={{ width: '100%' }}>
+                                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                                    <Tabs
+                                                        value={value}
+                                                        onChange={handleChange}
+                                                        aria-label="basic tabs example"
+                                                        variant="scrollable"
                                                     >
-                                                        <Rating
-                                                            dir='ltr'
-                                                            name="simple-controlled"
-                                                            value={score}
-                                                            onChange={(event, newValue) => {
-                                                                setScore(newValue);
-                                                            }}
-                                                        />
-                                                    </Box>
-                                                    <button className='btn-send-comment' onClick={sendComment}>ارسال</button>
-                                                </div>
-                                            </div>
-                                        </CustomTabPanel>
-                                        <CustomTabPanel value={value} index={2}>
-                                            Item Three
-                                        </CustomTabPanel>
-                                    </Box>
-                                </div>
+                                                        <Tab label={<><SellOutlinedIcon fontSize="small" /><span className='tab-title'>محصول مشخصات</span></>} {...a11yProps(0)} />
+                                                        <Tab label={<><ChatBubbleOutlineIcon fontSize="small" /><span className='tab-title'>مشتریان دیدگاه</span></>} {...a11yProps(1)} />
+                                                        <Tab label={<><CreditCardIcon fontSize="small" /><span className='tab-title'>پرداخت الکترونیکی </span> </>} {...a11yProps(2)} />
+                                                    </Tabs>
+                                                </Box>
+                                                <CustomTabPanel value={value} index={0}>
+                                                    <Row className='product-specifications-top'>
+                                                        <Col style={{ height: "100%" }} className='product-specifications-text-wrapper' md={7}>
+                                                            <p className='product-specifications-text'>
+                                                                {productInfo.product[0].description}
+                                                            </p>
+                                                        </Col>
+                                                        <Col className='product-specifications-img-wrapper-col' md={5}>
+                                                            <div className='product-specifications-img-wrapper'>
+                                                                <img className='product-specifications-img' src={`${IP}${productInfo.product[0].image}`} alt="" />
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+
+                                                    </Row>
+                                                </CustomTabPanel>
+                                                <CustomTabPanel value={value} index={1}>
+                                                    <div className='comments-wrapper'>
+                                                        {
+                                                            allComment && allComment.length > 0 ?
+                                                                <>
+                                                                    {
+                                                                        allComment.map(comment => (
+                                                                            <Comments
+                                                                                key={comment.id}
+                                                                                date={comment.date_time}
+                                                                                text={comment.comment}
+                                                                                id={comment.id}
+                                                                            />
+                                                                        ))
+                                                                    }
+                                                                </> :
+                                                                <>
+                                                                    <Alert className='alert-comment'>
+                                                                        هیچ کامنتی وجود ندارد
+                                                                    </Alert>
+                                                                </>
+
+                                                        }
+                                                    </div>
+                                                    <div className="send-comment-wrapper">
+                                                        <div className="send-comment-wrapper-title">
+                                                            <EmailOutlinedIcon style={{ marginLeft: "12px" }} />
+                                                            ثبت دیدگاه شما
+                                                        </div>
+                                                        <div className='comment-place-wrapper'>
+                                                            <textarea
+                                                                onChange={(e) => setComment(e.target.value)}
+                                                                value={comment}
+                                                                className='comment-place'
+
+                                                            ></textarea>
+                                                        </div>
+                                                        <div className="send-score">
+                                                            <Box
+                                                                sx={{
+                                                                    '& > legend': { mt: 2 },
+                                                                }}
+                                                            >
+                                                                <Rating
+                                                                    dir='ltr'
+                                                                    name="simple-controlled"
+                                                                    value={score}
+                                                                    onChange={(event, newValue) => {
+                                                                        setScore(newValue);
+                                                                    }}
+                                                                />
+                                                            </Box>
+                                                            <button className='btn-send-comment' onClick={sendComment}>ارسال</button>
+                                                        </div>
+                                                    </div>
+                                                </CustomTabPanel>
+                                                <CustomTabPanel value={value} index={2}>
+                                                    Item Three
+                                                </CustomTabPanel>
+                                            </Box>
+                                        </div>
+                                    </>
+                                }
+
                             </div>
                             <ProductsWrapper
                                 title="محصولات مرتبط"
@@ -606,9 +669,9 @@ export default function Product() {
                             </ProductsWrapper>
                         </>
                 }
-
             </div>
             <Footer />
         </>
     )
 }
+

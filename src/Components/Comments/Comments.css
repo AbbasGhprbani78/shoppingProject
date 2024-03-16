@@ -1,25 +1,23 @@
 @import url('../../Main.css');
 
 .comment-wrapper {
-    display: flex;
-    align-items: center;
     background-color: #ffffff;
     padding: 15px;
     border-radius: var(--border-raduis);
     box-shadow: var(--box-shadow);
-    justify-content: space-between;
     margin: 2% 0
 }
 
+.comment-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 .comment-img-wrapper {
-    width: 50px;
-    height: 50px;
     border-radius: 50% !important;
-    border-radius: var(--box-shadow);
     background-color: var(--color-sub-13);
     text-align: center;
-    line-height: 50px;
-
+    padding: 8px;
 }
 
 .comment-img {
@@ -34,7 +32,7 @@
     font-size: .7rem;
     color: var(--color-4);
     width: 80%;
-    margin-right: 2%;
+    margin-right: 15px;
 }
 
 .like-dislike-wrapper {
@@ -64,8 +62,14 @@
     align-items: start;
 }
 
+.date-comment {
+    text-align: left;
+    font-size: var(--font-size1);
+    color: var(--color-4);
+}
+
 @media (max-width:992px) {
-    .comment-wrapper {
+    .comment-content {
         flex-direction: column;
     }
 
@@ -85,7 +89,12 @@
     .comment-text {
         width: 80%;
     }
+
+    .date-comment {
+        text-align: right;
+    }
 }
+
 
 @media (max-width:576px) {
     .main-product-name-score {

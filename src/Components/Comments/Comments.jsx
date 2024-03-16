@@ -5,10 +5,15 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { IP } from '../../App'
 import axios from 'axios';
-export default function Comments() {
+import dayjs from 'dayjs';
+export default function Comments({
+    date,
+    text,
+    id, }) {
 
     const [like, setLike] = useState(0)
     const [disLike, setDisLike] = useState(0)
+    const newDate = dayjs(date).format("YYYY/MM/DD HH:mm")
     const likeHandler = () => {
 
         setLike(prevState => prevState + 1)
@@ -18,27 +23,33 @@ export default function Comments() {
     }
 
     return (
+
         <div className='comment-wrapper'>
-            <div className='d-flex  comment-img-text'>
-                <div className="comment-img-wrapper">
-                    <PersonOutlineIcon className='comment-img' />
+            <div className="comment-content">
+                <div className='d-flex  comment-img-text'>
+                    <div className="comment-img-wrapper">
+                        <PersonOutlineIcon className='comment-img' />
+                    </div>
+                    <p className="comment-text">
+                        {text}
+                    </p>
                 </div>
-                <p className="comment-text">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است،
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است،
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است،
-                </p>
+                <div className="like-dislike-wrapper">
+                    <div className='div-like text-center'>
+                        <div className=" like-con"><ThumbUpIcon onClick={likeHandler} /></div>
+                        <p>{like > 0 ? like : 0}</p>
+                    </div>
+                    <div className='div-dislike text-center'>
+                        <div className="like-con"><ThumbDownIcon onClick={disLikeHandler} /></div>
+                        <p>{disLike > 0 ? disLike : 0}</p>
+                    </div>
+                </div>
             </div>
-            <div className="like-dislike-wrapper">
-                <div className='div-like text-center'>
-                    <div className=" like-con"><ThumbUpIcon onClick={likeHandler} /></div>
-                    <p>{like > 0 ? like : 0}</p>
-                </div>
-                <div className='div-dislike text-center'>
-                    <div className="like-con"><ThumbDownIcon onClick={disLikeHandler} /></div>
-                    <p>{disLike > 0 ? disLike : 0}</p>
-                </div>
-            </div>
+            <p className="date-comment mt-2">{newDate}</p>
         </div>
+
+
+
     )
 }
 
