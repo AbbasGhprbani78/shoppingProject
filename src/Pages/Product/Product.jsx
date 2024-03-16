@@ -35,6 +35,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Alert from 'react-bootstrap/Alert';
 import { Navigation } from 'swiper/modules';
+import AuthContext from '../../Context/AuthContext';
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function CustomTabPanel(props) {
 
@@ -71,7 +74,7 @@ function a11yProps(index) {
 }
 
 export default function Product() {
-    let seller;
+    const { pathname } = useLocation();
     const { searchResults } = useSearchContext();
     const { updateSearchResults } = useSearchContext();
     const [value, setValue] = useState(0)
@@ -90,7 +93,9 @@ export default function Product() {
     const [isexistence, setIsExistence] = useState(false);
     const [mainId, setMainId] = useState(id)
     const [allComment, setAllComment] = useState([])
-    const [mainContent, setMainContent] = useState([]);
+    const [mainContent, setMainContent] = useState(null)
+    const authContext = useContext(AuthContext)
+
 
 
     const handleImageHover = (newSrc) => {
@@ -188,12 +193,6 @@ export default function Product() {
                 })
                 setComment("")
                 getcomment(id)
-            } if (response.status === 400) {
-                swal({
-                    title: "برای ثبت نظر بایدثبت نام کنید",
-                    icon: "warning",
-                    button: "باشه"
-                })
             }
         } catch (error) {
             console.log(error.message)
@@ -239,7 +238,6 @@ export default function Product() {
         const body = {
             id: id
         }
-
         try {
             const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
@@ -251,11 +249,15 @@ export default function Product() {
             console.log(error.message)
         }
     }
-
+        ;
 
     useEffect(() => {
         getProductInfo()
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
 
     return (
@@ -335,6 +337,7 @@ export default function Product() {
                                                 name={product.name}
                                                 model={product.model}
                                                 is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                existence={product.availability_status}
                                             />
                                         ))
                                     }
@@ -342,21 +345,22 @@ export default function Product() {
                             </ProductsWrapper>
                         </> :
                         <>
+
                             <div className="main-Product mt-5">
                                 <div className="product-info">
                                     <Row>
                                         {
-                                            productInfo &&
-                                            <>
-                                                <Col xs={12} className='images-wrapper' lg={4}>
-                                                    <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
-                                                        {
-                                                            productInfo.product[0].is_discount === true &&
-                                                            <ProductOff off={productInfo.product[0].discount_percentage} />
-                                                        }
-                                                        <img className='main-img-product' alt="image product" src={`${IP}${productInfo.product[0].image}`} />
-                                                    </div>
-                                                    {/* <div className="some-img">
+                                            productInfo ?
+                                                <>
+                                                    <Col xs={12} className='images-wrapper' lg={4}>
+                                                        <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
+                                                            {
+                                                                productInfo.product[0].is_discount === true &&
+                                                                <ProductOff off={productInfo.product[0].discount_percentage} />
+                                                            }
+                                                            <img className='main-img-product' alt="image product" src={`${IP}${productInfo.product[0].image}`} />
+                                                        </div>
+                                                        {/* <div className="some-img">
                                                         <div className="main-product-img-item">
                                                             <img className='sub-img-product'
                                                                 src="../../../public/Images/15.png"
@@ -382,78 +386,77 @@ export default function Product() {
                                                             />
                                                         </div>
                                                     </div> */}
-                                                </Col>
-                                                <Col xs={12} className='main-product-info' lg={8}>
-                                                    <div className="main-product-name-score d-flex justify-content-between align-items-center">
-                                                        <p className='main-product-title'>{productInfo.product[0].name}  مدل {productInfo.product[0].model}</p>
-                                                        <div className="main-product-score">
-                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                            <img src="../../../public/Images/star_fill.svg" alt="" />
-                                                        </div>
-                                                    </div>
-                                                    <Row className="main-product-attributes-wrapper">
-                                                        <Col md={5} className="main-product-attributes">
-                                                            <div>
-                                                                <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
-                                                                <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
-                                                                <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
-                                                                <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
-                                                                <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span>مشکی ، کرمی ، صورتی ، طوسی</p>
+                                                    </Col>
+                                                    <Col xs={12} className='main-product-info' lg={8}>
+                                                        <div className="main-product-name-score d-flex justify-content-between align-items-center">
+                                                            <p className='main-product-title'>{productInfo.product[0].name}  مدل {productInfo.product[0].model}</p>
+                                                            <div className="main-product-score">
+                                                                <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                                <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                                <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                                <img src="../../../public/Images/star_fill.svg" alt="" />
+                                                                <img src="../../../public/Images/star_fill.svg" alt="" />
                                                             </div>
-                                                            <div className="main-product-price-wrapper">
+                                                        </div>
+                                                        <Row className="main-product-attributes-wrapper">
+                                                            <Col md={5} className="main-product-attributes">
+                                                                <div>
+                                                                    <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
+                                                                    <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
+                                                                    <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
+                                                                    <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
+                                                                    <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span>مشکی ، کرمی ، صورتی ، طوسی</p>
+                                                                </div>
+                                                                <div className="main-product-price-wrapper">
 
-                                                                <p className='main-product-price-title'>{
-                                                                    productInfo.product[0].is_discount === true &&
-                                                                    <strike className='main-product-price-old'>{productInfo.product[0].old_price}</strike>
-                                                                }
+                                                                    <p className='main-product-price-title'>{
+                                                                        productInfo.product[0].is_discount === true &&
+                                                                        <strike className='main-product-price-old'>{productInfo.product[0].old_price}</strike>
+                                                                    }
 
-                                                                    <p className='main-product-price-new'> {Math.round(productInfo.product[0].
-                                                                        price)
-                                                                    }<span className='main-product-price-new-currency'>تومان</span></p>
-                                                                </p>
-                                                                <div className='options-buy'>
-                                                                    <button
-                                                                        className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
-                                                                        onClick={addTobasket}
-                                                                        disabled={!productInfo.product[0].availability_status ? true : false}
-                                                                    >
-                                                                        افزودن به سبد
-                                                                        <p className='add-baskect-btn-icon'>
-                                                                            <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                                            </svg>
-                                                                        </p>
-                                                                    </button>
-                                                                    <div className="basket-options">
-                                                                        <div className="plus-product">+</div>
-                                                                        <div className='count-product'>1</div>
-                                                                        <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
+                                                                        <p className='main-product-price-new'> {Math.round(productInfo.product[0].
+                                                                            price)
+                                                                        }<span className='main-product-price-new-currency'>تومان</span></p>
+                                                                    </p>
+                                                                    <div className='options-buy'>
+                                                                        <button
+                                                                            className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
+                                                                            onClick={addTobasket}
+                                                                            disabled={!productInfo.product[0].availability_status ? true : false}
+                                                                        >
+                                                                            افزودن به سبد
+                                                                            <p className='add-baskect-btn-icon'>
+                                                                                <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                                    <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
+                                                                                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
+                                                                                </svg>
+                                                                            </p>
+                                                                        </button>
+                                                                        <div className="basket-options">
+                                                                            <div className="plus-product">+</div>
+                                                                            <div className='count-product'>1</div>
+                                                                            <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {
+                                                                        !productInfo.product[0].availability_status &&
+                                                                        <p className='existence'>موجود نیست !</p>
+                                                                    }
+
+                                                                </div>
+                                                            </Col>
+                                                            <Col md={5} className="services-wrapper">
+                                                                <div className='off-detail'>
+                                                                    <div className="off-specials">
+                                                                        تخفیف ویژه
+                                                                    </div>
+                                                                    <div className="timing-off-wrapper d-flex align-items-center">
+                                                                        <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
+                                                                        <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
+                                                                        <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
                                                                     </div>
                                                                 </div>
-                                                                {
-                                                                    !productInfo.product[0].availability_status &&
-                                                                    <p className='existence'>موجود نیست !</p>
-                                                                }
 
-                                                            </div>
-                                                        </Col>
-                                                        <Col md={5} className="services-wrapper">
-                                                            <div className='off-detail'>
-                                                                <div className="off-specials">
-                                                                    تخفیف ویژه
-                                                                </div>
-                                                                <div className="timing-off-wrapper d-flex align-items-center">
-                                                                    <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
-                                                                    <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
-                                                                    <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
-                                                                </div>
-                                                            </div>
-                                                            {
-                                                                mainContent &&
                                                                 <div className='dropdown-product my-5'>
                                                                     <p
                                                                         className='mainitem'
@@ -472,23 +475,28 @@ export default function Product() {
                                                                         ))}
                                                                     </ul>
                                                                 </div>
-                                                            }
 
-                                                            <div className="main-services-wrapper">
-                                                                <div>
-                                                                    <ul className='product-services-list'>
-                                                                        <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                                                        <li className='product-service-item'>نصب رایگان</li>
-                                                                        <li className='product-service-item'>ارسال فوری و رایگان</li>
-                                                                        <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
-                                                                    </ul>
+
+                                                                <div className="main-services-wrapper">
+                                                                    <div>
+                                                                        <ul className='product-services-list'>
+                                                                            <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                                            <li className='product-service-item'>نصب رایگان</li>
+                                                                            <li className='product-service-item'>ارسال فوری و رایگان</li>
+                                                                            <li className='product-service-item'>24 ساعت امکان مرجوع کالا</li>
+                                                                        </ul>
+                                                                    </div>
+
                                                                 </div>
-
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </>
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                </> :
+                                                <>
+                                                    <div className='d-flex justify-content-center'>
+                                                        <div class="spinner"></div>
+                                                    </div>
+                                                </>
                                         }
 
                                     </Row>
@@ -512,7 +520,7 @@ export default function Product() {
                                                 </Box>
                                                 <CustomTabPanel value={value} index={0}>
                                                     <Row className='product-specifications-top'>
-                                                        <Col style={{ height: "100%" }} className='product-specifications-text-wrapper' md={7}>
+                                                        <Col className='product-specifications-text-wrapper' md={7}>
                                                             <p className='product-specifications-text'>
                                                                 {productInfo.product[0].description}
                                                             </p>
@@ -551,37 +559,41 @@ export default function Product() {
 
                                                         }
                                                     </div>
-                                                    <div className="send-comment-wrapper">
-                                                        <div className="send-comment-wrapper-title">
-                                                            <EmailOutlinedIcon style={{ marginLeft: "12px" }} />
-                                                            ثبت دیدگاه شما
-                                                        </div>
-                                                        <div className='comment-place-wrapper'>
-                                                            <textarea
-                                                                onChange={(e) => setComment(e.target.value)}
-                                                                value={comment}
-                                                                className='comment-place'
+                                                    {
+                                                        authContext.token &&
+                                                        <div className="send-comment-wrapper">
+                                                            <div className="send-comment-wrapper-title">
+                                                                <EmailOutlinedIcon style={{ marginLeft: "12px" }} />
+                                                                ثبت دیدگاه شما
+                                                            </div>
+                                                            <div className='comment-place-wrapper'>
+                                                                <textarea
+                                                                    onChange={(e) => setComment(e.target.value)}
+                                                                    value={comment}
+                                                                    className='comment-place'
 
-                                                            ></textarea>
-                                                        </div>
-                                                        <div className="send-score">
-                                                            <Box
-                                                                sx={{
-                                                                    '& > legend': { mt: 2 },
-                                                                }}
-                                                            >
-                                                                <Rating
-                                                                    dir='ltr'
-                                                                    name="simple-controlled"
-                                                                    value={score}
-                                                                    onChange={(event, newValue) => {
-                                                                        setScore(newValue);
+                                                                ></textarea>
+                                                            </div>
+                                                            <div className="send-score">
+                                                                <Box
+                                                                    sx={{
+                                                                        '& > legend': { mt: 2 },
                                                                     }}
-                                                                />
-                                                            </Box>
-                                                            <button className='btn-send-comment' onClick={sendComment}>ارسال</button>
+                                                                >
+                                                                    <Rating
+                                                                        dir='ltr'
+                                                                        name="simple-controlled"
+                                                                        value={score}
+                                                                        onChange={(event, newValue) => {
+                                                                            setScore(newValue);
+                                                                        }}
+                                                                    />
+                                                                </Box>
+                                                                <button className='btn-send-comment' onClick={sendComment}>ارسال</button>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    }
+
                                                 </CustomTabPanel>
                                                 <CustomTabPanel value={value} index={2}>
                                                     Item Three
@@ -595,7 +607,6 @@ export default function Product() {
                             <ProductsWrapper
                                 title="محصولات مرتبط"
                                 link={"#"}
-                                isMore={true}
                             >
                                 <div className="products-container">
                                     <Swiper
@@ -632,7 +643,6 @@ export default function Product() {
                             <ProductsWrapper
                                 title="در کنارش خریداری شده"
                                 link={"#"}
-                                isMore={true}
                             >
                                 <div className="products-container">
                                     <Swiper

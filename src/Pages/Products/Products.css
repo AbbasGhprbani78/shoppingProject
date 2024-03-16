@@ -10,3 +10,10 @@
     background-color: #ffffff;
     gap: 10px;
 }
+
+
+@media (max-width:576px) {
+    .all-Products-more {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 150px));
+    }
+}

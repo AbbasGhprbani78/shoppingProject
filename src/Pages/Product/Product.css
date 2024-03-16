@@ -223,7 +223,6 @@
 }
 
 .product-specifications-text {
-    height: 100%;
     overflow-y: scroll;
     color: var(--color-4);
     font-family: "IranYekan";
@@ -489,5 +488,9 @@
     .roduct-more-img-slider {
         margin: 0 auto;
         width: 100%;
+    }
+
+    .all-Products-more {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 150px));
     }
 }

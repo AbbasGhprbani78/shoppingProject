@@ -27,7 +27,7 @@ export default function Home() {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
                 setTopSeling(response.data.products)
-                console.log(response.data)
+                // console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -50,7 +50,6 @@ export default function Home() {
                             <ProductsWrapper
                                 isMore={false}
                             >
-
                                 <div className="all-Products-more scroll-product">
                                     {
                                         searchResults &&
@@ -66,6 +65,7 @@ export default function Home() {
                                                 name={product.name}
                                                 model={product.model}
                                                 is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                existence={product.availability_status}
                                             />
                                         ))
                                     }
@@ -74,180 +74,204 @@ export default function Home() {
                         </> :
                         <>
                             <Silder />
-                            {
-                                authContext.data && authContext.data.products_with_discount.length > 0 &&
-                                <ProductsWrapper
-                                    title="تخفیف خورده ها"
-                                    link={"/products/offs/1"}
-                                    isMore={true}
-                                >
-                                    <div className="products-container">
-                                        <Swiper
-                                            style={{ width: "100%" }}
-                                            slidesPerView={4}
-                                            spaceBetween={30}
-                                            loop={true}
-                                            className="mySwiper-products"
-                                            centeredSlides={true}
-                                            breakpoints={{
-                                                0: {
-                                                    slidesPerView: 2
-                                                },
-                                                768: {
-                                                    slidesPerView: 3
-                                                },
-                                                992: {
-                                                    slidesPerView: 3
-                                                },
-                                                1000: {
-                                                    slidesPerView: 4
-                                                },
-                                            }
-                                            }
-                                        >
-                                            {
-                                                authContext ? (
-                                                    authContext.data &&
-                                                    authContext.data.products_with_discount.map((product, i) => (
-                                                        <SwiperSlide >
-                                                            <BoxProduct
-                                                                id={product.id}
-                                                                availability_count={product.availability_count}
-                                                                discount_percentage={product.discount_percentage}
-                                                                price={product.price}
-                                                                old_price={product.old_price}
-                                                                image={product.image}
-                                                                name={product.name}
-                                                                model={product.model}
-                                                                is_discount={product.is_discount}
-                                                                existence={""}
 
-                                                            />
-                                                        </SwiperSlide>
-                                                    ))
+                            <ProductsWrapper
+                                title="تخفیف خورده ها"
+                                link={"/products/offs/1"}
+                                isMore={true}
+                            >
+                                <div className="products-container">
+                                    {
+                                        authContext.data && authContext.data.products_with_discount.length > 0 ?
+                                            <>
+                                                <Swiper
+                                                    style={{ width: "100%" }}
+                                                    slidesPerView={4}
+                                                    spaceBetween={30}
+                                                    loop={true}
+                                                    className="mySwiper-products"
+                                                    centeredSlides={true}
+                                                    breakpoints={{
+                                                        0: {
+                                                            slidesPerView: 2
+                                                        },
+                                                        768: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        992: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        1000: {
+                                                            slidesPerView: 4
+                                                        },
+                                                    }
+                                                    }
+                                                >
+                                                    {
+                                                        authContext ? (
+                                                            authContext.data &&
+                                                            authContext.data.products_with_discount.map((product, i) => (
+                                                                <SwiperSlide >
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
 
-                                                ) : (null)
-                                            }
-                                        </Swiper>
-                                    </div>
-                                </ProductsWrapper>
+                                                        ) : (null)
+                                                    }
+                                                </Swiper>
+                                            </> :
+                                            <>
+                                                <div className='d-flex justify-content-center w-100'>
+                                                    <div class="spinner"></div>
+                                                </div>
+                                            </>
+                                    }
 
-                            }
+                                </div>
+                            </ProductsWrapper>
 
-                            {
-                                authContext.data && authContext.data.products_without_discount.length > 0 &&
-                                <ProductsWrapper
-                                    title="جدید ترین ها"
-                                    link={"/products/newest/1"}
-                                    isMore={true}
-                                >
-                                    <div className="products-container">
-                                        <Swiper
-                                            style={{ width: "100%" }}
-                                            slidesPerView={4}
-                                            spaceBetween={30}
-                                            loop={true}
-                                            className="mySwiper-products"
-                                            centeredSlides={true}
-                                            breakpoints={{
-                                                0: {
-                                                    slidesPerView: 2
-                                                },
-                                                768: {
-                                                    slidesPerView: 3
-                                                },
-                                                992: {
-                                                    slidesPerView: 3
-                                                },
-                                                1000: {
-                                                    slidesPerView: 4
-                                                },
-                                            }
-                                            }
-                                        >
-                                            {
-                                                authContext ? (
-                                                    authContext.data &&
-                                                    authContext.data.products_without_discount.map((product) => (
-                                                        <SwiperSlide key={product.product_or_service_code}>
-                                                            <BoxProduct
-                                                                id={product.id}
-                                                                availability_count={product.availability_count}
-                                                                discount_percentage={product.discount_percentage}
-                                                                price={product.price}
-                                                                old_price={product.old_price}
-                                                                image={product.image}
-                                                                name={product.name}
-                                                                model={product.model}
-                                                                is_discount={product.is_discount}
-                                                            />
-                                                        </SwiperSlide>
-                                                    ))
+                            <ProductsWrapper
+                                title="جدید ترین ها"
+                                link={"/products/newest/1"}
+                                isMore={true}
+                            >
+                                <div className="products-container">
+                                    {
+                                        authContext.data && authContext.data.products_without_discount.length > 0 ?
+                                            <>
+                                                <Swiper
+                                                    style={{ width: "100%" }}
+                                                    slidesPerView={4}
+                                                    spaceBetween={30}
+                                                    loop={true}
+                                                    className="mySwiper-products"
+                                                    centeredSlides={true}
+                                                    breakpoints={{
+                                                        0: {
+                                                            slidesPerView: 2
+                                                        },
+                                                        768: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        992: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        1000: {
+                                                            slidesPerView: 4
+                                                        },
+                                                    }
+                                                    }
+                                                >
+                                                    {
+                                                        authContext ? (
+                                                            authContext.data &&
+                                                            authContext.data.products_without_discount.map((product) => (
+                                                                <SwiperSlide key={product.product_or_service_code}>
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
 
-                                                ) : (null)
-                                            }
-                                        </Swiper>
-                                    </div>
-                                </ProductsWrapper>
-                            }
+                                                        ) : (null)
+                                                    }
+                                                </Swiper>
+                                            </> :
+                                            <>
+                                                <div className='d-flex justify-content-center w-100'>
+                                                    <div class="spinner"></div>
+                                                </div>
+                                            </>
+                                    }
 
-                            {
-                                topSeling && topSeling.length > 0
-                                &&
-                                <ProductsWrapper
-                                    title="پرفروش ها"
-                                    link={"/products/topssellers/1"}
-                                    isMore={true}
-                                >
-                                    <div className="products-container">
-                                        <Swiper
-                                            style={{ width: "100%" }}
-                                            slidesPerView={4}
-                                            spaceBetween={30}
-                                            loop={true}
-                                            className="mySwiper-products"
-                                            centeredSlides={true}
-                                            breakpoints={{
-                                                0: {
-                                                    slidesPerView: 2
-                                                },
-                                                768: {
-                                                    slidesPerView: 3
-                                                },
-                                                992: {
-                                                    slidesPerView: 3
-                                                },
-                                                1000: {
-                                                    slidesPerView: 4
-                                                },
-                                            }
-                                            }
-                                        >
-                                            {
-                                                topSeling ? (
-                                                    topSeling &&
-                                                    topSeling.map((product) => (
-                                                        <SwiperSlide key={product.product_or_service_code}>
-                                                            <BoxProduct
-                                                                id={product.id}
-                                                                availability_count={product.availability_count}
-                                                                discount_percentage={product.discount_percentage}
-                                                                price={product.price}
-                                                                old_price={product.price_with_discount}
-                                                                image={product.product_or_service.image}
-                                                                name={product.product_or_service.name}
-                                                                model={product.product_or_service.model}
-                                                                is_discount={product.is_discount}
-                                                            />
-                                                        </SwiperSlide>
-                                                    ))
+                                </div>
+                            </ProductsWrapper>
 
-                                                ) : (null)
-                                            }
-                                        </Swiper>
-                                    </div>
-                                </ProductsWrapper>
-                            }
+                            <ProductsWrapper
+                                title="پرفروش ها"
+                                link={"/products/topssellers/1"}
+                                isMore={true}
+                            >
+                                <div className="products-container">
+                                    {
+                                        topSeling && topSeling.length > 0 ?
+                                            <>
+                                                <Swiper
+                                                    style={{ width: "100%" }}
+                                                    slidesPerView={4}
+                                                    spaceBetween={30}
+                                                    loop={true}
+                                                    className="mySwiper-products"
+                                                    centeredSlides={true}
+                                                    breakpoints={{
+                                                        0: {
+                                                            slidesPerView: 2
+                                                        },
+                                                        768: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        992: {
+                                                            slidesPerView: 3
+                                                        },
+                                                        1000: {
+                                                            slidesPerView: 4
+                                                        },
+                                                    }
+                                                    }
+                                                >
+                                                    {
+                                                        topSeling ? (
+                                                            topSeling &&
+                                                            topSeling.map((product) => (
+                                                                <SwiperSlide key={product.product_or_service_code}>
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.price_with_discount}
+                                                                        image={product.product_or_service.image}
+                                                                        name={product.product_or_service.name}
+                                                                        model={product.product_or_service.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
+
+                                                        ) : (null)
+                                                    }
+                                                </Swiper>
+                                            </> :
+                                            <>
+                                                <div className='d-flex justify-content-center w-100'>
+                                                    <div class="spinner"></div>
+                                                </div>
+                                            </>
+                                    }
+                                </div>
+                            </ProductsWrapper>
+
                             <ShowAbout />
                         </>
                 }

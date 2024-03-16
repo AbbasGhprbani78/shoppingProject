@@ -75,6 +75,7 @@ export default function Basket() {
                                                 name={product.name}
                                                 model={product.model}
                                                 is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                existence={product.availability_status}
                                             />
                                         ))
                                     }

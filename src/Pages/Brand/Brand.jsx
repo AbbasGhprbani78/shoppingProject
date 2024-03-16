@@ -171,6 +171,7 @@ export default function Brand() {
                                                 name={product.name}
                                                 model={product.model}
                                                 is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                existence={product.availability_status}
                                             />
                                         ))
                                     }
@@ -236,21 +237,32 @@ export default function Brand() {
                                     >
                                         <div className="all-Products scroll-product">
                                             {
-                                                sortProducts &&
-                                                sortProducts.map(product => (
-                                                    <BoxProduct
-                                                        id={product.id}
-                                                        key={product.code}
-                                                        availability_count={product.availability_count}
-                                                        discount_percentage={product.discount_percentage}
-                                                        price={product.price}
-                                                        old_price={product.old_price}
-                                                        image={product.image}
-                                                        name={product.name}
-                                                        model={product.model}
-                                                        is_discount={product.is_discount}
-                                                    />
-                                                ))
+                                                sortProducts ?
+                                                    <>
+                                                        {
+                                                            sortProducts.map(product => (
+                                                                <BoxProduct
+                                                                    id={product.id}
+                                                                    key={product.code}
+                                                                    availability_count={product.availability_count}
+                                                                    discount_percentage={product.discount_percentage}
+                                                                    price={product.price}
+                                                                    old_price={product.old_price}
+                                                                    image={product.image}
+                                                                    name={product.name}
+                                                                    model={product.model}
+                                                                    is_discount={product.is_discount}
+                                                                    existence={product.availability_status}
+                                                                />
+                                                            ))
+                                                        }
+                                                    </> :
+                                                    <>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <div class="spinner"></div>
+                                                        </div>
+                                                    </>
+
                                             }
                                         </div>
                                     </ProductsWrapper>

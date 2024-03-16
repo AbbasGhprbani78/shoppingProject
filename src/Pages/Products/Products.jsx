@@ -10,8 +10,9 @@ import BoxProduct from '../../Components/BoxProduct/BoxProduct'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import Paginations from '../../Components/Pagination/Pagination'
 import { useSearchContext } from '../../Context/SearchContext'
+import { useLocation } from 'react-router-dom';
 export default function Products() {
-
+    const { pathname } = useLocation();
     const [products, setProducts] = useState([])
     const [topProduct, setTopProduct] = useState([])
     const [shownProducts, setShownProducts] = useState([])
@@ -68,6 +69,11 @@ export default function Products() {
         }
     }
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+
     return (
         <>
             <Header />
@@ -103,6 +109,7 @@ export default function Products() {
                                                 name={product.name}
                                                 model={product.model}
                                                 is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                existence={product.availability_status}
                                             />
                                         ))
                                     }
@@ -114,42 +121,55 @@ export default function Products() {
                                 isMore={false}
                                 title={issue === "newest" ? "جدیدترین ها" : issue === "topssellers" ? "پرفروش ها" : "تخفیف خورده ها"}
                             >
-                                <div className="all-Products-more">
-                                    {
-                                        shownProducts &&
-                                        shownProducts.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.product_or_service_code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product.discount_percentage}
-                                                price={product.price}
-                                                old_price={product.discounted_price}
-                                                image={product.image}
-                                                name={product.name}
-                                                model={product.model}
-                                                is_discount={product.is_discount}
-                                            />
-                                        ))
-                                    }
-                                    {
-                                        showTopProduct &&
-                                        showTopProduct.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.product_or_service_code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product.discount_percentage}
-                                                price={product.price}
-                                                old_price={product.price_with_discount}
-                                                image={product.product_or_service.image}
-                                                name={product.product_or_service.name}
-                                                model={product.product_or_service.model}
-                                                is_discount={product.is_discount}
-                                            />
-                                        ))
-                                    }
-                                </div>
+                                {
+                                    showTopProduct && showTopProduct.length > 0 || shownProducts && shownProducts.length > 0 ?
+                                        <>
+                                            <div className="all-Products-more">
+                                                {
+                                                    shownProducts &&
+                                                    shownProducts.map(product => (
+                                                        <BoxProduct
+                                                            id={product.id}
+                                                            key={product.product_or_service_code}
+                                                            availability_count={product.availability_count}
+                                                            discount_percentage={product.discount_percentage}
+                                                            price={product.price}
+                                                            old_price={product.discounted_price}
+                                                            image={product.image}
+                                                            name={product.name}
+                                                            model={product.model}
+                                                            is_discount={product.is_discount}
+                                                            existence={product.availability_status}
+                                                        />
+                                                    ))
+                                                }
+                                                {
+                                                    showTopProduct &&
+                                                    showTopProduct.map(product => (
+                                                        <BoxProduct
+                                                            id={product.id}
+                                                            key={product.product_or_service_code}
+                                                            availability_count={product.availability_count}
+                                                            discount_percentage={product.discount_percentage}
+                                                            price={product.price}
+                                                            old_price={product.price_with_discount}
+                                                            image={product.product_or_service.image}
+                                                            name={product.product_or_service.name}
+                                                            model={product.product_or_service.model}
+                                                            is_discount={product.is_discount}
+                                                            existence={product.availability_status}
+                                                        />
+                                                    ))
+                                                }
+                                            </div>
+                                        </> :
+                                        <>
+                                            <div className='d-flex justify-content-center'>
+                                                <div class="spinner"></div>
+                                            </div>
+                                        </>
+                                }
+
                             </ProductsWrapper >
 
                             {

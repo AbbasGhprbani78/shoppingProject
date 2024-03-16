@@ -15,8 +15,6 @@ import { IP } from '../../App.jsx'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useParams } from 'react-router-dom'
 import { useSearchContext } from '../../Context/SearchContext.jsx'
-import AuthContext from '../../Context/AuthContext.jsx'
-import { useContext } from 'react'
 export default function Category() {
 
     const [allcategoryProducts, setAllCategoryProducts] = useState([])
@@ -28,12 +26,10 @@ export default function Category() {
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
     const [brandFilter, setBrandFilter] = useState(null)
     const [priceFilter, setpriceFilter] = useState([])
-    const authContext = useContext(AuthContext)
     const colRef = useRef(null);
     const { categoryName } = useParams()
     const { searchResults } = useSearchContext();
     const [allProduct, setAllProduct] = useState(null)
-
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -208,6 +204,7 @@ export default function Category() {
                                                     name={product.name}
                                                     model={product.model}
                                                     is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                    existence={product.availability_status}
                                                 />
                                             ))
                                         }
@@ -298,7 +295,7 @@ export default function Category() {
                                                                                     name={product.name}
                                                                                     model={product.model}
                                                                                     is_discount={product.is_discount}
-
+                                                                                    existence={product.availability_status}
                                                                                 />
                                                                             ))
                                                                         }
