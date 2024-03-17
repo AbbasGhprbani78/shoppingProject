@@ -28,7 +28,6 @@ export default function Home() {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
                 setTopSeling(response.data.products)
-                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)

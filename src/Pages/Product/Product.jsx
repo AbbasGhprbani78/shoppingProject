@@ -101,19 +101,36 @@ export default function Product() {
         setValue(newValue);
     };
 
-    const addTobasket = () => {
+    const addTobasket = async () => {
         const access = localStorage.getItem("user")
         if (!access) {
             swal({
                 title: "برای خرید محصول ثبت نام کنید",
                 icon: "warning",
                 button: "باشه"
-
             })
 
             return false
         }
-        setShowProductModal(true)
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+        const body = {
+            product_id: id,
+            count: 1
+        }
+        try {
+            const response = await axios.post(`${IP}//`, body, {
+                headers
+            })
+            if (response.status === 201) {
+                console.log(response)
+                // setShowProductModal(true)
+            }
+        } catch (error) {
+            console.lof(error.message)
+        }
+
     }
 
     useEffect(() => {
@@ -195,6 +212,7 @@ export default function Product() {
             const response = await axios.get(`${IP}/product/product-purchased/${id}`)
             if (response.status === 200) {
                 setPurchasedProduct(response.data)
+                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -205,6 +223,7 @@ export default function Product() {
         try {
             const response = await axios.get(`${IP}/product/product-is-same-category/${id}`)
             if (response.status === 200) {
+                // console.log(response.data)
                 setRelatedProduct(response.data)
             }
         } catch (error) {
@@ -311,7 +330,6 @@ export default function Product() {
         }
     }
 
-
     const handleImageHover = (newSrc) => {
         setMainImageSrc(newSrc);
     };
@@ -320,6 +338,7 @@ export default function Product() {
     useEffect(() => {
         getProductInfo(id)
         getRelatedProducts(id)
+        getProductBoughtNext(id)
         getotherProduct(id)
     }, [id])
 
@@ -682,73 +701,9 @@ export default function Product() {
                             </div>
                             {
 
-                                purchasedProduct && purchasedProduct.length > 0 &&
-                                <ProductsWrapper
-                                    title="محصولات مرتبط"
-                                    link={"#"}
-                                >
-                                    <div className="products-container">
-                                        <Swiper
-                                            style={{ width: "100%" }}
-                                            slidesPerView={4}
-                                            spaceBetween={30}
-                                            loop={true}
-                                            className="mySwiper-products"
-                                            centeredSlides={true}
-                                            breakpoints={{
-                                                0: {
-                                                    slidesPerView: 2
-                                                },
-                                                768: {
-                                                    slidesPerView: 3
-                                                },
-                                                992: {
-                                                    slidesPerView: 3
-                                                },
-                                                1000: {
-                                                    slidesPerView: 4
-                                                },
-                                            }
-                                            }
-                                        >
-                                            {
-                                                purchasedProduct && purchasedProduct.length > 0 ?
-                                                    <>
-                                                        {
-                                                            purchasedProduct.map(product => (
-                                                                <SwiperSlide
-                                                                    key={product.id}
-                                                                >
-                                                                    <BoxProduct
-                                                                        id={product.id}
-                                                                        availability_count={product.availability_count}
-                                                                        discount_percentage={product.discount_percentage}
-                                                                        price={product.price}
-                                                                        old_price={product.old_price}
-                                                                        image={product.image}
-                                                                        name={product.name}
-                                                                        model={product.model}
-                                                                        is_discount={product.is_discount}
-                                                                        existence={product.availability_status}
-                                                                    />
-                                                                </SwiperSlide>
-                                                            ))
-                                                        }
-                                                    </> :
-                                                    <>
-                                                        <div className='d-flex justify-content-center'>
-                                                            <div class="spinner"></div>
-                                                        </div>
-                                                    </>
-                                            }
-                                        </Swiper>
-                                    </div>
-                                </ProductsWrapper>
-                            }
-                            {
                                 relatedProducts && relatedProducts.length > 0 &&
                                 <ProductsWrapper
-                                    title="در کنارش خریداری شده"
+                                    title="محصولات مرتبط"
                                     link={"#"}
                                 >
                                     <div className="products-container">
@@ -780,6 +735,70 @@ export default function Product() {
                                                     <>
                                                         {
                                                             relatedProducts.map(product => (
+                                                                <SwiperSlide
+                                                                    key={product.id}
+                                                                >
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
+                                                        }
+                                                    </> :
+                                                    <>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <div class="spinner"></div>
+                                                        </div>
+                                                    </>
+                                            }
+                                        </Swiper>
+                                    </div>
+                                </ProductsWrapper>
+                            }
+                            {
+                                purchasedProduct && purchasedProduct.length > 0 &&
+                                <ProductsWrapper
+                                    title="در کنارش خریداری شده"
+                                    link={"#"}
+                                >
+                                    <div className="products-container">
+                                        <Swiper
+                                            style={{ width: "100%" }}
+                                            slidesPerView={4}
+                                            spaceBetween={30}
+                                            loop={true}
+                                            className="mySwiper-products"
+                                            centeredSlides={true}
+                                            breakpoints={{
+                                                0: {
+                                                    slidesPerView: 2
+                                                },
+                                                768: {
+                                                    slidesPerView: 3
+                                                },
+                                                992: {
+                                                    slidesPerView: 3
+                                                },
+                                                1000: {
+                                                    slidesPerView: 4
+                                                },
+                                            }
+                                            }
+                                        >
+                                            {
+                                                purchasedProduct && purchasedProduct.length > 0 ?
+                                                    <>
+                                                        {
+                                                            purchasedProduct.map(product => (
 
                                                                 <SwiperSlide
                                                                     key={product.key}

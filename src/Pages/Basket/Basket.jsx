@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Basket.css'
 import Header from '../../Components/Header/Header'
 import BasketItem from '../../Components/BasketItem/BasketItem'
@@ -14,8 +14,34 @@ import swal from 'sweetalert'
 
 export default function Basket() {
     const { searchResults } = useSearchContext();
+    const [allProduct, setAllProduct] = useState(null);
+
+
+    const getAllProductBasket = async () => {
+        const access = localStorage.getItem("user")
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+        try {
+            const response = await axios.get(`${IP}//`, {
+                headers
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     const deleteProduct = async (id) => {
+        const access = localStorage.getItem("user")
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+        const body = {
+            detail_id: id
+        }
         swal({
             title: "ایا از حذف محصول اطمینان دارید",
             icon: "warning",
@@ -23,7 +49,9 @@ export default function Basket() {
         }).then(async result => {
             if (result) {
                 try {
-                    const response = await axios.delete(`${IP}/`);
+                    const response = await axios.delete(`${IP}//`, body, {
+                        headers
+                    });
 
                     if (response.status === 200) {
                         console.log(response.data)
@@ -32,13 +60,68 @@ export default function Basket() {
                             icon: "success",
                             button: "باشه"
                         })
+                        // getAllProductBasket()
                     }
                 } catch (error) {
                     console.log(error.message);
                 }
+            } else {
+
             }
         });
     };
+
+    const increaseProductNumber = async (id) => {
+
+        const access = localStorage.getItem("user")
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+
+        const body = {
+            product_id: id,
+            state: "increase"
+        }
+        try {
+            const response = await axios.post(`${IP}//`, body, {
+                headers
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                // getAllProductBasket()
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    const decreaseProductNumber = async (id) => {
+        const access = localStorage.getItem("user")
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+
+        const body = {
+            product_id: id,
+            state: "decrease"
+        }
+        try {
+            const response = await axios.post(`${IP}//`, body, {
+                headers
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                // getAllProductBasket()
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+
+    // useEffect(() => {
+    //     getAllProductBasket()
+    // }, [])
+
 
     return (
         <>
@@ -86,7 +169,11 @@ export default function Basket() {
                         </> :
                         <>
                             <div className="basket-items-container">
-                                <BasketItem deleteProduct={deleteProduct} />
+                                <BasketItem
+                                    deleteProduct={deleteProduct}
+                                    increaseProductNumber={increaseProductNumber}
+                                    decreaseProductNumber={decreaseProductNumber}
+                                />
                                 <BasketItem />
                                 <BasketItem />
                                 <BasketItem />

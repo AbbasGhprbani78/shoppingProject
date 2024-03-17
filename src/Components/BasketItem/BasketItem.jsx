@@ -5,9 +5,34 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 
-export default function BasketItem({ deleteProduct }) {
+export default function BasketItem({
+    deleteProduct,
+    increaseProductNumber,
+    decreaseProductNumber,
 
+}) {
+    const [value, setValue] = useState(1)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const handleValueChange = (event) => {
+        const newValue = parseInt(event.target.value);
+        if (!isNaN(newValue)) {
+            if (newValue > value) {
+                increaseProductNumber();
+            } else if (newValue < value) {
+                if (value === 1) {
+                    deleteProduct()
+                    setValue(1);
+                }
+                decreaseProductNumber()
+            } if (value < 1) {
+                setValue(1)
+            }
+
+        }
+    };
+
+
     useEffect(() => {
 
         const handleWindowResize = () => {
@@ -41,7 +66,14 @@ export default function BasketItem({ deleteProduct }) {
                                         <p className="mobile-name">شیرالات یک</p>
                                         <p className="mobile-model">مدل 0285</p>
                                     </div>
-                                    <TextField />
+                                    <TextField
+                                        type="number"
+                                        variant="outlined"
+                                        className="basket-number"
+                                        inputProps={{ min: 0 }}
+                                        value={value}
+                                        onChange={handleValueChange}
+                                    />
                                 </div>
                                 <div className="mobile-price">
                                     <p>قیمت</p>
@@ -105,7 +137,9 @@ export default function BasketItem({ deleteProduct }) {
                                                 type="number"
                                                 variant="outlined"
                                                 className="basket-number"
-                                                inputProps={{ min: 1 }}
+                                                inputProps={{ min: 0 }}
+                                                value={value}
+                                                onChange={handleValueChange}
                                             />
 
                                         </div>
