@@ -38,10 +38,11 @@
 
 .old-product-price {
     color: #c8c8c8;
-    font-size: .8rem;
+    font-size: .95rem;
     margin-top: 7px;
     margin-bottom: 7px;
     text-align: center;
+    font-weight: bold;
 }
 
 .new-product-price {

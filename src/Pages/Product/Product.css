@@ -17,6 +17,7 @@
     font-size: var(--font-size2);
     font-weight: bold;
     width: max-content;
+    font-size: 1rem;
 }
 
 .main-Product {
@@ -142,9 +143,10 @@
 }
 
 .main-product-price-old {
-    font-size: .8rem;
+    font-size: .95rem;
     color: var(--color-4);
     margin-right: 10px;
+    font-weight: bold;
 }
 
 .main-product-price-new {
@@ -413,6 +415,13 @@
 
 .tab-title {
     margin-right: 10px;
+}
+
+.changeProduct-seller {
+    min-width: 200px;
+    border: 1px solid;
+    outline: none;
+    border-radius: 5px;
 }
 
 @media (max-width:1061px) {

@@ -3,7 +3,8 @@ import './ModalBuy.css'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-export default function ModalBuy({ showProductModal, setShowProductModal }) {
+import { IP } from '../../App';
+export default function ModalBuy({ showProductModal, setShowProductModal, productInfo }) {
 
     return (
         <div className={`ModalBuy-container ${showProductModal ? "ModalBuy-container-active" : ""}`}>
@@ -17,10 +18,15 @@ export default function ModalBuy({ showProductModal, setShowProductModal }) {
                 </div>
                 <div className="ModalBuy-content">
                     <div className="ModalBuy-content-right">
-                        <img className='ModalBuy-content-img' src="../../../public/Images/1.jpeg" alt="" />
+                        {
+                            productInfo &&
+                            <img className='ModalBuy-content-img' src={`${IP}${productInfo.product[0] && productInfo.product[0].image[0]}`} alt="" />
+                        }
+
                     </div>
+
                     <div className="ModalBuy-content-left">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni corrupti exercitationem voluptatem? Facilis maxime consequatur tempora rerum optio aut eos, nihil officia impedit quisquam culpa natus dolorem doloremque mollitia dicta?
+                        {productInfo && productInfo.product[0].description}
                     </div>
                 </div>
                 <div className='ModalBuy-btn-wrapper'>

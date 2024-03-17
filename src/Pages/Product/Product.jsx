@@ -85,23 +85,17 @@ export default function Product() {
     const [minutes, setMinutes] = useState(34);
     const [seconds, setSeconds] = useState(45);
     const [comment, setComment] = useState(null);
-    const [mainImageSrc, setMainImageSrc] = useState(null);
     const [productInfo, setProductInfo] = useState(null);
     const { productName } = useParams();
     const { id } = useParams();
-    const [showDrop, setShowDrop] = useState(false);
     const [isShowImages, setIsShowImage] = useState(false);
-    const [isexistence, setIsExistence] = useState(false);
     const [mainId, setMainId] = useState(id)
     const [allComment, setAllComment] = useState([])
-    const [mainContent, setMainContent] = useState(null)
     const authContext = useContext(AuthContext)
     const [purchasedProduct, setPurchasedProduct] = useState([])
-    const [relatedProducts, setRelatedProduct] = useState([])
+    const [relatedProducts, setRelatedProduct] = useState()
+    const [mainImageSrc, setMainImageSrc] = useState(null);
 
-    const handleImageHover = (newSrc) => {
-        setMainImageSrc(newSrc);
-    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -130,9 +124,6 @@ export default function Product() {
         updateSearchResults(null)
     }, [productName])
 
-    const showList = () => {
-        setShowDrop(prevShow => !prevShow)
-    }
 
     // useEffect(() => {
     //     const offTimer = setInterval(() => {
@@ -199,7 +190,7 @@ export default function Product() {
         }
     }
 
-    const getProductBoughtNext = async () => {
+    const getProductBoughtNext = async (id) => {
         try {
             const response = await axios.get(`${IP}/product/product-purchased/${id}`)
             if (response.status === 200) {
@@ -210,7 +201,7 @@ export default function Product() {
         }
     }
 
-    const getRelatedProducts = async () => {
+    const getRelatedProducts = async (id) => {
         try {
             const response = await axios.get(`${IP}/product/product-is-same-category/${id}`)
             if (response.status === 200) {
@@ -237,13 +228,12 @@ export default function Product() {
 
     }
 
-    const chnageMainTextContent = (e, id) => {
-        setMainContent(e.target.textContent)
+    const chnageMainTextContent = (id) => {
         getotherProduct(id)
         setMainId(id)
     }
 
-    const getProductInfo = async () => {
+    const getProductInfo = async (id) => {
         const body = {
             id: id
         }
@@ -253,7 +243,6 @@ export default function Product() {
                 console.log(response.data)
                 getcomment(id)
                 setProductInfo(response.data)
-                setMainContent(productInfo.product[0].brand_name)
             }
         } catch (error) {
             console.log(error.message)
@@ -290,6 +279,7 @@ export default function Product() {
         }
 
     }
+
     const disLikeHandler = async (id) => {
 
         if (authContext.token) {
@@ -320,6 +310,18 @@ export default function Product() {
             })
         }
     }
+
+
+    const handleImageHover = (newSrc) => {
+        setMainImageSrc(newSrc);
+    };
+
+
+    useEffect(() => {
+        getProductInfo(id)
+        getRelatedProducts(id)
+        getotherProduct(id)
+    }, [id])
 
     useEffect(() => {
         getProductInfo()
@@ -372,6 +374,7 @@ export default function Product() {
             <ModalBuy
                 showProductModal={showProductModal}
                 setShowProductModal={setShowProductModal}
+                productInfo={productInfo}
             />
             <Header />
             <div className="home-container">
@@ -416,7 +419,6 @@ export default function Product() {
                             </ProductsWrapper>
                         </> :
                         <>
-
                             <div className="main-Product mt-5">
                                 <div className="product-info">
                                     <Row>
@@ -429,7 +431,35 @@ export default function Product() {
                                                                 productInfo.product[0].is_discount === true &&
                                                                 <ProductOff off={productInfo.product[0].discount_percentage} />
                                                             }
-                                                            <img className='main-img-product' alt="image product" src={`${IP}${productInfo.product[0].image}`} />
+                                                            <img className='main-img-product' alt="image product"
+                                                                src={`${mainImageSrc ? mainImageSrc : IP + productInfo.product[0].image}`}
+                                                            />
+                                                        </div>
+                                                        <div className="some-img">
+                                                            <div className="main-product-img-item">
+                                                                <img className='sub-img-product'
+                                                                    src={`${IP}${productInfo.product[0].image}`}
+                                                                    alt=""
+                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                    onMouseLeave={() => setMainImageSrc("")}
+                                                                />
+                                                            </div>
+                                                            <div className="main-product-img-item">
+                                                                <img className='sub-img-product'
+                                                                    src={`${IP}${productInfo.product[0].image}`}
+                                                                    alt=""
+                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                    onMouseLeave={() => setMainImageSrc("")}
+                                                                />
+                                                            </div>
+                                                            <div className="main-product-img-item">
+                                                                <img className='sub-img-product'
+                                                                    src={`${IP}${productInfo.product[0].image}`}
+                                                                    alt=""
+                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                    onMouseLeave={() => setMainImageSrc("")}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </Col>
                                                     <Col xs={12} className='main-product-info' lg={8}>
@@ -448,9 +478,20 @@ export default function Product() {
                                                                 <div>
                                                                     <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
                                                                     <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
-                                                                    <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span></p>
-                                                                    <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span>{productInfo.product[0].id}</p>
-                                                                    <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span></p>
+                                                                    {Object.keys(productInfo.product[0].properties).map((fieldName, index) => (
+                                                                        <div key={index}>
+                                                                            <p className='main-product-model text-main-product'><span className='main-product-model-span'>{fieldName} :</span> {Array.isArray(productInfo.product[0].properties[fieldName]) ? (
+                                                                                <>
+                                                                                    {productInfo.product[0].properties[fieldName].map((value, index) => (
+                                                                                        <span key={index}>{value},</span>
+                                                                                    ))}
+                                                                                </>
+                                                                            ) : (
+                                                                                <span>{productInfo.product[0].properties[fieldName]}</span>
+                                                                            )}</p>
+
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
                                                                 <div className="main-product-price-wrapper">
 
@@ -458,12 +499,11 @@ export default function Product() {
                                                                         productInfo.product[0].is_discount === true &&
                                                                         <strike className='main-product-price-old'>{productInfo.product[0].old_price.toLocaleString("fa")}</strike>
                                                                     }
-
                                                                         <p className='main-product-price-new'> {Math.round(productInfo.product[0].price).toLocaleString("fa")}<span className='main-product-price-new-currency'>تومان</span></p>
                                                                     </p>
                                                                     <div className='options-buy'>
                                                                         <button
-                                                                            className={`add-baskect-btn ${isexistence ? "btn-disable" : ""}`}
+                                                                            className={`add-baskect-btn ${!productInfo.product[0].availability_status ? "btn-disable" : ""}`}
                                                                             onClick={addTobasket}
                                                                             disabled={!productInfo.product[0].availability_status ? true : false}
                                                                         >
@@ -475,11 +515,6 @@ export default function Product() {
                                                                                 </svg>
                                                                             </p>
                                                                         </button>
-                                                                        <div className="basket-options">
-                                                                            <div className="plus-product">+</div>
-                                                                            <div className='count-product'>1</div>
-                                                                            <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
-                                                                        </div>
                                                                     </div>
                                                                     {
                                                                         !productInfo.product[0].availability_status &&
@@ -500,23 +535,18 @@ export default function Product() {
                                                                     </div>
                                                                 </div>
 
+
                                                                 <div className='dropdown-product my-5'>
-                                                                    <p
-                                                                        className='mainitem'
-                                                                        onClick={showList}>
-                                                                        {mainContent}
-                                                                        <KeyboardArrowDownIcon />
-                                                                    </p>
-                                                                    <ul className={`dropdown-list ${showDrop ? "showlist" : ""}`}>
+                                                                    <select
+                                                                        className='changeProduct-seller'
+                                                                        onChange={(e) => chnageMainTextContent(e.target.value)}
+                                                                    >
                                                                         {productInfo && productInfo.other_sellers.length > 0 && productInfo.other_sellers.map(seller => (
-                                                                            <li className='dropdown-item1' onClick={(e) => {
-                                                                                chnageMainTextContent(e, seller.id)
-                                                                                setShowDrop(false)
-                                                                            }}>
+                                                                            <option value={seller.id} selected={seller.id === productInfo.product[0].id}>
                                                                                 {seller.brand_name}
-                                                                            </li>
+                                                                            </option>
                                                                         ))}
-                                                                    </ul>
+                                                                    </select>
                                                                 </div>
 
 
@@ -650,129 +680,137 @@ export default function Product() {
                                 }
 
                             </div>
-                            <ProductsWrapper
-                                title="محصولات مرتبط"
-                                link={"#"}
-                            >
-                                <div className="products-container">
-                                    <Swiper
-                                        style={{ width: "100%" }}
-                                        slidesPerView={4}
-                                        spaceBetween={30}
-                                        loop={true}
-                                        className="mySwiper-products"
-                                        centeredSlides={true}
-                                        breakpoints={{
-                                            0: {
-                                                slidesPerView: 2
-                                            },
-                                            768: {
-                                                slidesPerView: 3
-                                            },
-                                            992: {
-                                                slidesPerView: 3
-                                            },
-                                            1000: {
-                                                slidesPerView: 4
-                                            },
-                                        }
-                                        }
-                                    >
-                                        {
-                                            purchasedProduct && purchasedProduct.length > 0 ?
-                                                <>
-                                                    {
-                                                        purchasedProduct.map(product => (
-                                                            <SwiperSlide
-                                                                key={product.id}
-                                                            >
-                                                                <BoxProduct
-                                                                    id={product.id}
-                                                                    availability_count={product.availability_count}
-                                                                    discount_percentage={product.discount_percentage}
-                                                                    price={product.price}
-                                                                    old_price={product.old_price}
-                                                                    image={product.image}
-                                                                    name={product.name}
-                                                                    model={product.model}
-                                                                    is_discount={product.is_discount}
-                                                                    existence={product.availability_status}
-                                                                />
-                                                            </SwiperSlide>
-                                                        ))
-                                                    }
-                                                </> :
-                                                <>
-                                                    <div className='d-flex justify-content-center'>
-                                                        <div class="spinner"></div>
-                                                    </div>
-                                                </>
-                                        }
-                                    </Swiper>
-                                </div>
-                            </ProductsWrapper>
-                            <ProductsWrapper
-                                title="در کنارش خریداری شده"
-                                link={"#"}
-                            >
-                                <div className="products-container">
-                                    <Swiper
-                                        style={{ width: "100%" }}
-                                        slidesPerView={4}
-                                        spaceBetween={30}
-                                        loop={true}
-                                        className="mySwiper-products"
-                                        centeredSlides={true}
-                                        breakpoints={{
-                                            0: {
-                                                slidesPerView: 2
-                                            },
-                                            768: {
-                                                slidesPerView: 3
-                                            },
-                                            992: {
-                                                slidesPerView: 3
-                                            },
-                                            1000: {
-                                                slidesPerView: 4
-                                            },
-                                        }
-                                        }
-                                    >
-                                        {
-                                            relatedProducts && relatedProducts.length > 0 ?
-                                                <>
-                                                    {
-                                                        relatedProducts.map(product => (
+                            {
 
-                                                            <SwiperSlide
-                                                                key={product.key}
-                                                            >
-                                                                <BoxProduct
-                                                                    id={product.id}
-                                                                    availability_count={product.availability_count}
-                                                                    discount_percentage={product.discount_percentage}
-                                                                    price={product.price}
-                                                                    old_price={product.old_price}
-                                                                    image={product.image}
-                                                                    name={product.name}
-                                                                    model={product.model}
-                                                                    is_discount={product.is_discount}
-                                                                    existence={product.availability_status}
-                                                                />
-                                                            </SwiperSlide>
-                                                        ))
-                                                    }
-                                                </> :
-                                                <>
-                                                    <div className='d-flex justify-content-center'>
-                                                        <div class="spinner"></div>
-                                                    </div>
-                                                </>
-                                        }
-                                    </Swiper>
-                                </div>
-                            </ProductsWrapper>
+                                purchasedProduct && purchasedProduct.length > 0 &&
+                                <ProductsWrapper
+                                    title="محصولات مرتبط"
+                                    link={"#"}
+                                >
+                                    <div className="products-container">
+                                        <Swiper
+                                            style={{ width: "100%" }}
+                                            slidesPerView={4}
+                                            spaceBetween={30}
+                                            loop={true}
+                                            className="mySwiper-products"
+                                            centeredSlides={true}
+                                            breakpoints={{
+                                                0: {
+                                                    slidesPerView: 2
+                                                },
+                                                768: {
+                                                    slidesPerView: 3
+                                                },
+                                                992: {
+                                                    slidesPerView: 3
+                                                },
+                                                1000: {
+                                                    slidesPerView: 4
+                                                },
+                                            }
+                                            }
+                                        >
+                                            {
+                                                purchasedProduct && purchasedProduct.length > 0 ?
+                                                    <>
+                                                        {
+                                                            purchasedProduct.map(product => (
+                                                                <SwiperSlide
+                                                                    key={product.id}
+                                                                >
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
+                                                        }
+                                                    </> :
+                                                    <>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <div class="spinner"></div>
+                                                        </div>
+                                                    </>
+                                            }
+                                        </Swiper>
+                                    </div>
+                                </ProductsWrapper>
+                            }
+                            {
+                                relatedProducts && relatedProducts.length > 0 &&
+                                <ProductsWrapper
+                                    title="در کنارش خریداری شده"
+                                    link={"#"}
+                                >
+                                    <div className="products-container">
+                                        <Swiper
+                                            style={{ width: "100%" }}
+                                            slidesPerView={4}
+                                            spaceBetween={30}
+                                            loop={true}
+                                            className="mySwiper-products"
+                                            centeredSlides={true}
+                                            breakpoints={{
+                                                0: {
+                                                    slidesPerView: 2
+                                                },
+                                                768: {
+                                                    slidesPerView: 3
+                                                },
+                                                992: {
+                                                    slidesPerView: 3
+                                                },
+                                                1000: {
+                                                    slidesPerView: 4
+                                                },
+                                            }
+                                            }
+                                        >
+                                            {
+                                                relatedProducts && relatedProducts.length > 0 ?
+                                                    <>
+                                                        {
+                                                            relatedProducts.map(product => (
+
+                                                                <SwiperSlide
+                                                                    key={product.key}
+                                                                >
+                                                                    <BoxProduct
+                                                                        id={product.id}
+                                                                        availability_count={product.availability_count}
+                                                                        discount_percentage={product.discount_percentage}
+                                                                        price={product.price}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
+                                                                        is_discount={product.is_discount}
+                                                                        existence={product.availability_status}
+                                                                    />
+                                                                </SwiperSlide>
+                                                            ))
+                                                        }
+                                                    </> :
+                                                    <>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <div class="spinner"></div>
+                                                        </div>
+                                                    </>
+                                            }
+                                        </Swiper>
+                                    </div>
+                                </ProductsWrapper>
+                            }
+
                         </>
                 }
             </div >
@@ -780,4 +818,67 @@ export default function Product() {
         </>
     )
 }
+
+{/* <div className="basket-options">
+                                                                            <div className="plus-product">+</div>
+                                                                            <div className='count-product'>1</div>
+                                                                            <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
+                                                                        </div> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     const handleImageHover = (src) => {
+//         setMainImageSrc(src);
+//     };
+
+//     return (
+//         <Col xs={12} className='images-wrapper' lg={4}>
+//             <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
+//                 {
+//                     productInfo.product[0].is_discount === true &&
+//                     <ProductOff off={productInfo.product[0].discount_percentage} />
+//                 }
+//                 <img className='main-img-product' alt="image product" src={`${mainImageSrc ? mainImageSrc : IPproductInfo.product[0].image}`} />
+//             </div>
+//             <div className="some-img">
+//                 <div className="main-product-img-item">
+//                     <img className='sub-img-product'
+//                         src={`${IP}${productInfo.product[0].image}`}
+//                         alt=""
+//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
+//                         onMouseLeave={() => setMainImageSrc("")}
+//                     />
+//                 </div>
+//                 <div className="main-product-img-item">
+//                     <img className='sub-img-product'
+//                         src={`${IP}${productInfo.product[1].image}`} {/* Update with the appropriate index */}
+//                         alt=""
+//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
+//                         onMouseLeave={() => setMainImageSrc("")}
+//                     />
+//                 </div>
+//                 <div className="main-product-img-item">
+//                     <img className='sub-img-product'
+//                         src={`${IP}${productInfo.product[2].image}`} {/* Update with the appropriate index */}
+//                         alt=""
+//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
+//                         onMouseLeave={() => setMainImageSrc("")}
+//                     />
+//                 </div>
+//             </div>
+//         </Col>
+//     );
+// };
+
 

@@ -73,10 +73,8 @@ export default function Brand() {
                 brand: brandName
             };
 
-
             const response = await axios.post(`${IP}/product/brand-product-filter/`, finalFilter);
             if (response.status === 200) {
-                console.log(response.data);
                 setShowBoxFilter(false)
                 setSortProducts(response.data.products)
             }
@@ -133,7 +131,7 @@ export default function Brand() {
                     </div>
                     <FilterPrice
                         priceFilter={priceFilter}
-                        setValuePricer={setValuePrice}
+                        setValuePrice={setValuePrice}
                     />
                     <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                 </Col>
@@ -182,7 +180,7 @@ export default function Brand() {
                             </ProductsWrapper>
                         </> :
                         <>
-                            <button className="filter-btn-small d-lg-none" onClick={""}>
+                            <button className="filter-btn-small d-lg-none" onClick={() => setShowBoxFilter(true)}>
                                 فیلتر ها
                                 <span style={{ marginRight: "45px" }}> <KeyboardArrowDownIcon /></span>
                             </button>

@@ -216,7 +216,6 @@ export default function Category() {
                             </> :
                             <>
 
-
                                 <button className="filter-btn-small d-lg-none" onClick={openFilterBox}>
                                     فیلتر ها
                                     <span style={{ marginRight: "45px" }}> <KeyboardArrowDownIcon /></span>
