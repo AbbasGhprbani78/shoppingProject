@@ -11,6 +11,7 @@ import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import Paginations from '../../Components/Pagination/Pagination'
 import { useSearchContext } from '../../Context/SearchContext'
 import { useLocation } from 'react-router-dom';
+import { Col } from 'react-bootstrap'
 export default function Products() {
     const { pathname } = useLocation();
     const [products, setProducts] = useState([])
@@ -50,7 +51,6 @@ export default function Products() {
             const response = await axios.get(`${IP}/product/last-products/`);
             if (response.status === 200) {
                 setProducts(response.data.products)
-                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message);
@@ -94,23 +94,26 @@ export default function Products() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products-more scroll-product">
+                                <div className="all-Products scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
-                                                price={product && product.sellers[0] && product.sellers[0].price}
-                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
-                                                image={product.image}
-                                                name={product.name}
-                                                model={product.model}
-                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                existence={product.availability_status}
-                                            />
+                                            <Col xs={6} md={4}>
+                                                <BoxProduct
+                                                    id={product && product.sellers[0] && product.sellers[0].id}
+                                                    key={product.code}
+                                                    availability_count={product.availability_count}
+                                                    discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                    price={product && product.sellers[0] && product.sellers[0].price}
+                                                    old_price={product && product.sellers[0] && product.sellers[0].old_price}
+                                                    image={product.image}
+                                                    name={product.name}
+                                                    model={product.model}
+                                                    is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                    existence={product.availability_status}
+                                                />
+                                            </Col>
+
                                         ))
                                     }
                                 </div>
@@ -124,41 +127,47 @@ export default function Products() {
                                 {
                                     showTopProduct && showTopProduct.length > 0 || shownProducts && shownProducts.length > 0 ?
                                         <>
-                                            <div className="all-Products-more">
+                                            <div className="all-Products">
                                                 {
                                                     shownProducts &&
                                                     shownProducts.map(product => (
-                                                        <BoxProduct
-                                                            id={product.id}
-                                                            key={product.product_or_service_code}
-                                                            availability_count={product.availability_count}
-                                                            discount_percentage={product.discount_percentage}
-                                                            price={product.price}
-                                                            old_price={product.discounted_price}
-                                                            image={product.image}
-                                                            name={product.name}
-                                                            model={product.model}
-                                                            is_discount={product.is_discount}
-                                                            existence={product.availability_status}
-                                                        />
+                                                        <Col xs={6} md={4}>
+                                                            <BoxProduct
+                                                                id={product.id}
+                                                                key={product.product_or_service_code}
+                                                                availability_count={product.availability_count}
+                                                                discount_percentage={product.discount_percentage}
+                                                                price={product.price}
+                                                                old_price={product.discounted_price}
+                                                                image={product.image}
+                                                                name={product.name}
+                                                                model={product.model}
+                                                                is_discount={product.is_discount}
+                                                                existence={product.availability_status}
+                                                            />
+                                                        </Col>
+
                                                     ))
                                                 }
                                                 {
                                                     showTopProduct &&
                                                     showTopProduct.map(product => (
-                                                        <BoxProduct
-                                                            id={product.id}
-                                                            key={product.product_or_service_code}
-                                                            availability_count={product.availability_count}
-                                                            discount_percentage={product.discount_percentage}
-                                                            price={product.price}
-                                                            old_price={product.price_with_discount}
-                                                            image={product.product_or_service.image}
-                                                            name={product.product_or_service.name}
-                                                            model={product.product_or_service.model}
-                                                            is_discount={product.is_discount}
-                                                            existence={product.availability_status}
-                                                        />
+                                                        <Col xs={6} md={4}>
+                                                            <BoxProduct
+                                                                id={product.id}
+                                                                key={product.product_or_service_code}
+                                                                availability_count={product.availability_count}
+                                                                discount_percentage={product.discount_percentage}
+                                                                price={product.price}
+                                                                old_price={product.price_with_discount}
+                                                                image={product.image}
+                                                                name={product.name}
+                                                                model={product.model}
+                                                                is_discount={product.is_discount}
+                                                                existence={product.availability_status}
+                                                            />
+                                                        </Col>
+
                                                     ))
                                                 }
                                             </div>

@@ -29,8 +29,11 @@ export default function BoxProduct({
                             </> : null
 
                     }
+                        {
+                            image &&
+                            <img className='product-img' src={`${IP}${image}`} alt="" />
 
-                        <img className='product-img' src={`${IP}${image}`} alt="" />
+                        }
                     </div>
                     <div className="product-body">
                         <div className='product-name'>{name}</div>

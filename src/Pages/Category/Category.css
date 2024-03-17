@@ -15,14 +15,13 @@
 }
 
 .all-Products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     border-radius: var(--border-raduis);
     box-shadow: var(--box-shadow);
     padding: 10px;
     position: relative;
     background-color: #ffffff;
-    gap: 10px;
 }
 
 .all-Products::before {
@@ -190,9 +189,6 @@
         width: 35%;
     }
 
-    .all-Products {
-        grid-template-columns: repeat(auto-fit, minmax(161px, 1fr));
-    }
 }
 
 .boxFilters {

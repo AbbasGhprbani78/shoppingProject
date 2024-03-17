@@ -15,6 +15,7 @@ import axios from 'axios'
 import AuthContext from '../../Context/AuthContext'
 import { useContext } from 'react'
 import { useSearchContext } from '../../Context/SearchContext'
+import { Col } from 'react-bootstrap'
 
 export default function Home() {
 
@@ -27,7 +28,7 @@ export default function Home() {
             const response = await axios.get(`${IP}/product/top-selling-products/`)
             if (response.status === 200) {
                 setTopSeling(response.data.products)
-                // console.log(response.data)
+                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -50,23 +51,25 @@ export default function Home() {
                             <ProductsWrapper
                                 isMore={false}
                             >
-                                <div className="all-Products-more scroll-product">
+                                <div className="all-Products scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
-                                                price={product && product.sellers[0] && product.sellers[0].price}
-                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
-                                                image={product.image}
-                                                name={product.name}
-                                                model={product.model}
-                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                existence={product.availability_status}
-                                            />
+                                            <Col xs={6} sm={4}>
+                                                <BoxProduct
+                                                    id={product && product.sellers[0] && product.sellers[0].id}
+                                                    key={product.code}
+                                                    availability_count={product.availability_count}
+                                                    discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                    price={product && product.sellers[0] && product.sellers[0].price}
+                                                    old_price={product && product.sellers[0] && product.sellers[0].old_price}
+                                                    image={product.image}
+                                                    name={product.name}
+                                                    model={product.model}
+                                                    is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                    existence={product.availability_status}
+                                                />
+                                            </Col>
                                         ))
                                     }
                                 </div>
@@ -147,6 +150,7 @@ export default function Home() {
                                 isMore={true}
                             >
                                 <div className="products-container">
+
                                     {
                                         authContext.data && authContext.data.products_without_discount.length > 0 ?
                                             <>
@@ -214,7 +218,7 @@ export default function Home() {
                             >
                                 <div className="products-container">
                                     {
-                                        topSeling && topSeling.length > 0 ?
+                                        topSeling ?
                                             <>
                                                 <Swiper
                                                     style={{ width: "100%" }}
@@ -241,7 +245,7 @@ export default function Home() {
                                                 >
                                                     {
                                                         topSeling ? (
-                                                            topSeling &&
+                                                            topSeling && topSeling.length > 0 &&
                                                             topSeling.map((product) => (
                                                                 <SwiperSlide key={product.product_or_service_code}>
                                                                     <BoxProduct
@@ -249,10 +253,10 @@ export default function Home() {
                                                                         availability_count={product.availability_count}
                                                                         discount_percentage={product.discount_percentage}
                                                                         price={product.price}
-                                                                        old_price={product.price_with_discount}
-                                                                        image={product.product_or_service.image}
-                                                                        name={product.product_or_service.name}
-                                                                        model={product.product_or_service.model}
+                                                                        old_price={product.old_price}
+                                                                        image={product.image}
+                                                                        name={product.name}
+                                                                        model={product.model}
                                                                         is_discount={product.is_discount}
                                                                         existence={product.availability_status}
                                                                     />

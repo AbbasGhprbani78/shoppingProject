@@ -22,7 +22,6 @@ function App() {
     try {
       const response = await axios.get(`${IP}/product/home/`)
       if (response.status === 200) {
-        console.log(response)
         setdata(response.data)
       }
     } catch (error) {

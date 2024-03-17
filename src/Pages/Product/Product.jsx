@@ -39,6 +39,7 @@ import AuthContext from '../../Context/AuthContext';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
+
 function CustomTabPanel(props) {
 
     const { children, value, index, ...other } = props;
@@ -95,8 +96,8 @@ export default function Product() {
     const [allComment, setAllComment] = useState([])
     const [mainContent, setMainContent] = useState(null)
     const authContext = useContext(AuthContext)
-
-
+    const [purchasedProduct, setPurchasedProduct] = useState([])
+    const [relatedProducts, setRelatedProduct] = useState([])
 
     const handleImageHover = (newSrc) => {
         setMainImageSrc(newSrc);
@@ -157,11 +158,10 @@ export default function Product() {
 
     // }, [hours, minutes, seconds])
 
-    const getcomment = async (id) => {
+    const getcomment = async () => {
         try {
             const response = await axios.get(`${IP}/product/get-comment/${id}`)
             if (response.status === 200) {
-                // console.log(response.data)
                 setAllComment(response.data)
             }
         } catch (error) {
@@ -199,14 +199,25 @@ export default function Product() {
         }
     }
 
-    const getProductRelatedBoughtNext = async (id) => {
+    const getProductBoughtNext = async () => {
         try {
-            const response = await axios.get(`${IP}/`)
+            const response = await axios.get(`${IP}/product/product-purchased/${id}`)
             if (response.status === 200) {
-                console.log(response.data)
+                setPurchasedProduct(response.data)
             }
         } catch (error) {
+            console.log(error.message)
+        }
+    }
 
+    const getRelatedProducts = async () => {
+        try {
+            const response = await axios.get(`${IP}/product/product-is-same-category/${id}`)
+            if (response.status === 200) {
+                setRelatedProduct(response.data)
+            }
+        } catch (error) {
+            console.log(error.message)
         }
     }
 
@@ -230,17 +241,16 @@ export default function Product() {
         setMainContent(e.target.textContent)
         getotherProduct(id)
         setMainId(id)
-        // getProductRelatedBoughtNext(id)
     }
 
     const getProductInfo = async () => {
-
         const body = {
             id: id
         }
         try {
             const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
+                console.log(response.data)
                 getcomment(id)
                 setProductInfo(response.data)
                 setMainContent(productInfo.product[0].brand_name)
@@ -249,10 +259,72 @@ export default function Product() {
             console.log(error.message)
         }
     }
-        ;
+
+    const likeHandler = async (id) => {
+        if (authContext.token) {
+            console.log("hello")
+            const access = localStorage.getItem('user')
+            const headers = {
+                Authorization: `Bearer ${access}`
+            };
+            const body = {
+                liked: true
+            }
+            try {
+                const response = await axios.post(`${IP}/product/like/${id}`, body, {
+                    headers
+                })
+                if (response.status === 201) {
+                    getcomment(id)
+                }
+            } catch (error) {
+                console.log(error.message)
+
+            }
+        } else {
+            swal({
+                title: "برای ثبت  like یا dislike باید ثبت نام کنید",
+                icon: "warning",
+                button: "باشه"
+            })
+        }
+
+    }
+    const disLikeHandler = async (id) => {
+
+        if (authContext.token) {
+            const access = localStorage.getItem('user')
+            const headers = {
+                Authorization: `Bearer ${access}`
+            };
+            const body = {
+                liked: false
+            }
+            try {
+                const response = await axios.post(`${IP}/product/like/${id}`, body, {
+                    headers
+                })
+
+                if (response.status === 201) {
+                    getcomment(id)
+                }
+            } catch (error) {
+                console.log(error.message)
+            }
+
+        } else {
+            swal({
+                title: "برای ثبت  like یا dislike باید ثبت نام کنید",
+                icon: "warning",
+                button: "باشه"
+            })
+        }
+    }
 
     useEffect(() => {
         getProductInfo()
+        getProductBoughtNext()
+        getRelatedProducts()
     }, [])
 
     useEffect(() => {
@@ -280,18 +352,14 @@ export default function Product() {
                                 className="mySwiper"
                                 centeredSlides={true}
                             >
-                                <SwiperSlide className='slider-item'>
-                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                                </SwiperSlide>
-                                <SwiperSlide className='slider-item'>
-                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                                </SwiperSlide>
-                                <SwiperSlide className='slider-item'>
-                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                                </SwiperSlide>
-                                <SwiperSlide className='slider-item'>
-                                    <img className="image-more-product" src="../../../public/Images/65A6KTUK_2_Supersize.avif" alt="" />
-                                </SwiperSlide>
+                                {productInfo &&
+                                    productInfo.product[0] && productInfo.product[0].image.map(image => (
+                                        <SwiperSlide className='slider-item'>
+                                            <img className="image-more-product" src={`${IP}${image}`} alt="" />
+                                        </SwiperSlide>
+                                    ))
+                                }
+
                             </Swiper>
                         </div>
                         <div className="roduct-more-img-info">
@@ -322,23 +390,26 @@ export default function Product() {
                             <ProductsWrapper
                                 isMore={false}
                             >
-                                <div className="all-Products-more scroll-product">
+                                <div className="all-Products scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
-                                                price={product && product.sellers[0] && product.sellers[0].price}
-                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
-                                                image={product.image}
-                                                name={product.name}
-                                                model={product.model}
-                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                existence={product.availability_status}
-                                            />
+                                            <Col xs={6} md={4}>
+                                                <BoxProduct
+                                                    id={product && product.sellers[0] && product.sellers[0].id}
+                                                    key={product.code}
+                                                    availability_count={product.availability_count}
+                                                    discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                    price={product && product.sellers[0] && product.sellers[0].price}
+                                                    old_price={product && product.sellers[0] && product.sellers[0].old_price}
+                                                    image={product.image}
+                                                    name={product.name}
+                                                    model={product.model}
+                                                    is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                    existence={product.availability_status}
+                                                />;
+                                            </Col>
+
                                         ))
                                     }
                                 </div>
@@ -360,32 +431,6 @@ export default function Product() {
                                                             }
                                                             <img className='main-img-product' alt="image product" src={`${IP}${productInfo.product[0].image}`} />
                                                         </div>
-                                                        {/* <div className="some-img">
-                                                        <div className="main-product-img-item">
-                                                            <img className='sub-img-product'
-                                                                src="../../../public/Images/15.png"
-                                                                alt=""
-                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                            />
-                                                        </div>
-                                                        <div className="main-product-img-item">
-                                                            <img className='sub-img-product'
-                                                                src="../../../public/Images/17.jpg"
-                                                                alt=""
-                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                            />
-                                                        </div>
-                                                        <div className="main-product-img-item">
-                                                            <img className='sub-img-product'
-                                                                src="../../../public/Images/16.jpg"
-                                                                alt=""
-                                                                onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                onMouseLeave={() => setMainImageSrc("../../../public/Images/18.jpg")}
-                                                            />
-                                                        </div>
-                                                    </div> */}
                                                     </Col>
                                                     <Col xs={12} className='main-product-info' lg={8}>
                                                         <div className="main-product-name-score d-flex justify-content-between align-items-center">
@@ -403,20 +448,18 @@ export default function Product() {
                                                                 <div>
                                                                     <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
                                                                     <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
-                                                                    <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span>02514sm</p>
-                                                                    <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span> سنگ</p>
-                                                                    <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span>مشکی ، کرمی ، صورتی ، طوسی</p>
+                                                                    <p className='main-product-material text-main-product'><span className='main-product-model-span'>جنس :</span></p>
+                                                                    <p className='main-product-cdoes text-main-product'><span className='main-product-model-span'>سریال :</span>{productInfo.product[0].id}</p>
+                                                                    <p className='main-product-color text-main-product'> <span className='main-product-model-span'>رنگ ها :</span></p>
                                                                 </div>
                                                                 <div className="main-product-price-wrapper">
 
                                                                     <p className='main-product-price-title'>{
                                                                         productInfo.product[0].is_discount === true &&
-                                                                        <strike className='main-product-price-old'>{productInfo.product[0].old_price}</strike>
+                                                                        <strike className='main-product-price-old'>{productInfo.product[0].old_price.toLocaleString("fa")}</strike>
                                                                     }
 
-                                                                        <p className='main-product-price-new'> {Math.round(productInfo.product[0].
-                                                                            price)
-                                                                        }<span className='main-product-price-new-currency'>تومان</span></p>
+                                                                        <p className='main-product-price-new'> {Math.round(productInfo.product[0].price).toLocaleString("fa")}<span className='main-product-price-new-currency'>تومان</span></p>
                                                                     </p>
                                                                     <div className='options-buy'>
                                                                         <button
@@ -513,8 +556,8 @@ export default function Product() {
                                                         aria-label="basic tabs example"
                                                         variant="scrollable"
                                                     >
-                                                        <Tab label={<><SellOutlinedIcon fontSize="small" /><span className='tab-title'>محصول مشخصات</span></>} {...a11yProps(0)} />
-                                                        <Tab label={<><ChatBubbleOutlineIcon fontSize="small" /><span className='tab-title'>مشتریان دیدگاه</span></>} {...a11yProps(1)} />
+                                                        <Tab label={<><SellOutlinedIcon fontSize="small" /><span className='tab-title'>مشخصات محصول </span></>} {...a11yProps(0)} />
+                                                        <Tab label={<><ChatBubbleOutlineIcon fontSize="small" /><span className='tab-title'>دیدگاه مشتریان </span></>} {...a11yProps(1)} />
                                                         <Tab label={<><CreditCardIcon fontSize="small" /><span className='tab-title'>پرداخت الکترونیکی </span> </>} {...a11yProps(2)} />
                                                     </Tabs>
                                                 </Box>
@@ -547,6 +590,10 @@ export default function Product() {
                                                                                 date={comment.date_time}
                                                                                 text={comment.comment}
                                                                                 id={comment.id}
+                                                                                dislike={comment.num_dislikes}
+                                                                                like={comment.num_likes}
+                                                                                likeHandler={likeHandler}
+                                                                                disLikeHandler={disLikeHandler}
                                                                             />
                                                                         ))
                                                                     }
@@ -556,7 +603,6 @@ export default function Product() {
                                                                         هیچ کامنتی وجود ندارد
                                                                     </Alert>
                                                                 </>
-
                                                         }
                                                     </div>
                                                     {
@@ -632,11 +678,36 @@ export default function Product() {
                                         }
                                         }
                                     >
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
+                                        {
+                                            purchasedProduct && purchasedProduct.length > 0 ?
+                                                <>
+                                                    {
+                                                        purchasedProduct.map(product => (
+                                                            <SwiperSlide
+                                                                key={product.id}
+                                                            >
+                                                                <BoxProduct
+                                                                    id={product.id}
+                                                                    availability_count={product.availability_count}
+                                                                    discount_percentage={product.discount_percentage}
+                                                                    price={product.price}
+                                                                    old_price={product.old_price}
+                                                                    image={product.image}
+                                                                    name={product.name}
+                                                                    model={product.model}
+                                                                    is_discount={product.is_discount}
+                                                                    existence={product.availability_status}
+                                                                />
+                                                            </SwiperSlide>
+                                                        ))
+                                                    }
+                                                </> :
+                                                <>
+                                                    <div className='d-flex justify-content-center'>
+                                                        <div class="spinner"></div>
+                                                    </div>
+                                                </>
+                                        }
                                     </Swiper>
                                 </div>
                             </ProductsWrapper>
@@ -668,18 +739,43 @@ export default function Product() {
                                         }
                                         }
                                     >
+                                        {
+                                            relatedProducts && relatedProducts.length > 0 ?
+                                                <>
+                                                    {
+                                                        relatedProducts.map(product => (
 
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
-                                        <SwiperSlide > <BoxProduct /></SwiperSlide>
+                                                            <SwiperSlide
+                                                                key={product.key}
+                                                            >
+                                                                <BoxProduct
+                                                                    id={product.id}
+                                                                    availability_count={product.availability_count}
+                                                                    discount_percentage={product.discount_percentage}
+                                                                    price={product.price}
+                                                                    old_price={product.old_price}
+                                                                    image={product.image}
+                                                                    name={product.name}
+                                                                    model={product.model}
+                                                                    is_discount={product.is_discount}
+                                                                    existence={product.availability_status}
+                                                                />
+                                                            </SwiperSlide>
+                                                        ))
+                                                    }
+                                                </> :
+                                                <>
+                                                    <div className='d-flex justify-content-center'>
+                                                        <div class="spinner"></div>
+                                                    </div>
+                                                </>
+                                        }
                                     </Swiper>
                                 </div>
                             </ProductsWrapper>
                         </>
                 }
-            </div>
+            </div >
             <Footer />
         </>
     )

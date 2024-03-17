@@ -6,21 +6,19 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { IP } from '../../App'
 import axios from 'axios';
 import dayjs from 'dayjs';
+import swal from 'sweetalert';
 export default function Comments({
     date,
     text,
-    id, }) {
+    id,
+    dislike,
+    like,
+    likeHandler,
+    disLikeHandler
+}) {
 
-    const [like, setLike] = useState(0)
-    const [disLike, setDisLike] = useState(0)
     const newDate = dayjs(date).format("YYYY/MM/DD HH:mm")
-    const likeHandler = () => {
 
-        setLike(prevState => prevState + 1)
-    }
-    const disLikeHandler = () => {
-        setDisLike(prevState => prevState + 1)
-    }
 
     return (
 
@@ -36,20 +34,17 @@ export default function Comments({
                 </div>
                 <div className="like-dislike-wrapper">
                     <div className='div-like text-center'>
-                        <div className=" like-con"><ThumbUpIcon onClick={likeHandler} /></div>
-                        <p>{like > 0 ? like : 0}</p>
+                        <div className=" like-con"><ThumbUpIcon onClick={() => likeHandler(id)} /></div>
+                        <p>{like}</p>
                     </div>
                     <div className='div-dislike text-center'>
-                        <div className="like-con"><ThumbDownIcon onClick={disLikeHandler} /></div>
-                        <p>{disLike > 0 ? disLike : 0}</p>
+                        <div className="like-con"><ThumbDownIcon onClick={() => disLikeHandler(id)} /></div>
+                        <p>{dislike}</p>
                     </div>
                 </div>
             </div>
             <p className="date-comment mt-2">{newDate}</p>
         </div>
-
-
-
     )
 }
 

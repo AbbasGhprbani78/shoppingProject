@@ -187,7 +187,6 @@ export default function Header() {
             });
             if (response.status === 200) {
                 updateSearchResults(response.data.products)
-                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message);

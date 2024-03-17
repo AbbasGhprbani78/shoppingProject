@@ -60,23 +60,25 @@ export default function Basket() {
                                 isMore={false}
                             >
 
-                                <div className="all-Products-more scroll-product">
+                                <div className="all-Products scroll-product">
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <BoxProduct
-                                                id={product.id}
-                                                key={product.code}
-                                                availability_count={product.availability_count}
-                                                discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
-                                                price={product && product.sellers[0] && product.sellers[0].price}
-                                                old_price={product && product.sellers[0] && product.sellers[0].old_price}
-                                                image={product.image}
-                                                name={product.name}
-                                                model={product.model}
-                                                is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                existence={product.availability_status}
-                                            />
+                                            <Col xs={6} md={4}>
+                                                <BoxProduct
+                                                    id={product && product.sellers[0] && product.sellers[0].id}
+                                                    key={product.code}
+                                                    availability_count={product.availability_count}
+                                                    discount_percentage={product && product.sellers[0] && product.sellers[0].discount_percentage}
+                                                    price={product && product.sellers[0] && product.sellers[0].price}
+                                                    old_price={product && product.sellers[0] && product.sellers[0].old_price}
+                                                    image={product.image}
+                                                    name={product.name}
+                                                    model={product.model}
+                                                    is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
+                                                    existence={product.availability_status}
+                                                />
+                                            </Col>
                                         ))
                                     }
                                 </div>
