@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
 import { SearchProvider } from './Context/SearchContext';
-// export const IP = "http://185.79.156.226:9500"
-export const IP = "https://shop.ariisco.com"
+export const IP = "http://185.79.156.226:8500"
+// export const IP = "https://shop.ariisco.com"
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -30,12 +30,18 @@ function App() {
   }
 
   const numberBoughtProduct = async () => {
-    try {
 
-      const response = await axios.get(`${IP}/`)
+    const access = localStorage.getItem("user")
+    const headers = {
+      Authorization: `Bearer ${access}`
+    };
+    try {
+      const response = await axios.get(`${IP}/product/cart-count/`, {
+        headers
+      })
       if (response.status === 200) {
-        console.log(response.data)
-        // setProductNumber()
+        // console.log(response.data)
+        setProductNumber(response.data.total_products_in_cart)
       }
     } catch (error) {
       console.log(error.message)
@@ -107,6 +113,10 @@ function App() {
   useEffect(() => {
     checkUser()
   }, [])
+
+  useEffect(() => {
+    numberBoughtProduct()
+  }, [productNumber])
 
   let router = useRoutes(routes)
 

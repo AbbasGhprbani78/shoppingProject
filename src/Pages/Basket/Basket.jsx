@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Basket.css'
 import Header from '../../Components/Header/Header'
 import BasketItem from '../../Components/BasketItem/BasketItem'
@@ -11,11 +11,12 @@ import BoxProduct from '../../Components/BoxProduct/BoxProduct'
 import axios from 'axios'
 import { IP } from '../../App'
 import swal from 'sweetalert'
+import AuthContext from '../../Context/AuthContext'
 
 export default function Basket() {
     const { searchResults } = useSearchContext();
     const [allProduct, setAllProduct] = useState(null);
-
+    const authContext = useContext(AuthContext);
 
     const getAllProductBasket = async () => {
         const access = localStorage.getItem("user")
@@ -23,11 +24,11 @@ export default function Basket() {
             Authorization: `Bearer ${access}`
         };
         try {
-            const response = await axios.get(`${IP}//`, {
+            const response = await axios.get(`${IP}/product/cart-detail/`, {
                 headers
             })
             if (response.status === 200) {
-                console.log(response.data)
+                setAllProduct(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -49,18 +50,18 @@ export default function Basket() {
         }).then(async result => {
             if (result) {
                 try {
-                    const response = await axios.delete(`${IP}//`, body, {
+                    const response = await axios.post(`${IP}/product/remove-order/`, body, {
                         headers
                     });
 
                     if (response.status === 200) {
-                        console.log(response.data)
                         swal({
                             title: "محصول باموفقیت از سبد خرید حذف شد",
                             icon: "success",
                             button: "باشه"
                         })
-                        // getAllProductBasket()
+                        getAllProductBasket()
+                        authContext.numberBoughtProduct()
                     }
                 } catch (error) {
                     console.log(error.message);
@@ -83,12 +84,12 @@ export default function Basket() {
             state: "increase"
         }
         try {
-            const response = await axios.post(`${IP}//`, body, {
+            const response = await axios.post(`${IP}/product/change-order-count/`, body, {
                 headers
             })
             if (response.status === 200) {
-                console.log(response.data)
-                // getAllProductBasket()
+                getAllProductBasket()
+                authContext.numberBoughtProduct()
             }
         } catch (error) {
             console.log(error.message)
@@ -105,22 +106,21 @@ export default function Basket() {
             state: "decrease"
         }
         try {
-            const response = await axios.post(`${IP}//`, body, {
+            const response = await axios.post(`${IP}/product/change-order-count/`, body, {
                 headers
             })
             if (response.status === 200) {
-                console.log(response.data)
-                // getAllProductBasket()
+                getAllProductBasket()
+                authContext.numberBoughtProduct()
             }
         } catch (error) {
             console.log(error.message)
         }
     }
 
-
-    // useEffect(() => {
-    //     getAllProductBasket()
-    // }, [])
+    useEffect(() => {
+        getAllProductBasket()
+    }, [])
 
 
     return (
@@ -168,24 +168,43 @@ export default function Basket() {
                             </ProductsWrapper>
                         </> :
                         <>
-                            <div className="basket-items-container">
-                                <BasketItem
-                                    deleteProduct={deleteProduct}
-                                    increaseProductNumber={increaseProductNumber}
-                                    decreaseProductNumber={decreaseProductNumber}
-                                />
-                                <BasketItem />
-                                <BasketItem />
-                                <BasketItem />
-                                <BasketItem />
-                                <BasketItem />
-                            </div>
-                            <TotalAmount />
-                            {/* <div className='d-flex flex-column justify-content-center align-items-center'>
-                                <img src="../../../public/Images/empty-cart.svg" alt="" />
-                                <p className='text-empty-basket'> سبد خرید شما خالی است !</p>
-                            </div> */}
-
+                            {
+                                allProduct && allProduct.order_details && allProduct.order_details.length > 0 ?
+                                    <>
+                                        <div className="basket-items-container">
+                                            {
+                                                allProduct.order_details.map(product => (
+                                                    <BasketItem
+                                                        key={product.order_detail_id}
+                                                        id={product.order_detail_id}
+                                                        discount={product.discount}
+                                                        price={product.price_paid_per_item}
+                                                        totalPrice={product.subtotal}
+                                                        count={product.number_sold}
+                                                        productId={product.product_seller_id}
+                                                        name={product.name}
+                                                        model={product.model}
+                                                        image={product.image}
+                                                        deleteProduct={deleteProduct}
+                                                        increaseProductNumber={increaseProductNumber}
+                                                        decreaseProductNumber={decreaseProductNumber}
+                                                    />
+                                                ))
+                                            }
+                                        </div>
+                                        <TotalAmount
+                                            getAllProductBasket={getAllProductBasket}
+                                            total={allProduct.total_price}
+                                            cart_id={allProduct.cart_id}
+                                        />
+                                    </> :
+                                    <>
+                                        <div className='d-flex flex-column justify-content-center align-items-center'>
+                                            <img src="../../../public/Images/empty-cart.svg" alt="" />
+                                            <p className='text-empty-basket'> سبد خرید شما خالی است !</p>
+                                        </div>
+                                    </>
+                            }
                         </>
                 }
 

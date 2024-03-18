@@ -96,7 +96,6 @@ export default function Product() {
     const [relatedProducts, setRelatedProduct] = useState()
     const [mainImageSrc, setMainImageSrc] = useState(null);
 
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -120,15 +119,16 @@ export default function Product() {
             count: 1
         }
         try {
-            const response = await axios.post(`${IP}//`, body, {
+            const response = await axios.post(`${IP}/product/add-product/`, body, {
                 headers
             })
             if (response.status === 201) {
                 console.log(response)
-                // setShowProductModal(true)
+                setShowProductModal(true)
+                authContext.numberBoughtProduct()
             }
         } catch (error) {
-            console.lof(error.message)
+            console.log(error.message)
         }
 
     }
@@ -499,16 +499,16 @@ export default function Product() {
                                                                     <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
                                                                     {Object.keys(productInfo.product[0].properties).map((fieldName, index) => (
                                                                         <div key={index}>
-                                                                            <p className='main-product-model text-main-product'><span className='main-product-model-span'>{fieldName} :</span> {Array.isArray(productInfo.product[0].properties[fieldName]) ? (
-                                                                                <>
-                                                                                    {productInfo.product[0].properties[fieldName].map((value, index) => (
-                                                                                        <span key={index}>{value},</span>
-                                                                                    ))}
-                                                                                </>
-                                                                            ) : (
-                                                                                <span>{productInfo.product[0].properties[fieldName]}</span>
-                                                                            )}</p>
-
+                                                                            <p className='main-product-model text-main-product'>
+                                                                                <span className='main-product-model-span'>{fieldName} :</span> {Array.isArray(productInfo.product[0].properties[fieldName]) ? (
+                                                                                    <>
+                                                                                        {productInfo.product[0].properties[fieldName].map((value, index) => (
+                                                                                            <span key={index}>{value},</span>
+                                                                                        ))}
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <span>{productInfo.product[0].properties[fieldName]}</span>
+                                                                                )}</p>
                                                                         </div>
                                                                     ))}
                                                                 </div>

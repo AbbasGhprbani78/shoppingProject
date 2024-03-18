@@ -4,31 +4,42 @@ import { Col } from 'react-bootstrap'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
+import { IP } from '../../App';
 
 export default function BasketItem({
     deleteProduct,
     increaseProductNumber,
     decreaseProductNumber,
+    discount,
+    price,
+    totalPrice,
+    count,
+    name,
+    model,
+    id,
+    image,
+    productId
 
 }) {
-    const [value, setValue] = useState(1)
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+    const [value, setValue] = useState(count)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const handleValueChange = (event) => {
         const newValue = parseInt(event.target.value);
         if (!isNaN(newValue)) {
+            setValue(newValue);
             if (newValue > value) {
-                increaseProductNumber();
+                increaseProductNumber(productId);
             } else if (newValue < value) {
                 if (value === 1) {
                     deleteProduct()
                     setValue(1);
                 }
-                decreaseProductNumber()
-            } if (value < 1) {
+                decreaseProductNumber(productId)
+            }
+            if (value < 1) {
                 setValue(1)
             }
-
         }
     };
 
@@ -54,17 +65,17 @@ export default function BasketItem({
                             <div className="delete-mobile-close">
                                 <CloseIcon
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => deleteProduct("id")}
+                                    onClick={() => deleteProduct(id)}
                                 />
                             </div>
                             <div className="img-mobile-wrapper">
-                                <img src="../../../public/Images/12.jfif" alt="" className="img-mobile" />
+                                <img src={`${IP}${image}`} alt="" className="img-mobile" />
                             </div>
                             <div className="mobile-wrapper-content">
                                 <div className='first'>
                                     <div className="mobile-name-model-wrapper">
-                                        <p className="mobile-name">شیرالات یک</p>
-                                        <p className="mobile-model">مدل 0285</p>
+                                        <p className="mobile-name"> {name}</p>
+                                        <p className="mobile-model"> {model}</p>
                                     </div>
                                     <TextField
                                         type="number"
@@ -78,14 +89,14 @@ export default function BasketItem({
                                 <div className="mobile-price">
                                     <p>قیمت</p>
                                     <div className='second'>
-                                        <p className="basket-price">6.000.000</p>
+                                        <p className="basket-price">{price.toLocaleString("fa")}</p>
                                         <div style={{ marginRight: "5px" }} className="basket-currency">تومان</div>
                                     </div>
                                 </div>
                                 <div className="mobile-price-all">
                                     <p>کل</p>
                                     <div className='third'>
-                                        <p className="basket-all-price">6.000.000</p>
+                                        <p className="basket-all-price">{totalPrice.toLocaleString("fa")}</p>
                                         <div style={{ marginRight: "5px" }} className="basket-currency">تومان</div>
                                     </div>
                                 </div>
@@ -114,20 +125,20 @@ export default function BasketItem({
                                         <div className="basket-img-text-icon-wrapper">
                                             <DeleteOutlineOutlinedIcon
                                                 style={{ color: "#f14444", cursor: "pointer" }}
-                                                onClick={() => deleteProduct("id")}
+                                                onClick={() => deleteProduct(id)}
                                             />
                                             <div className="img-basket-item-wrapper">
-                                                <img src="../../../public/Images/12.jfif" alt="" />
+                                                <img src={`${IP}${image}`} alt="" />
                                             </div>
                                             <div className="texts-wrapper">
-                                                <p className='basket-name'> شیرالات یک</p>
-                                                <p className="basket-model"> مدل 0285</p>
+                                                <p className='basket-name'>{name}</p>
+                                                <p className="basket-model"> {model} </p>
                                             </div>
                                         </div>
                                     </Col>
                                     <Col className='text-center' md={3}>
                                         <div className="basket-price-wrapper">
-                                            <p className="basket-price">6.000.000</p>
+                                            <p className="basket-price">{price.toLocaleString("fa")}</p>
                                             <div className="basket-currency">تومان</div>
                                         </div>
                                     </Col>
@@ -141,12 +152,11 @@ export default function BasketItem({
                                                 value={value}
                                                 onChange={handleValueChange}
                                             />
-
                                         </div>
                                     </Col>
                                     <Col className='text-center' md={3}>
                                         <div className="basket-all-price-wrapper">
-                                            <p className="basket-all-price">6.000.000</p>
+                                            <p className="basket-all-price">{totalPrice.toLocaleString("fa")}</p>
                                             <div className="basket-currency">تومان</div>
                                         </div>
                                     </Col>

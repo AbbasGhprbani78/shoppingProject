@@ -1,19 +1,45 @@
 import React from 'react'
 import './TotalAmount.css'
-export default function TotalAmount() {
+import axios from 'axios'
+import { IP } from '../../App'
+import swal from 'sweetalert'
+export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
+
+
+    const completeBasket = async () => {
+        const access = localStorage.getItem("user")
+        const headers = {
+            Authorization: `Bearer ${access}`
+        };
+        try {
+            const response = await axios.get(`${IP}/product/order-ispaid/${cart_id}`, {
+                headers
+            })
+            if (response.status === 200) {
+                swal({
+                    title: "خرید با موفقیت انجام شد",
+                    icon: "success",
+                    button: "باشه"
+                })
+                getAllProductBasket()
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
         <>
             <div className='totalamount-wrapper'>
                 <div className="total-price-wrapper">
                     مبلغ کل
-                    <span>   6.000.000 تومان</span>
+                    <span>{total.toLocaleString("fa")} تومان</span>
                 </div>
                 <div className="amount-payable-wrapper">
                     مبلغ قابل پرداخت
-                    <span>   6.000.000 تومان</span>
+                    <span>{total.toLocaleString("fa")} تومان</span>
                 </div>
                 <div className="complete-basket-btn-wrapper" >
-                    <button className="complete-basket-btn">
+                    <button className="complete-basket-btn" onClick={completeBasket}>
                         تکمیل سبد خرید
                     </button>
                 </div>
