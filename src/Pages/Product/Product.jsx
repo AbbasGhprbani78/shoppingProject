@@ -863,47 +863,5 @@ export default function Product() {
 
 
 
-//     const handleImageHover = (src) => {
-//         setMainImageSrc(src);
-//     };
-
-//     return (
-//         <Col xs={12} className='images-wrapper' lg={4}>
-//             <div className="main-img-product-wrapper" onClick={() => setIsShowImage(true)}>
-//                 {
-//                     productInfo.product[0].is_discount === true &&
-//                     <ProductOff off={productInfo.product[0].discount_percentage} />
-//                 }
-//                 <img className='main-img-product' alt="image product" src={`${mainImageSrc ? mainImageSrc : IPproductInfo.product[0].image}`} />
-//             </div>
-//             <div className="some-img">
-//                 <div className="main-product-img-item">
-//                     <img className='sub-img-product'
-//                         src={`${IP}${productInfo.product[0].image}`}
-//                         alt=""
-//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
-//                         onMouseLeave={() => setMainImageSrc("")}
-//                     />
-//                 </div>
-//                 <div className="main-product-img-item">
-//                     <img className='sub-img-product'
-//                         src={`${IP}${productInfo.product[1].image}`} {/* Update with the appropriate index */}
-//                         alt=""
-//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
-//                         onMouseLeave={() => setMainImageSrc("")}
-//                     />
-//                 </div>
-//                 <div className="main-product-img-item">
-//                     <img className='sub-img-product'
-//                         src={`${IP}${productInfo.product[2].image}`} {/* Update with the appropriate index */}
-//                         alt=""
-//                         onMouseEnter={(e) => handleImageHover(e.target.src)}
-//                         onMouseLeave={() => setMainImageSrc("")}
-//                     />
-//                 </div>
-//             </div>
-//         </Col>
-//     );
-// };
 
 

@@ -104,6 +104,7 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .mobile-name-model-wrapper {
@@ -128,11 +129,35 @@
     align-items: center;
 }
 
-.mobile-wrapper-content {}
 
 .mobile-price-all {
     display: flex;
     align-items: center;
     justify-content: space-around;
     margin-top: 20px;
+}
+
+.basket-number-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.change-count-wrraper {
+    display: flex;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    padding: 3px 10px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.count-content {
+    margin: 0 15px;
+}
+
+.increase-count,
+.decrease-count,
+.count-content {
+    cursor: pointer;
+    color: var(--color-7);
 }

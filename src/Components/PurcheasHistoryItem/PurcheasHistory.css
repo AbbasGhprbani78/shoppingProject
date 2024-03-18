@@ -1,8 +1,8 @@
 @import url('../../Main.css');
 
-.purchaseHistory-wrapper {
+.PurcheasHistoryItem {
     box-shadow: var(--box-shadow);
     border-radius: var(--border-raduis);
-    margin-top: 30px;
-    padding: 25px;
+    padding: 15px;
+
 }

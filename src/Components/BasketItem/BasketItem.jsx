@@ -3,8 +3,10 @@ import './BasketItem.css'
 import { Col } from 'react-bootstrap'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { IP } from '../../App';
+import { useLocation } from 'react-router-dom';
 
 export default function BasketItem({
     deleteProduct,
@@ -21,28 +23,24 @@ export default function BasketItem({
     productId
 
 }) {
-
-    const [value, setValue] = useState(count)
+    const { pathname } = useLocation();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const handleValueChange = (event) => {
-        const newValue = parseInt(event.target.value);
-        if (!isNaN(newValue)) {
-            setValue(newValue);
-            if (newValue > value) {
-                increaseProductNumber(productId);
-            } else if (newValue < value) {
-                if (value === 1) {
-                    deleteProduct(id)
-                    setValue(1);
-                } if (value > 1) {
-                    decreaseProductNumber(productId)
-                }
-            }
-            if (value < 1) {
-                setValue(1)
-            }
+    const [value, setValue] = useState(count)
+
+    const increaseCountHandler = () => {
+        increaseProductNumber(productId);
+        setValue(prevValue => prevValue + 1);
+    }
+
+
+    const decreaseCountHandler = () => {
+        if (count === 1) {
+            deleteProduct(id)
+        } if (count > 1) {
+            setValue(prevValue => prevValue - 1);
+            decreaseProductNumber(productId)
         }
-    };
+    }
 
 
     useEffect(() => {
@@ -57,6 +55,11 @@ export default function BasketItem({
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
     return (
         <>
             {
@@ -78,14 +81,11 @@ export default function BasketItem({
                                         <p className="mobile-name"> {name}</p>
                                         <p className="mobile-model"> {model}</p>
                                     </div>
-                                    <TextField
-                                        type="number"
-                                        variant="outlined"
-                                        className="basket-number"
-                                        inputProps={{ min: 0 }}
-                                        value={value}
-                                        onChange={handleValueChange}
-                                    />
+                                    <div className='change-count-wrraper'>
+                                        <div onClick={increaseCountHandler} className="increase-count"><AddIcon /></div>
+                                        <div className="count-content">{value}</div>
+                                        <div onClick={decreaseCountHandler} className="decrease-count"><RemoveIcon /></div>
+                                    </div>
                                 </div>
                                 <div className="mobile-price">
                                     <p>قیمت</p>
@@ -145,14 +145,11 @@ export default function BasketItem({
                                     </Col>
                                     <Col className='text-center' md={3}>
                                         <div className="basket-number-wrapper">
-                                            <TextField
-                                                type="number"
-                                                variant="outlined"
-                                                className="basket-number"
-                                                inputProps={{ min: 0 }}
-                                                value={value}
-                                                onChange={handleValueChange}
-                                            />
+                                            <div className='change-count-wrraper'>
+                                                <div onClick={increaseCountHandler} className="increase-count"><AddIcon /></div>
+                                                <div className="count-content">{value}</div>
+                                                <div onClick={decreaseCountHandler} className="decrease-count"><RemoveIcon /></div>
+                                            </div>
                                         </div>
                                     </Col>
                                     <Col className='text-center' md={3}>
@@ -169,3 +166,33 @@ export default function BasketItem({
         </>
     )
 }
+
+
+// const handleValueChange = (event) => {
+//     const newValue = parseInt(event.target.value);
+//     if (!isNaN(newValue)) {
+//         setValue(newValue);
+//         if (newValue > count) {
+//             increaseProductNumber(productId);
+//         } else if (newValue < count) {
+//             if (count === 1) {
+//                 deleteProduct(id)
+//                 setValue(1);
+//             } if (count > 1) {
+//                 decreaseProductNumber(productId)
+//             }
+//         }
+//         if (newValue < 1) {
+//             setValue(1)
+//         }
+//     }
+// };
+
+{/* <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                className="basket-number"
+                                                inputProps={{ min: 0 }}
+                                                value={value}
+                                                onChange={handleValueChange}
+                                            /> */}

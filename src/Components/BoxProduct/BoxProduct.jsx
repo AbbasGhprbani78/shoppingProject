@@ -1,7 +1,6 @@
 import React from 'react'
 import './BoxProduct.css'
 import ProductOff from '../ProductOff/ProductOff'
-import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { IP } from '../../App'
 export default function BoxProduct({
@@ -21,7 +20,7 @@ export default function BoxProduct({
             <div className="product-box">
                 <Link to={`/product-info/${name}/${id}`} style={{ all: "unset", cursor: "pointer" }}>
                     <div className="product-img-wrapper">{
-                        discount_percentage ?
+                        is_discount ?
                             <>
                                 <ProductOff
                                     off={discount_percentage}
