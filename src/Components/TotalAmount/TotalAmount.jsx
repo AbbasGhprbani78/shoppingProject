@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './TotalAmount.css'
 import axios from 'axios'
 import { IP } from '../../App'
 import swal from 'sweetalert'
+import AuthContext from '../../Context/AuthContext'
 export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
 
+    const authContext = useContext(AuthContext)
 
     const completeBasket = async () => {
         const access = localStorage.getItem("user")
@@ -22,6 +24,7 @@ export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
                     button: "باشه"
                 })
                 getAllProductBasket()
+                authContext.numberBoughtProduct()
             }
         } catch (error) {
             console.log(error.message)
@@ -32,10 +35,6 @@ export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
             <div className='totalamount-wrapper'>
                 <div className="total-price-wrapper">
                     مبلغ کل
-                    <span>{total.toLocaleString("fa")} تومان</span>
-                </div>
-                <div className="amount-payable-wrapper">
-                    مبلغ قابل پرداخت
                     <span>{total.toLocaleString("fa")} تومان</span>
                 </div>
                 <div className="complete-basket-btn-wrapper" >

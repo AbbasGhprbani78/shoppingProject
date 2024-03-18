@@ -158,7 +158,7 @@ export default function Brand() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={4}>
+                                            <Col xs={6} md={3}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}
@@ -170,10 +170,9 @@ export default function Brand() {
                                                     name={product.name}
                                                     model={product.model}
                                                     is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                    existence={product.availability_status}
+                                                    existence={product && product.sellers[0] && product.sellers[0].availability_status}
                                                 />
                                             </Col>
-
                                         ))
                                     }
                                 </div>

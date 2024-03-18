@@ -98,7 +98,7 @@ export default function Products() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={4}>
+                                            <Col xs={6} md={3}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}
@@ -110,7 +110,7 @@ export default function Products() {
                                                     name={product.name}
                                                     model={product.model}
                                                     is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                    existence={product.availability_status}
+                                                    existence={product && product.sellers[0] && product.sellers[0].availability_status}
                                                 />
                                             </Col>
 
@@ -185,13 +185,13 @@ export default function Products() {
                                 issue === "topssellers" ?
                                     <Paginations
                                         items={topProduct}
-                                        showcount={2}
+                                        showcount={4}
                                         setShownProducts={setShowTopProduct}
                                         pathname={`/products/${issue}`}
                                     />
                                     : <Paginations
                                         items={products}
-                                        showcount={2}
+                                        showcount={4}
                                         setShownProducts={setShownProducts}
                                         pathname={`/products/${issue}`}
                                     />

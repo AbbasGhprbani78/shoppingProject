@@ -20,11 +20,9 @@ export default function ModalBuy({ showProductModal, setShowProductModal, produc
                     <div className="ModalBuy-content-right">
                         {
                             productInfo &&
-                            <img className='ModalBuy-content-img' src={`${IP}${productInfo.product[0] && productInfo.product[0].image[0]}`} alt="" />
+                            <img className='ModalBuy-content-img' src={`${IP}${productInfo.product[0].images[0]}`} alt="" />
                         }
-
                     </div>
-
                     <div className="ModalBuy-content-left">
                         {productInfo && productInfo.product[0].description}
                     </div>

@@ -11,12 +11,15 @@ import BoxProduct from '../../Components/BoxProduct/BoxProduct'
 import axios from 'axios'
 import { IP } from '../../App'
 import swal from 'sweetalert'
+import { Col } from 'react-bootstrap'
 import AuthContext from '../../Context/AuthContext'
+import { useLocation } from 'react-router-dom';
 
 export default function Basket() {
     const { searchResults } = useSearchContext();
     const [allProduct, setAllProduct] = useState(null);
     const authContext = useContext(AuthContext);
+    const { pathname } = useLocation();
 
     const getAllProductBasket = async () => {
         const access = localStorage.getItem("user")
@@ -122,6 +125,9 @@ export default function Basket() {
         getAllProductBasket()
     }, [])
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     return (
         <>
@@ -147,7 +153,7 @@ export default function Basket() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={4}>
+                                            <Col xs={6} md={3}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}
@@ -159,7 +165,7 @@ export default function Basket() {
                                                     name={product.name}
                                                     model={product.model}
                                                     is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                    existence={product.availability_status}
+                                                    existence={product && product.sellers[0] && product.sellers[0].availability_status}
                                                 />
                                             </Col>
                                         ))

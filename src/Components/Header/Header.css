@@ -75,6 +75,36 @@
 
 }
 
+/* .basket-hover {
+    top: 100%;
+    position: absolute;
+    left: 0;
+    background-color: #ffff;
+    width: 270px;
+    height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+    z-index: 9999;
+    box-shadow: var(--box-shadow);
+    display: none;
+}
+
+.card-wrapper:hover .basket-hover {
+    display: block;
+    animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+} */
+
+
 .user {
     margin-left: 7%;
 }
@@ -118,10 +148,6 @@
     align-items: center;
     justify-content: space-between;
 }
-
-
-
-
 
 .searchicon-header {
     color: var(--color-sub-12);

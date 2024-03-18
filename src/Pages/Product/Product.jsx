@@ -123,7 +123,6 @@ export default function Product() {
                 headers
             })
             if (response.status === 201) {
-                console.log(response)
                 setShowProductModal(true)
                 authContext.numberBoughtProduct()
             }
@@ -212,7 +211,6 @@ export default function Product() {
             const response = await axios.get(`${IP}/product/product-purchased/${id}`)
             if (response.status === 200) {
                 setPurchasedProduct(response.data)
-                console.log(response.data)
             }
         } catch (error) {
             console.log(error.message)
@@ -259,7 +257,6 @@ export default function Product() {
         try {
             const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
-                console.log(response.data)
                 getcomment(id)
                 setProductInfo(response.data)
             }
@@ -353,6 +350,7 @@ export default function Product() {
     }, [pathname]);
 
 
+
     return (
         <>
             {
@@ -374,7 +372,7 @@ export default function Product() {
                                 centeredSlides={true}
                             >
                                 {productInfo &&
-                                    productInfo.product[0] && productInfo.product[0].image.map(image => (
+                                    productInfo.product[0] && productInfo.product[0].images.length > 0 && productInfo.product[0].images.map(image => (
                                         <SwiperSlide className='slider-item'>
                                             <img className="image-more-product" src={`${IP}${image}`} alt="" />
                                         </SwiperSlide>
@@ -416,7 +414,7 @@ export default function Product() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={4}>
+                                            <Col xs={6} md={3}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}
@@ -428,8 +426,8 @@ export default function Product() {
                                                     name={product.name}
                                                     model={product.model}
                                                     is_discount={product && product.sellers[0] && product.sellers[0].is_discount}
-                                                    existence={product.availability_status}
-                                                />;
+                                                    existence={product && product.sellers[0] && product.sellers[0].availability_status}
+                                                />
                                             </Col>
 
                                         ))
@@ -451,35 +449,39 @@ export default function Product() {
                                                                 <ProductOff off={productInfo.product[0].discount_percentage} />
                                                             }
                                                             <img className='main-img-product' alt="image product"
-                                                                src={`${mainImageSrc ? mainImageSrc : IP + productInfo.product[0].image}`}
+                                                                src={`${mainImageSrc ? mainImageSrc : IP + productInfo.product[0].images[0]}`}
                                                             />
                                                         </div>
-                                                        <div className="some-img">
-                                                            <div className="main-product-img-item">
-                                                                <img className='sub-img-product'
-                                                                    src={`${IP}${productInfo.product[0].image}`}
-                                                                    alt=""
-                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                    onMouseLeave={() => setMainImageSrc("")}
-                                                                />
+                                                        {
+                                                            productInfo.product[0] && productInfo.product[0].images.length > 3 &&
+                                                            <div className="some-img">
+                                                                <div className="main-product-img-item">
+                                                                    <img className='sub-img-product'
+                                                                        src={`${IP}${productInfo.product[0].images[1]}`}
+                                                                        alt=""
+                                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                        onMouseLeave={() => setMainImageSrc("")}
+                                                                    />
+                                                                </div>
+                                                                <div className="main-product-img-item">
+                                                                    <img className='sub-img-product'
+                                                                        src={`${IP}${productInfo.product[0].images[2]}`}
+                                                                        alt=""
+                                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                        onMouseLeave={() => setMainImageSrc("")}
+                                                                    />
+                                                                </div>
+                                                                <div className="main-product-img-item">
+                                                                    <img className='sub-img-product'
+                                                                        src={`${IP}${productInfo.product[0].images[3]}`}
+                                                                        alt=""
+                                                                        onMouseEnter={(e) => handleImageHover(e.target.src)}
+                                                                        onMouseLeave={() => setMainImageSrc("")}
+                                                                    />
+                                                                </div>
                                                             </div>
-                                                            <div className="main-product-img-item">
-                                                                <img className='sub-img-product'
-                                                                    src={`${IP}${productInfo.product[0].image}`}
-                                                                    alt=""
-                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                    onMouseLeave={() => setMainImageSrc("")}
-                                                                />
-                                                            </div>
-                                                            <div className="main-product-img-item">
-                                                                <img className='sub-img-product'
-                                                                    src={`${IP}${productInfo.product[0].image}`}
-                                                                    alt=""
-                                                                    onMouseEnter={(e) => handleImageHover(e.target.src)}
-                                                                    onMouseLeave={() => setMainImageSrc("")}
-                                                                />
-                                                            </div>
-                                                        </div>
+                                                        }
+
                                                     </Col>
                                                     <Col xs={12} className='main-product-info' lg={8}>
                                                         <div className="main-product-name-score d-flex justify-content-between align-items-center">
@@ -618,9 +620,13 @@ export default function Product() {
                                                             </p>
                                                         </Col>
                                                         <Col className='product-specifications-img-wrapper-col' md={5}>
-                                                            <div className='product-specifications-img-wrapper'>
-                                                                <img className='product-specifications-img' src={`${IP}${productInfo.product[0].image}`} alt="" />
-                                                            </div>
+                                                            {
+                                                                productInfo && productInfo.product[0] && productInfo.product[0].images.length > 0 &&
+                                                                <div className='product-specifications-img-wrapper'>
+                                                                    <img className='product-specifications-img' src={`${IP}${productInfo.product[0].images[0]}`} alt="" />
+                                                                </div>
+                                                            }
+
                                                         </Col>
                                                     </Row>
                                                     <Row>

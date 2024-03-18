@@ -32,10 +32,11 @@ export default function BasketItem({
                 increaseProductNumber(productId);
             } else if (newValue < value) {
                 if (value === 1) {
-                    deleteProduct()
+                    deleteProduct(id)
                     setValue(1);
+                } if (value > 1) {
+                    decreaseProductNumber(productId)
                 }
-                decreaseProductNumber(productId)
             }
             if (value < 1) {
                 setValue(1)

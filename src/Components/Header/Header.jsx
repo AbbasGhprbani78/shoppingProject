@@ -19,6 +19,7 @@ import swal from 'sweetalert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';;
 import { useSearchContext } from '../../Context/SearchContext';
+import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 
 export default function Header() {
 
@@ -165,7 +166,6 @@ export default function Header() {
         }
     }
 
-
     const showwarningLogout = () => {
         swal({
             title: "از حساب کاربری خارج می‌شوید؟",
@@ -258,6 +258,8 @@ export default function Header() {
                                                                         <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
                                                                         <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
                                                                         <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <Link to={'/purchasehistory'} style={{ all: "unset" }}><li className='register-item'>سوابق خرید<HistoryOutlinedIcon style={{ color: "#031a3d" }} /></li>
+                                                                        </Link>
                                                                     </>) :
 
                                                                     (
@@ -319,9 +321,9 @@ export default function Header() {
                                                     <p className='phone-user'>0916 295 7253 </p>
                                                     <LocalPhoneIcon />
                                                 </div>
-                                                <Link to={"#"} className="user">
-                                                    <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
-                                                    <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
+                                                <Link to={"#"} className="user" onMouseEnter={showoptionsHandler}>
+                                                    <PersonOutlineIcon className='person-header' />
+                                                    <div onMouseLeave={showoptionsHandler} ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
                                                         <div className="register-wrapper">
                                                             {
                                                                 authContext.token ? (
@@ -330,6 +332,9 @@ export default function Header() {
                                                                         <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
                                                                         <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
                                                                         <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
+                                                                        <Link to={'/purchasehistory'} style={{ all: "unset" }}><li className='register-item'>سوابق خرید<HistoryOutlinedIcon style={{ color: "#031a3d" }} /></li>
+                                                                        </Link>
+
                                                                     </>) :
 
                                                                     (
@@ -346,7 +351,17 @@ export default function Header() {
                                                         <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
                                                         <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
                                                     </svg>
-                                                    <div className='number-purchase'>{authContext && authContext.productNumber && authContext.productNumber}</div>
+                                                    {
+                                                        authContext && authContext.productNumber &&
+                                                        <div className='number-purchase'>{authContext && authContext.productNumber && authContext.productNumber}</div>
+                                                    }
+                                                    {/* <div className="basket-hover">
+                                                        <div className="product-basket-wrraper-hover">
+                                                            <div className="product-basket-product-content">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div> */}
                                                 </Link>
 
                                             </div>
@@ -385,7 +400,6 @@ export default function Header() {
                                                         </div>
                                                     )))
                                                     : (null)
-
                                             }
                                         </div>
                                     </div>

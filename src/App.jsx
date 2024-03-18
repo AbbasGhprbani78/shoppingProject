@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
 import { SearchProvider } from './Context/SearchContext';
-export const IP = "http://185.79.156.226:8500"
-// export const IP = "https://shop.ariisco.com"
+// export const IP = "http://185.79.156.226:8500"
+export const IP = "https://shop.ariisco.com"
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
