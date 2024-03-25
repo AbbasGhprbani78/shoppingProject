@@ -9,8 +9,11 @@
     color: var(--color-sub-5);
     height: 25vh;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-color) var(--scrollbar-background-color);
+}
+
+
+.brands-filter::-webkit-scrollbar {
+    display: none !important;
 }
 
 

@@ -47,7 +47,11 @@
     padding: 7px 0;
     margin-top: 25px;
     font-size: var(--font-size1);
+    transition: all .3s ease;
+}
 
+.btn-done-filter:hover {
+    background-color: #41306b;
 }
 
 .scroll-product {

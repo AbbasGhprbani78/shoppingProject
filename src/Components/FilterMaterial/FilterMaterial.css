@@ -13,6 +13,11 @@
     scrollbar-color: var(--scrollbar-color) var(--scrollbar-background-color);
 }
 
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 .delete-filter-material {
     font-size: .8rem;
     color: var(--color-7);

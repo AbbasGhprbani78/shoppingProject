@@ -323,8 +323,6 @@ export default function Category() {
                                 </Row>
                             </>
                     }
-
-
                 </div>
                 <Footer />
             </>

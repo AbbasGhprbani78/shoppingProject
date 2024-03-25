@@ -18,3 +18,18 @@
     color: var(--color-4);
     font-weight: bold;
 }
+
+.basket-empty {
+    background-color: #ffff;
+    box-shadow: var(--box-shadow);
+    width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: var(--border-raduis);
+}
+
+@media (max-width:576px) {
+    .basket-empty {
+        width: 100%;
+    }
+}

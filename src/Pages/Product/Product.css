@@ -16,8 +16,10 @@
     position: relative;
     font-size: var(--font-size2);
     font-weight: bold;
-    width: max-content;
     font-size: 1rem;
+    width: 80%;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .main-Product {
@@ -69,6 +71,7 @@
 .main-product-name-score {
     border-bottom: 1px solid #d9d9d9;
     padding-bottom: 7px;
+    width: 92%;
 }
 
 .main-product-attributes-wrapper {
@@ -79,7 +82,7 @@
 
 .timing-off-wrapper {
     color: var(--color-3);
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-top: 10px;
 }
@@ -102,10 +105,14 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-
+.title-attribute {
+    margin-bottom: 35px !important;
+}
 
 .main-product-attributes-title {
     color: var(--color-3);
+    font-weight: bold;
+    font-size: var(--font-size1);
 }
 
 .main-product-model-span {
@@ -114,8 +121,8 @@
 }
 
 .text-main-product {
-    margin-top: 10px;
-    color: #cfc9dc;
+    margin-top: 20px;
+    color: #606060;
     font-size: .9rem
 }
 
@@ -140,23 +147,27 @@
     align-items: center;
     color: var(--color-1);
     font-size: 1.1rem;
+    justify-content: space-between;
+    margin-top: 30px;
 }
 
 .main-product-price-old {
     font-size: .95rem;
     color: var(--color-4);
     margin-right: 10px;
-    font-weight: bold;
+
 }
 
 .main-product-price-new {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     color: var(--color-7);
     margin-right: 10px;
+    font-weight: bold;
 }
 
 .main-product-price-new-currency {
     font-size: .8rem;
+    margin-right: 6px;
 }
 
 .add-baskect-btn {
@@ -214,9 +225,9 @@
     height: 100%;
 }
 
-.product-specifications-top {
+/* .product-specifications-top {
     height: 45vh;
-}
+} */
 
 .product-specifications-img-wrapper {
     height: 100%;
@@ -266,8 +277,8 @@
     border: none;
     border-radius: var(--border-raduis);
     background-color: #f2f2f2;
-    width: 250px;
-    height: 100px;
+    width: 440px;
+    height: 130px;
     resize: none;
     outline: none;
     padding: 10px;
@@ -310,10 +321,10 @@
 }
 
 .options-buy {
-    margin-top: 7%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 25px;
 }
 
 .basket-options {
@@ -409,19 +420,37 @@
 }
 
 .alert-comment {
-    background-color: var(--color-3) !important;
-    color: #ffff !important;
+    margin-top: 20px;
+    color: gray !important;
+    text-align: center;
+    font-weight: bold;
 }
 
-.tab-title {
-    margin-right: 10px;
+.MuiTabScrollButton-root {
+    display: none !important;
 }
 
 .changeProduct-seller {
-    min-width: 200px;
+    min-width: 150px;
     border: 1px solid;
     outline: none;
     border-radius: 5px;
+}
+
+.sellers-text {
+    font-size: 10px;
+}
+
+.add-basket-p {
+    font-weight: bold;
+}
+
+.sellers-text {
+    font-size: .9rem;
+}
+
+.gh-price {
+    font-size: var(--font-size1);
 }
 
 @media (max-width:1061px) {
@@ -442,12 +471,24 @@
     .timing-off-wrapper {
         margin-top: 15px;
     }
+
+    .options-buy {
+        margin-top: 7%;
+    }
+
+    .main-product-price-title {
+        margin-top: 0;
+    }
 }
 
 @media (max-width:768px) {
     .off-detail {
         width: 50%;
 
+    }
+
+    .title-attribute {
+        margin-bottom: 0 !important;
     }
 
     .main-services-wrapper {
@@ -501,5 +542,85 @@
 
     .all-Products-more {
         grid-template-columns: repeat(auto-fit, minmax(180px, 150px));
+    }
+
+    .comment-place {
+        width: 100%;
+    }
+
+    .add-baskect-btn {
+        width: 100%;
+        line-height: 45px;
+        height: 45px;
+    }
+
+    .changeProduct-seller {
+        min-width: 170px;
+    }
+
+    .add-basket-p {
+        margin: auto;
+    }
+
+    .off-detail {
+        width: 100%;
+    }
+
+    .timing-off-wrapper {
+        width: 70%;
+    }
+
+    .add-baskect-btn-icon {
+        width: 20%;
+    }
+
+    .dropdown-product {
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .sellers-text {
+        display: block;
+    }
+
+    .main-product-name-score {
+        width: 100%;
+    }
+
+    .main-product-model {
+        font-size: 1rem;
+
+    }
+
+    .off-detail {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+    }
+
+    .off-specials {
+        width: 47%;
+    }
+
+    .timing-off-wrapper {
+        width: 45%;
+    }
+
+    .time-off {
+        height: 35px;
+    }
+
+    .sellers-text {
+        font-size: 1rem;
+    }
+
+    .main-product-price-new {
+        font-size: 1.2rem;
+    }
+
+    .gh-price {
+        font-size: 1rem;
     }
 }

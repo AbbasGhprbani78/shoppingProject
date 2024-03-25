@@ -13,8 +13,8 @@ import { IP } from '../../App'
 import swal from 'sweetalert'
 import { Col } from 'react-bootstrap'
 import AuthContext from '../../Context/AuthContext'
-import { useLocation } from 'react-router-dom';
-
+import { Link, useLocation } from 'react-router-dom';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 export default function Basket() {
     const { searchResults } = useSearchContext();
     const [allProduct, setAllProduct] = useState(null);
@@ -205,9 +205,10 @@ export default function Basket() {
                                         />
                                     </> :
                                     <>
-                                        <div className='d-flex flex-column justify-content-center align-items-center'>
-                                            <img src="../../../public/Images/empty-cart.svg" alt="" />
+                                        <div className='d-flex flex-column justify-content-center align-items-center basket-empty my-3'>
+                                            <ShoppingCartOutlinedIcon style={{ fontSize: "5rem", color: "lightgrey" }} />
                                             <p className='text-empty-basket'> سبد خرید شما خالی است !</p>
+                                            <Link style={{ all: "unset", cursor: "pointer", color: "#5d4b89" }} to={'/'} className='my-3'>برو به خانه</Link>
                                         </div>
                                     </>
                             }

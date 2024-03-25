@@ -16,6 +16,8 @@
     bottom: -2px;
     width: 36px;
     height: 60px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 @media (max-width:576px) {

@@ -11,7 +11,7 @@
     background-color: #ffffff;
     border-radius: var(--border-raduis);
     height: auto;
-    padding: 10px 0px;
+    padding: 15px 0px;
 }
 
 .mySwiper-products {
@@ -23,11 +23,12 @@
     width: 8%;
     position: absolute;
     right: 1%;
-    top: -7px;
+    top: -6px;
     height: 0;
-    height: 10px;
+    height: 5px;
     background-color: var(--color-3);
-    border-radius: var(--border-raduis);
+    border-top-left-radius: var(--border-raduis);
+    border-top-right-radius: var(--border-raduis);
     z-index: -9999;
 }
 
@@ -53,4 +54,12 @@
     .Products-Wrapper {
         margin-top: 8%;
     }
+
+    .products-container::before {
+        height: 4px;
+        top: -4px;
+        right: 10px;
+    }
+
+
 }

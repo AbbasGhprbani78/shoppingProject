@@ -16,6 +16,7 @@ import AuthContext from '../../Context/AuthContext'
 import { useContext } from 'react'
 import { useSearchContext } from '../../Context/SearchContext'
 import { Col } from 'react-bootstrap'
+import { Navigation } from 'swiper/modules';
 
 export default function Home() {
 
@@ -89,9 +90,11 @@ export default function Home() {
                                                 <Swiper
                                                     style={{ width: "100%" }}
                                                     slidesPerView={4}
-                                                    spaceBetween={30}
+                                                    spaceBetween={10}
                                                     loop={true}
                                                     className="mySwiper-products"
+                                                    navigation={true}
+                                                    modules={[Navigation]}
                                                     centeredSlides={true}
                                                     breakpoints={{
                                                         0: {
@@ -139,10 +142,8 @@ export default function Home() {
                                                 </div>
                                             </>
                                     }
-
                                 </div>
                             </ProductsWrapper>
-
                             <ProductsWrapper
                                 title="جدید ترین ها"
                                 link={"/products/newest/1"}
@@ -156,10 +157,12 @@ export default function Home() {
                                                 <Swiper
                                                     style={{ width: "100%" }}
                                                     slidesPerView={4}
-                                                    spaceBetween={30}
+                                                    spaceBetween={10}
                                                     loop={true}
                                                     className="mySwiper-products"
                                                     centeredSlides={true}
+                                                    navigation={true}
+                                                    modules={[Navigation]}
                                                     breakpoints={{
                                                         0: {
                                                             slidesPerView: 2
@@ -217,15 +220,17 @@ export default function Home() {
                             >
                                 <div className="products-container">
                                     {
-                                        topSeling ?
+                                        topSeling && topSeling.length > 0 ?
                                             <>
                                                 <Swiper
                                                     style={{ width: "100%" }}
                                                     slidesPerView={4}
-                                                    spaceBetween={30}
+                                                    spaceBetween={10}
                                                     loop={true}
                                                     className="mySwiper-products"
                                                     centeredSlides={true}
+                                                    navigation={true}
+                                                    modules={[Navigation]}
                                                     breakpoints={{
                                                         0: {
                                                             slidesPerView: 2

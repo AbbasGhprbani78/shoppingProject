@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
 import { SearchProvider } from './Context/SearchContext';
-// export const IP = "http://185.79.156.226:8500"
+// export const IP = "http://185.79.156.226:9500"
 export const IP = "https://shop.ariisco.com"
 function App() {
 
@@ -22,7 +22,6 @@ function App() {
     try {
       const response = await axios.get(`${IP}/product/home/`)
       if (response.status === 200) {
-        console.log(response.data)
         setdata(response.data)
       }
     } catch (error) {
@@ -41,7 +40,6 @@ function App() {
         headers
       })
       if (response.status === 200) {
-        // console.log(response.data)
         setProductNumber(response.data.total_products_in_cart)
       }
     } catch (error) {

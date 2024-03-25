@@ -20,6 +20,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';;
 import { useSearchContext } from '../../Context/SearchContext';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 
 export default function Header() {
 
@@ -36,7 +37,25 @@ export default function Header() {
     const [searchValue, setSearchValue] = useState()
     const { updateSearchResults } = useSearchContext();
     const { searchResults } = useSearchContext();
+    const [isFixed, setIsFixed] = useState(false);
 
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const offset = window.scrollY;
+            if (offset > 0) {
+                setIsFixed(true);
+            } else {
+                setIsFixed(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     useEffect(() => {
         updateSearchResults(null)
@@ -201,6 +220,7 @@ export default function Header() {
         }
     }, [searchValue])
 
+
     return (
         <>
             <>
@@ -226,13 +246,13 @@ export default function Header() {
                 windowWidth < 992 ?
                     (
                         <>
-                            <div className='header-container'>
+                            <div className={`header-container ${isFixed ? 'fixed' : ''}`}>
                                 <div className="header-wrapper">
                                     <div style={{ border: "none" }} className='div-border'>
                                         <div className="header-top">
                                             <div className='d-flex'>
                                                 <div style={{ cursor: "pointer" }} className='d-lg-none'>
-                                                    <MoreVertIcon onClick={showSideBarMenu} />
+                                                    <MoreVertIcon className='moreVertIcon' onClick={showSideBarMenu} />
                                                     <SideBarCategory
                                                         showSideBar={showSideBar}
                                                         hideSideBarMenu={hideSideBarMenu}
@@ -247,7 +267,7 @@ export default function Header() {
                                                     <p className='phone-user'>0916 295 7253 </p>
                                                     <LocalPhoneIcon />
                                                 </div>
-                                                <Link to={"#"} className="user">
+                                                <Link to={"#"} className="user user1">
                                                     <PersonOutlineIcon className='person-header' onClick={showoptionsHandler} />
                                                     <div ref={subUserRef} className={`sub-user-wrapper ${showOptions ? "activefilterbox" : ""}`}>
                                                         <div className="register-wrapper">
@@ -271,17 +291,14 @@ export default function Header() {
                                                         </div>
                                                     </div>
                                                 </Link>
-                                                <Link to={"/basket"} className="card-wrapper">
-                                                    <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                    </svg>
+                                                <Link to={"/basket"} className="user basket">
+                                                    <ShoppingBasketOutlinedIcon className='person-header' />
                                                     {
-                                                        authContext && authContext.productNumber &&
-                                                        <div className='number-purchase'>{authContext && authContext.productNumber && authContext.productNumber}</div>
+                                                        authContext && authContext.productNumber ?
+                                                            <div div className='number-purchase'>{authContext.productNumber}</div>
+                                                            : null
                                                     }
                                                 </Link>
-
                                             </div>
                                         </div>
                                     </div>
@@ -289,6 +306,7 @@ export default function Header() {
                             </div>
                             <div className="header-buttom header-small">
                                 <div style={{ width: "100%", border: "none", padding: "0 10px" }} className='searchinput-wrapper'>
+                                    <SearchOutlinedIcon className='searchicon-header' />
                                     <input
                                         value={searchValue}
                                         className='searchinput'
@@ -297,7 +315,7 @@ export default function Header() {
                                         onChange={e => setSearchValue(e.target.value)}
                                         style={{ width: "100%" }}
                                     />
-                                    <SearchOutlinedIcon className='searchicon-header' />
+
                                     {
                                         searchValue && searchResults && searchResults.length === 0 &&
                                         <div className="result-search">
@@ -309,7 +327,7 @@ export default function Header() {
                         </>) :
                     (
                         <>
-                            <div className='header-container'>
+                            <div className={`header-container ${isFixed ? 'fixed' : ''}`}>
                                 <div className="header-wrapper">
                                     <div className='div-border'>
                                         <div className="header-top">
@@ -349,23 +367,20 @@ export default function Header() {
                                                         </div>
                                                     </div>
                                                 </Link>
-                                                <Link to={"/basket"} className="card-wrapper">
-                                                    <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                    </svg>
+                                                <Link to={"/basket"} className="user">
+                                                    <ShoppingBasketOutlinedIcon className='person-header' />
                                                     {
-                                                        authContext && authContext.productNumber &&
-                                                        <div className='number-purchase'>{authContext && authContext.productNumber && authContext.productNumber}</div>
+                                                        authContext && authContext.productNumber ?
+                                                            <div div className='number-purchase'>{authContext.productNumber}</div>
+                                                            : null
                                                     }
-
                                                 </Link>
-
                                             </div>
                                         </div>
                                     </div>
                                     <div className="header-buttom">
                                         <div className='searchinput-wrapper'>
+                                            <SearchOutlinedIcon className='searchicon-header' />
                                             <input
                                                 value={searchValue}
                                                 className='searchinput'
@@ -373,7 +388,6 @@ export default function Header() {
                                                 placeholder='جستجو'
                                                 onChange={e => setSearchValue(e.target.value)}
                                             />
-                                            <SearchOutlinedIcon className='searchicon-header' />
                                             {
                                                 searchValue && searchResults && searchResults.length === 0 &&
                                                 <div className="result-search">
@@ -401,7 +415,7 @@ export default function Header() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div >
                         </>
                     )
             }
@@ -410,12 +424,3 @@ export default function Header() {
 
     )
 }
-
-
-{/* <div className="basket-hover">
-                                                        <div className="product-basket-wrraper-hover">
-                                                            <div className="product-basket-product-content">
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div> */}

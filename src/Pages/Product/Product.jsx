@@ -21,24 +21,21 @@ import ModalBuy from '../../Components/ModalBuy/ModalBuy';
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper';
 import BoxProduct from '../../Components/BoxProduct/BoxProduct';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import 'swiper/css';
 import axios from 'axios';
 import { IP } from '../../App';
 import swal from 'sweetalert';
 import { useSearchContext } from '../../Context/SearchContext';
 import { useParams } from 'react-router-dom';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CloseIcon from '@mui/icons-material/Close';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Alert from 'react-bootstrap/Alert';
 import { Navigation } from 'swiper/modules';
 import AuthContext from '../../Context/AuthContext';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 
 function CustomTabPanel(props) {
 
@@ -81,7 +78,7 @@ export default function Product() {
     const [value, setValue] = useState(0)
     const [score, setScore] = useState(2);
     const [showProductModal, setShowProductModal] = useState(false);
-    const [hours, setHours] = useState(100);
+    const [hours, setHours] = useState(72);
     const [minutes, setMinutes] = useState(34);
     const [seconds, setSeconds] = useState(45);
     const [comment, setComment] = useState(null);
@@ -436,7 +433,7 @@ export default function Product() {
                             </ProductsWrapper>
                         </> :
                         <>
-                            <div className="main-Product mt-5">
+                            <div className="main-Product mt-3">
                                 <div className="product-info">
                                     <Row>
                                         {
@@ -497,7 +494,7 @@ export default function Product() {
                                                         <Row className="main-product-attributes-wrapper">
                                                             <Col md={5} className="main-product-attributes">
                                                                 <div>
-                                                                    <p className='main-product-attributes-title mb-3'>ویژگی ها</p>
+                                                                    <p className='main-product-attributes-title  title-attribute'>ویژگی ها</p>
                                                                     <p className='main-product-model text-main-product'><span className='main-product-model-span'> مدل : </span>{productInfo.product[0].model}</p>
                                                                     {Object.keys(productInfo.product[0].properties).map((fieldName, index) => (
                                                                         <div key={index}>
@@ -516,11 +513,15 @@ export default function Product() {
                                                                 </div>
                                                                 <div className="main-product-price-wrapper">
 
-                                                                    <p className='main-product-price-title'>{
-                                                                        productInfo.product[0].is_discount === true &&
-                                                                        <strike className='main-product-price-old'>{productInfo.product[0].old_price.toLocaleString("fa")}</strike>
-                                                                    }
-                                                                        <p className='main-product-price-new'> {Math.round(productInfo.product[0].price).toLocaleString("fa")}<span className='main-product-price-new-currency'>تومان</span></p>
+                                                                    <p className='main-product-price-title'>
+                                                                        <span className='gh-price' style={{ fontWeight: "bold" }}> قیمت  :</span>
+                                                                        <div className='d-flex'>
+                                                                            {
+                                                                                productInfo.product[0].is_discount === true &&
+                                                                                <strike className='main-product-price-old'>{productInfo.product[0].old_price.toLocaleString("fa")}</strike>
+                                                                            }
+                                                                            <p className='main-product-price-new'> {Math.round(productInfo.product[0].price).toLocaleString("fa")}<span className='main-product-price-new-currency'>تومان</span></p>
+                                                                        </div>
                                                                     </p>
                                                                     <div className='options-buy'>
                                                                         <button
@@ -528,12 +529,9 @@ export default function Product() {
                                                                             onClick={addTobasket}
                                                                             disabled={!productInfo.product[0].availability_status ? true : false}
                                                                         >
-                                                                            افزودن به سبد
+                                                                            <p className='add-basket-p'>افزودن به سبد</p>
                                                                             <p className='add-baskect-btn-icon'>
-                                                                                <svg className='card-header bi bi-basket2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                    <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                                                                                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                                                                                </svg>
+                                                                                <ShoppingBasketOutlinedIcon className='card-header' />
                                                                             </p>
                                                                         </button>
                                                                     </div>
@@ -556,9 +554,9 @@ export default function Product() {
                                                                     </div>
                                                                 </div>
 
-
-                                                                <div className='dropdown-product my-5'>
-                                                                    <select
+                                                                <div className='dropdown-product my-5 '>
+                                                                    <span className='sellers-text mb-2'>فروشندگان</span>
+                                                                    <select style={{ padding: "0 5px" }}
                                                                         className='changeProduct-seller'
                                                                         onChange={(e) => chnageMainTextContent(e.target.value)}
                                                                     >
@@ -569,8 +567,6 @@ export default function Product() {
                                                                         ))}
                                                                     </select>
                                                                 </div>
-
-
                                                                 <div className="main-services-wrapper">
                                                                     <div>
                                                                         <ul className='product-services-list'>
@@ -654,9 +650,9 @@ export default function Product() {
                                                                     }
                                                                 </> :
                                                                 <>
-                                                                    <Alert className='alert-comment'>
+                                                                    <p className='alert-comment'>
                                                                         هیچ کامنتی وجود ندارد
-                                                                    </Alert>
+                                                                    </p>
                                                                 </>
                                                         }
                                                     </div>
@@ -844,11 +840,7 @@ export default function Product() {
     )
 }
 
-{/* <div className="basket-options">
-                                                                            <div className="plus-product">+</div>
-                                                                            <div className='count-product'>1</div>
-                                                                            <div className='delete-product-basket'><DeleteOutlineOutlinedIcon /></div>
-                                                                        </div> */}
+
 
 
 

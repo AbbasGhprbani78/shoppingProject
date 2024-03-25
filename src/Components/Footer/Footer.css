@@ -4,13 +4,20 @@
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);
     margin-top: 3%;
     width: 100%;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    background-color: #ffff;
+    /* position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+}
+
+.footer-wrapper {
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     align-items: start;
-    padding: 20px;
-    border-radius: 8px 8px 0 0;
-    background-color: #ffff;
 }
 
 .contact-us-wrapper {
@@ -60,6 +67,7 @@
     border-radius: var(--border-raduis);
     padding: 3px 10px;
     font-family: .9rem;
+    width: 65%;
 }
 
 
@@ -74,7 +82,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--color-4);
+    border-bottom: 1px solid lightgray;
     padding-bottom: 8%;
     margin-top: 5%;
 }
@@ -85,9 +93,10 @@
 
 .socal-network-item {
     background-color: #e7e2e2;
-    padding: 0 7px 4px 7px;
+    padding: 0 11px 8px 11px;
     color: #03053d;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .btn-inputus {
@@ -97,6 +106,7 @@
     background-color: var(--color-1);
     padding: 5px 25px;
     border-radius: var(--border-raduis);
+    font-size: .8rem;
 }
 
 .btns-wrapper-footer {
@@ -124,6 +134,11 @@
 
 .second {
     margin-bottom: 12px;
+}
+
+.footer-wrapper {
+    width: 80%;
+    margin: 0 auto;
 }
 
 @media (max-width:576px) {

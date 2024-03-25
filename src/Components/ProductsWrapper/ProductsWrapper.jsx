@@ -10,7 +10,7 @@ export default function ProductsWrapper({ title, link, children, isMore }) {
                 <p className={`Products-Wrapper-title  title-section ${isMore ? "" : "pd"}`}>{title}</p>
                 {
                     isMore ?
-                        <div style={{ marginLeft: "2%" }}>
+                        <div style={{ marginLeft: "1%" }}>
                             <Button1
                                 link={link}
                             />
