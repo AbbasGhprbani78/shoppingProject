@@ -25,15 +25,15 @@ p {
         url('../src/Font/IRYekan.ttf') format('ttf');
 }
 
-html,
+/* html,
 body {
     font-family: 'IranYekan', sans-serif !important;
-}
+} */
 
-html,
+/* html,
 body:lang('en') {
     font-family: sans-serif !important;
-}
+} */
 
 
 :root {

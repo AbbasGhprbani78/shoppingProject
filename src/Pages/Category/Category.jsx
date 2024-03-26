@@ -37,13 +37,11 @@ export default function Category() {
                 setShowBoxFilter(false);
             }
         }
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [colRef]);
-
 
     const handleBrandToggle = (id) => {
         setSelectedBrands(prevSelectedBrands => {
@@ -142,7 +140,6 @@ export default function Category() {
         }
     }, [mainContent]);
 
-
     return (
 
         <>
@@ -193,7 +190,7 @@ export default function Category() {
                                         {
                                             searchResults &&
                                             searchResults.map(product => (
-                                                <Col xs={6} md={3}>
+                                                <Col xs={6} md={3} style={{ padding: "5px" }}>
                                                     <BoxProduct
                                                         id={product && product.sellers[0] && product.sellers[0].id}
                                                         key={product.code}
@@ -285,7 +282,7 @@ export default function Category() {
                                                                     <>
                                                                         {
                                                                             sortProducts.map(product => (
-                                                                                <Col xs={6} md={4}>
+                                                                                <Col xs={6} md={4} style={{ padding: "5px" }}>
                                                                                     <BoxProduct
                                                                                         id={product.id}
                                                                                         key={product.code}

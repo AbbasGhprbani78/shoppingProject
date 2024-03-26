@@ -51,7 +51,7 @@
 }
 
 .currency {
-    font-size: .7rem;
+    font-size: var(--font-size1);
     margin-right: 2%;
 }
 

@@ -153,7 +153,7 @@ export default function Basket() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={3}>
+                                            <Col xs={6} md={3} style={{ padding: "5px" }}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}

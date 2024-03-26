@@ -411,7 +411,7 @@ export default function Product() {
                                     {
                                         searchResults &&
                                         searchResults.map(product => (
-                                            <Col xs={6} md={3}>
+                                            <Col xs={6} md={3} style={{ padding: "5px" }}>
                                                 <BoxProduct
                                                     id={product && product.sellers[0] && product.sellers[0].id}
                                                     key={product.code}
@@ -556,7 +556,7 @@ export default function Product() {
 
                                                                 <div className='dropdown-product my-5 '>
                                                                     <span className='sellers-text mb-2'>فروشندگان</span>
-                                                                    <select style={{ padding: "0 5px" }}
+                                                                    <select
                                                                         className='changeProduct-seller'
                                                                         onChange={(e) => chnageMainTextContent(e.target.value)}
                                                                     >
@@ -588,7 +588,6 @@ export default function Product() {
                                                     </div>
                                                 </>
                                         }
-
                                     </Row>
                                 </div>
                                 {

@@ -16,17 +16,6 @@ export default function ModalBuy({ showProductModal, setShowProductModal, produc
                     </div>
                     <CloseIcon style={{ color: "#707070", cursor: "pointer" }} onClick={() => setShowProductModal(false)} />
                 </div>
-                <div className="ModalBuy-content">
-                    <div className="ModalBuy-content-right">
-                        {
-                            productInfo &&
-                            <img className='ModalBuy-content-img' src={`${IP}${productInfo.product[0].images[0]}`} alt="" />
-                        }
-                    </div>
-                    <div className="ModalBuy-content-left">
-                        {productInfo && productInfo.product[0].description}
-                    </div>
-                </div>
                 <div className='ModalBuy-btn-wrapper'>
                     <Link to={'/basket'} style={{ all: "unset" }}>
                         <button className="ModalBuy-btn">برو به سبد خرید</button>
