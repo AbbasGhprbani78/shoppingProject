@@ -26,7 +26,6 @@ export default function BoxProduct({
                                     off={discount_percentage}
                                 />
                             </> : null
-
                     }
                         {
                             image &&

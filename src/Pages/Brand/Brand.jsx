@@ -241,7 +241,7 @@ export default function Brand() {
                                                     <>
                                                         {
                                                             sortProducts.map(product => (
-                                                                <Col xs={6} md={4}>
+                                                                <Col xs={6} md={4} style={{ padding: "5px" }}>
                                                                     <BoxProduct
                                                                         id={product.id}
                                                                         key={product.code}

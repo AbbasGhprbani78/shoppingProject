@@ -254,6 +254,7 @@ export default function Product() {
         try {
             const response = await axios.post(`${IP}/product/product-detail/`, body)
             if (response.status === 200) {
+                console.log(response.data)
                 getcomment(id)
                 setProductInfo(response.data)
             }
