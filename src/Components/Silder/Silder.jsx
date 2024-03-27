@@ -30,7 +30,13 @@ export default function Slider() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="loadingSilder">
+                <div className='d-flex justify-content-center w-100'>
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        )
     }
 
     return (

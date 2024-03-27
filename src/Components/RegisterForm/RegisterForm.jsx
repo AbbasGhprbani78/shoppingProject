@@ -4,7 +4,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { IP } from '../../App';
 import axios from 'axios';
 import swal from 'sweetalert';
-export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
+export default function RegisterForm({ showRegisterForm, closeRegisterForm, setIsRegister }) {
 
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -63,6 +63,7 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm }) {
                     icon: "success",
                     button: "باشه"
                 })
+                setIsRegister(true)
             }
 
         } catch (error) {

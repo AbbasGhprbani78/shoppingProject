@@ -34,6 +34,11 @@
     background-color: var(--color-1);
     color: #ffff;
     width: 60%;
+    transition: all .3s;
+}
+
+.complete-basket-btn:hover {
+    background-color: #41306b;
 }
 
 .complete-basket-btn {

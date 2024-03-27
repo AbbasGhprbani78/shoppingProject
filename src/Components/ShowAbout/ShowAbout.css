@@ -2,7 +2,6 @@
 
 .show-about {
     margin-top: 3%;
-    height: 40vh;
     width: 100%;
     background-image: url('../../../public/Images/Frame 70.png');
     background-position: center;
@@ -13,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px 0;
 }
 
 .show-about-contect {
@@ -20,15 +20,15 @@
     margin: 0 auto;
     height: 70%;
     background-color: #ffffff60;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: var(--border-raduis);
-    padding: 0 5%;
     color: #ffff;
+    padding: 20px 5%;
 }
 
 .show-about-text {
@@ -46,6 +46,10 @@
     font-size: .8rem;
 }
 
+.enterclass {
+    padding: 5px 30px 7px 30px;
+}
+
 
 @media (max-width:576px) {
     .show-about-register {
@@ -53,6 +57,7 @@
     }
 
     .show-about-contect {
-        height: 80%;
+        backdrop-filter: blur(10px);
     }
+
 }

@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 
 const AuthContext = createContext({
     isLoggedIn: false,
+    isRegister: false,
     token: null,
     refresh: null,
     userInfos: null,
@@ -21,7 +22,8 @@ export const AuthProvider = ({ children }) => {
         refresh: null,
         userInfos: null,
         data: null,
-        productNumber: null
+        productNumber: null,
+        isRegister: false,
     });
 
 

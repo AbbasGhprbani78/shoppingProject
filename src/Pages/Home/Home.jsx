@@ -279,8 +279,11 @@ export default function Home() {
                                     }
                                 </div>
                             </ProductsWrapper>
+                            {
+                                !authContext.token &&
+                                <ShowAbout />
+                            }
 
-                            <ShowAbout />
                         </>
                 }
 

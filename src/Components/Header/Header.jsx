@@ -126,8 +126,8 @@ export default function Header() {
     }
 
     const showInfoUser = async () => {
-        setShowChangeForm(true);
         setShowOptions(false);
+        setShowChangeForm(true);
 
         const access = localStorage.getItem('user');
         const headers = {
@@ -220,7 +220,6 @@ export default function Header() {
         }
     }, [searchValue])
 
-
     return (
         <>
             <>
@@ -274,12 +273,32 @@ export default function Header() {
                                                             {
                                                                 authContext.token ? (
                                                                     <>
-                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات<CheckCircleOutlineIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <Link to={'/purchasehistory'} style={{ all: "unset" }}><li className='register-item'>سوابق خرید<HistoryOutlinedIcon style={{ color: "#031a3d" }} /></li>
-                                                                        </Link>
+                                                                        {/* <li
+                                                                            style={{ borderBottom: "none" }}
+                                                                            className='register-item'>سفارشات<CheckCircleOutlineIcon style={{ color: "#031a3d" }} />
+                                                                        </li> */}
+                                                                        {/* <li
+                                                                            className='register-item'>علاقه مندی ها<FavoriteBorderIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li> */}
+
+                                                                        <li
+                                                                            className="register-item"
+                                                                            onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li>
+                                                                        <li
+                                                                            className='register-item'
+                                                                            onClick={showwarningLogout}>خروج<LogoutIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li>
+                                                                        {/* <Link
+                                                                            to={'/purchasehistory'}
+                                                                            style={{ all: "unset" }}><li
+                                                                                className='register-item'>سوابق خرید<HistoryOutlinedIcon style={{ color: "#031a3d" }} />
+
+                                                                            </li>
+                                                                        </Link> */}
                                                                     </>) :
 
                                                                     (
@@ -349,18 +368,38 @@ export default function Header() {
                                                             {
                                                                 authContext.token ? (
                                                                     <>
-                                                                        <li style={{ borderBottom: "none" }} className='register-item'>سفارشات<CheckCircleOutlineIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className='register-item'>علاقه مندی ها<FavoriteBorderIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className="register-item" onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <li className='register-item' onClick={showwarningLogout}>خروج<LogoutIcon style={{ color: "#031a3d" }} /></li>
-                                                                        <Link to={'/purchasehistory'} style={{ all: "unset" }}><li className='register-item'>سوابق خرید<HistoryOutlinedIcon style={{ color: "#031a3d" }} /></li>
-                                                                        </Link>
-
+                                                                        {/* <li
+                                                                            style={{ borderBottom: "none" }}
+                                                                            className='register-item'>سفارشات<CheckCircleOutlineIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li> */}
+                                                                        {/* <li
+                                                                            className='register-item'>علاقه مندی ها<FavoriteBorderIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li> */}
+                                                                        <li
+                                                                            className="register-item"
+                                                                            onClick={showInfoUser} >ویرایش حساب<ModeEditOutlineIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li>
+                                                                        <li
+                                                                            className='register-item'
+                                                                            onClick={showwarningLogout}>خروج<LogoutIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                        </li>
+                                                                        {/* <Link
+                                                                            to={'/purchasehistory'}
+                                                                            style={{ all: "unset" }}><li className='register-item'>سوابق خرید<HistoryOutlinedIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                            </li>
+                                                                        </Link> */}
                                                                     </>) :
 
                                                                     (
                                                                         <>
-                                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
+                                                                            <li onClick={loginHandler} className='register-item'>ورود<LoginIcon
+                                                                                style={{ color: "#031a3d" }} />
+                                                                            </li>
                                                                             <li onClick={registerHandler} className='register-item'>ثبت نام</li>
                                                                         </>)
                                                             }

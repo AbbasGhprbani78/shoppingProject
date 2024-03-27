@@ -16,6 +16,7 @@ function App() {
   const [userInfos, setUserInfos] = useState(null);
   const [data, setdata] = useState(null)
   const [productNumber, setProductNumber] = useState(null)
+  const [isRegister, setIseRegister] = useState(false)
 
 
   const getProductsHome = async () => {
@@ -69,7 +70,6 @@ function App() {
       } catch (error) {
       }
     } else {
-
       setIsLoggedIn(false);
       setToken(null)
       setRefresh(null)
@@ -87,12 +87,12 @@ function App() {
       firstName: data.first_name,
       lastName: data.last_name
     });
+
     setRefresh(data.refresh)
     localStorage.setItem("user", data.access);
     localStorage.setItem("refresh", data.refresh)
     numberBoughtProduct()
   };
-
 
   const logout = useCallback(() => {
     setToken(null);
@@ -103,7 +103,6 @@ function App() {
     localStorage.removeItem("refresh");
     setProductNumber(null)
   });
-
 
   useEffect(() => {
     getProductsHome()

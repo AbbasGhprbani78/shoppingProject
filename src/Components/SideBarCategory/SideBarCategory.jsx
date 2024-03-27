@@ -15,7 +15,7 @@ export default function SideBarCategory({ showSideBar, hideSideBarMenu, sideBarC
                         sideBarCategory &&
                             sideBarCategory ? (
                             sideBarCategory.map((categorie, i) => (
-                                <div>
+                                <div className='sidebaer-item'>
                                     <NavLink to={`/category-info/${categorie.name}`} className="category-sidebar-item">
                                         {categorie.name}
                                     </NavLink>
