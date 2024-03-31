@@ -7,7 +7,7 @@ import { Col, Row } from 'react-bootstrap'
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper.jsx'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FilterBrands from '../../Components/FIlterBrans/FilterBrands.jsx';
-import FilterPrice from '../../Components/FIlterPrice/FIlterPrice.jsx'
+import FilterPrice from '../../Components/FilterPrice/FilterPrice.jsx';
 import BoxProduct from '../../Components/BoxProduct/BoxProduct.jsx';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios'
@@ -21,7 +21,7 @@ export default function Category() {
     const [sortProducts, setSortProducts] = useState([])
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const [selectedBrands, setSelectedBrands] = useState([]);
-    const [valuePrice, setValuePrice] = useState({});
+    const [valuePrice, setValuePrice] = useState({ from: 0, to: 0 });
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
     const [brandFilter, setBrandFilter] = useState(null)
@@ -75,7 +75,7 @@ export default function Category() {
                 category: categoryName
             };
 
-            console.log(finalFilter)
+            // console.log(finalFilter)
 
             if (selectedBrands.length > 0) {
                 finalFilter.brands = selectedBrands;
@@ -109,12 +109,12 @@ export default function Category() {
                 setAllProduct(response.data.products)
                 setpriceFilter(response.data.price_range)
                 setBrandFilter(response.data.brands)
+                setValuePrice({ form: priceFilter[0].min_price, to: priceFilter[0].max_price })
             }
         } catch (error) {
             console.log(error)
         }
     }
-
     useEffect(() => {
         getProductCategory()
     }, [categoryName])

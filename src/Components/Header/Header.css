@@ -237,6 +237,7 @@
     justify-content: space-between;
     cursor: pointer;
     transition: all .3s;
+    font-weight: bold;
 }
 
 .register-item:first-child {

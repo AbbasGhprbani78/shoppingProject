@@ -13,6 +13,7 @@ export default function Paginations({
 
     const [pagesCount, setPagesCount] = useState(null);
     const { number } = useParams()
+
     useEffect(() => {
         let endIndex = number * showcount
         let startIndex = endIndex - showcount
