@@ -96,7 +96,7 @@ export default function PurchaseHistory() {
                                 links={[
                                     { id: 1, title: "خانه", to: "" },
                                     {
-                                        title: `سوابق خرید`
+                                        id: 2, title: `سوابق خرید`, to: "/purchasehistory"
                                     }
                                 ]}
                             />

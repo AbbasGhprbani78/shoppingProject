@@ -137,7 +137,7 @@ export default function Basket() {
                     links={[
                         { id: 1, title: "خانه", to: "" },
                         {
-                            title: "سبد خرید"
+                            id: 2, title: "سبد خرید", to: "basket"
                         }
                     ]} />
 
@@ -148,7 +148,6 @@ export default function Basket() {
                             <ProductsWrapper
                                 isMore={false}
                             >
-
                                 <div className="all-Products scroll-product">
                                     {
                                         searchResults &&

@@ -141,7 +141,6 @@ export default function Header() {
             });
 
             if (response.status === 200) {
-                console.log(response.data);
                 setInfoUser(response.data);
             }
         } catch (error) {
@@ -249,21 +248,22 @@ export default function Header() {
                                 <div className="header-wrapper">
                                     <div style={{ border: "none" }} className='div-border'>
                                         <div className="header-top">
-                                            <div className='d-flex'>
+                                            <div className='d-flex align-items-center'>
                                                 <div style={{ cursor: "pointer" }} className='d-lg-none'>
                                                     <MoreVertIcon className='moreVertIcon' onClick={showSideBarMenu} />
                                                     <SideBarCategory
                                                         showSideBar={showSideBar}
                                                         hideSideBarMenu={hideSideBarMenu}
                                                         sideBarCategory={sideBarCategory}
-
                                                     />
                                                 </div>
-                                                <div className="header-logo">Logo</div>
+                                                <Link to={"/"} className="header-logo">
+                                                    <img className='logo-header' src={`${IP}${authContext?.informationCo[0]?.logo}`} alt="" />
+                                                </Link>
                                             </div>
                                             <div className="header-info">
                                                 <div className="phone-user-container">
-                                                    <p className='phone-user'>0916 295 7253 </p>
+                                                    <p className='phone-user'>{authContext?.informationCo[0]?.phone}</p>
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user user1">
@@ -300,7 +300,6 @@ export default function Header() {
                                                                             </li>
                                                                         </Link> */}
                                                                     </>) :
-
                                                                     (
                                                                         <>
                                                                             <li onClick={loginHandler} className='register-item'>ورود<LoginIcon style={{ color: "#031a3d" }} /></li>
@@ -355,10 +354,12 @@ export default function Header() {
                                                 className='d-lg-none'>
                                                 <MoreVertIcon />
                                             </div>
-                                            <div className="header-logo">Logo</div>
+                                            <Link to={"/"} className="header-logo">
+                                                <img className='logo-header' src={`${IP}${authContext?.informationCo[0]?.logo}`} alt="" />
+                                            </Link>
                                             <div className="header-info">
                                                 <div className="phone-user-container">
-                                                    <p className='phone-user'>0916 295 7253 </p>
+                                                    <p className='phone-user'>{authContext?.informationCo[0]?.phone} </p>
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user" onClick={showoptionsHandler}>

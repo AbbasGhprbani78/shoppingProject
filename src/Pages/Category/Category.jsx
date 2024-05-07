@@ -15,13 +15,14 @@ import { IP } from '../../App.jsx'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useParams } from 'react-router-dom'
 import { useSearchContext } from '../../Context/SearchContext.jsx'
+import { useLocation } from 'react-router-dom'
 export default function Category() {
 
     const [allcategoryProducts, setAllCategoryProducts] = useState([])
     const [sortProducts, setSortProducts] = useState([])
     const [showBoxFilter, setShowBoxFilter] = useState(false)
     const [selectedBrands, setSelectedBrands] = useState([]);
-    const [valuePrice, setValuePrice] = useState({ from: 0, to: 0 });
+    const [valuePrice, setValuePrice] = useState();
     const [showDrop, setShowDrop] = useState(false)
     const [mainContent, setMainContent] = useState('مرتب سازی براساس')
     const [brandFilter, setBrandFilter] = useState(null)
@@ -30,6 +31,7 @@ export default function Category() {
     const { categoryName } = useParams()
     const { searchResults } = useSearchContext();
     const [allProduct, setAllProduct] = useState(null)
+    const { pathname } = useLocation();
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -75,7 +77,9 @@ export default function Category() {
                 category: categoryName
             };
 
-            // console.log(finalFilter)
+            if (!finalFilter.price) {
+                return false
+            }
 
             if (selectedBrands.length > 0) {
                 finalFilter.brands = selectedBrands;
@@ -115,6 +119,7 @@ export default function Category() {
             console.log(error)
         }
     }
+
     useEffect(() => {
         getProductCategory()
     }, [categoryName])
@@ -139,6 +144,11 @@ export default function Category() {
             }
         }
     }, [mainContent]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
 
     return (
 
@@ -333,3 +343,6 @@ export default function Category() {
 
 
 
+//get
+
+//get-brands

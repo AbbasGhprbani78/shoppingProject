@@ -8,14 +8,20 @@ export default function Breadcrumb({ links }) {
             {
                 links.map((link, i) => (
                     <div key={i} className="breadcrumb-items">
-                        <Link to={`/${link.to}`} className="breadcrumb_link">
-                            {link.title}
-                            {
-                                link.id ? (
-                                    <ArrowBackIosNewIcon style={{ fontSize: ".7rem", marginRight: "10px" }} />
-                                ) : null
-                            }
-                        </Link>
+                        {
+                            link.id ?
+                                <Link to={`/${link.to}`} className="breadcrumb_link">
+                                    {link.title}
+                                    {
+                                        link.id ? (
+                                            <ArrowBackIosNewIcon style={{ fontSize: ".7rem", marginRight: "10px" }} />
+                                        ) : null
+                                    }
+                                </Link> :
+                                <p>{link.title}</p>
+
+                        }
+
                     </div>
                 ))
             }

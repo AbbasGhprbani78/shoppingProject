@@ -544,17 +544,6 @@ export default function Product() {
                                                                 </div>
                                                             </Col>
                                                             <Col md={5} className="services-wrapper">
-                                                                <div className='off-detail'>
-                                                                    <div className="off-specials">
-                                                                        تخفیف ویژه
-                                                                    </div>
-                                                                    <div className="timing-off-wrapper d-flex align-items-center">
-                                                                        <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
-                                                                        <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
-                                                                        <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
-                                                                    </div>
-                                                                </div>
-
                                                                 <div className='dropdown-product my-5 '>
                                                                     <span className='sellers-text mb-2'>فروشندگان</span>
                                                                     <select
@@ -605,7 +594,6 @@ export default function Product() {
                                                     >
                                                         <Tab label={<><SellOutlinedIcon fontSize="small" /><span className='tab-title'>مشخصات محصول </span></>} {...a11yProps(0)} />
                                                         <Tab label={<><ChatBubbleOutlineIcon fontSize="small" /><span className='tab-title'>دیدگاه مشتریان </span></>} {...a11yProps(1)} />
-                                                        <Tab label={<><CreditCardIcon fontSize="small" /><span className='tab-title'>پرداخت الکترونیکی </span> </>} {...a11yProps(2)} />
                                                     </Tabs>
                                                 </Box>
                                                 <CustomTabPanel value={value} index={0}>
@@ -691,9 +679,6 @@ export default function Product() {
                                                         </div>
                                                     }
 
-                                                </CustomTabPanel>
-                                                <CustomTabPanel value={value} index={2}>
-                                                    Item Three
                                                 </CustomTabPanel>
                                             </Box>
                                         </div>
@@ -841,12 +826,17 @@ export default function Product() {
 }
 
 
-
-
-
-
-
-
+{/* <div className='off-detail'>
+    <div className="off-specials">
+        تخفیف ویژه
+    </div>
+    <div className="timing-off-wrapper d-flex align-items-center">
+        <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
+        <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
+        <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
+    </div>
+</div>
+ */}
 
 
 

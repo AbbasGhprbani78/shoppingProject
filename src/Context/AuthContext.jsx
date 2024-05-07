@@ -11,7 +11,10 @@ const AuthContext = createContext({
     logout: () => { },
     data: null,
     numberBoughtProduct: () => { },
-    productNumber: null
+    productNumber: null,
+    getInfoCo: () => { },
+    informationCo: null
+
 });
 
 export const AuthProvider = ({ children }) => {
@@ -24,23 +27,20 @@ export const AuthProvider = ({ children }) => {
         data: null,
         productNumber: null,
         isRegister: false,
+        informationCo: null
     });
 
 
-    const login = () => {
+    const login = () => { };
 
-    };
+    const logout = () => { };
 
-    const logout = () => {
+    const numberBoughtProduct = () => { };
 
-    };
-
-    const numberBoughtProduct = () => {
-
-    };
+    const getInfoCo = () => { }
 
     return (
-        <AuthContext.Provider value={{ ...authData, login, logout, numberBoughtProduct }}>
+        <AuthContext.Provider value={{ ...authData, login, logout, numberBoughtProduct, getInfoCo }}>
             {children}
         </AuthContext.Provider>
     );

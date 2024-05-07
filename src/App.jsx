@@ -16,7 +16,8 @@ function App() {
   const [userInfos, setUserInfos] = useState(null);
   const [data, setdata] = useState(null)
   const [productNumber, setProductNumber] = useState(null)
-  const [isRegister, setIseRegister] = useState(false)
+  const [isRegister, setIseRegister] = useState(false);
+  const [informationCo, setInformationCo] = useState([])
 
 
   const getProductsHome = async () => {
@@ -80,6 +81,25 @@ function App() {
     }
   }
 
+  const getInfoCo = async () => {
+    const access = localStorage.getItem('user');
+    const headers = {
+      Authorization: `Bearer ${access}`
+    };
+    try {
+      const response = await axios.get(`${IP}/product/brand-info/`, {
+        headers,
+      });
+
+      if (response.status === 200) {
+        setInformationCo(response.data)
+        console.log("hello")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const login = (data) => {
     setToken(data.access);
     setIsLoggedIn(true);
@@ -106,6 +126,7 @@ function App() {
 
   useEffect(() => {
     getProductsHome()
+    getInfoCo()
   }, [])
 
   useEffect(() => {
@@ -115,6 +136,10 @@ function App() {
   useEffect(() => {
     numberBoughtProduct()
   }, [productNumber])
+
+
+
+
 
   let router = useRoutes(routes)
 
@@ -131,7 +156,9 @@ function App() {
             refresh,
             data,
             numberBoughtProduct,
-            productNumber
+            productNumber,
+            getInfoCo,
+            informationCo
           }}>
           {router}
         </AuthContext.Provider >

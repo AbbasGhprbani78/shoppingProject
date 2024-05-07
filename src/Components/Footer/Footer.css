@@ -37,6 +37,8 @@
 .title-footer {
     color: var(--color-1);
     font-weight: bold;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .contact-us-item:nth-child(2) {
@@ -71,7 +73,11 @@
 .socal-network-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+
+.contact-item-text {
+    font-weight: bold;
 }
 
 .aboutus-input-wrapper {
@@ -89,7 +95,7 @@
 
 .socal-network-item {
     background-color: #e7e2e2;
-    padding: 0 11px 8px 11px;
+    padding: 0 11px 5px 11px;
     color: #03053d;
     cursor: pointer;
     border-radius: 3px;
@@ -146,9 +152,6 @@
         margin-top: 15%;
     }
 
-    .item-footer {
-        margin-top: 10%;
-    }
 }
 
 @media (max-width:1065px) {}
