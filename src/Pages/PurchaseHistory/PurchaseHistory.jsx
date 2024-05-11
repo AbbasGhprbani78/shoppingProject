@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from '../../Components/Header/Header'
-import Footer from '../../Components/Footer/Footer'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb';
 import { useSearchContext } from '../../Context/SearchContext'
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper'
@@ -59,7 +57,6 @@ export default function PurchaseHistory() {
     };
     return (
         <>
-            <Header />
             <div className="home-container">
                 {
                     searchResults && searchResults.length > 0 ?
@@ -128,7 +125,6 @@ export default function PurchaseHistory() {
                 }
 
             </div>
-            <Footer />
         </>
 
     )

@@ -107,7 +107,6 @@
     margin-left: 7%;
 }
 
-
 .card-header,
 .person-header {
     color: var(--color-sub-11) !important;
@@ -215,7 +214,6 @@
 
 }
 
-
 .sub-user-wrapper {
     position: absolute;
     left: 0;
@@ -318,9 +316,9 @@
 }
 
 @media (max-width:768px) {
-    .phone-user {
+    /* .phone-user {
         display: none;
-    }
+    } */
 }
 
 @media (max-width:576px) {

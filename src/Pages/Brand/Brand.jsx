@@ -3,8 +3,6 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import './Brand.css'
 import axios from 'axios'
 import { IP } from '../../App'
-import Header from '../../Components/Header/Header'
-import Footer from '../../Components/Footer/Footer'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import { useParams } from 'react-router-dom'
 import { useSearchContext } from '../../Context/SearchContext.jsx'
@@ -136,7 +134,6 @@ export default function Brand() {
                     <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                 </Col>
             </div>
-            <Header />
             <div className="home-container">
                 <Breadcrumb
                     links={[
@@ -275,7 +272,6 @@ export default function Brand() {
                         </>
                 }
             </div>
-            <Footer />
         </>
     )
 }

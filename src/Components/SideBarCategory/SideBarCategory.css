@@ -30,7 +30,10 @@
 .category-sidebar-item {
     padding: 8px 10px 10px 7px;
     cursor: pointer;
+}
 
+.category-sidebar-item:hover {
+    color: var(--color-7);
 }
 
 .category-sidebar-list {}
@@ -48,4 +51,17 @@
 
 .category-sidebar-list a.active {
     color: var(--color-7);
+}
+
+
+.weblog-sideBar {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #000;
+    margin-top: 40px;
+}
+
+
+.weblog-sideBar-container a.active {
+    color: var(--color-7)
 }

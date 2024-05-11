@@ -4,7 +4,7 @@ import axios from 'axios'
 import { IP } from '../../App'
 import swal from 'sweetalert'
 import AuthContext from '../../Context/AuthContext'
-export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
+export default function TotalAmount() {
 
     const authContext = useContext(AuthContext)
 
@@ -14,7 +14,7 @@ export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
             Authorization: `Bearer ${access}`
         };
         try {
-            const response = await axios.get(`${IP}/product/order-ispaid/${cart_id}`, {
+            const response = await axios.get(`${IP}/product/order-ispaid/${authContext?.allProduct?.cart_id}`, {
                 headers
             })
             if (response.status === 200) {
@@ -23,7 +23,7 @@ export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
                     icon: "success",
                     button: "باشه"
                 })
-                getAllProductBasket()
+                authContext.getAllProductBasket()
                 authContext.numberBoughtProduct()
             }
         } catch (error) {
@@ -35,7 +35,7 @@ export default function TotalAmount({ total, cart_id, getAllProductBasket }) {
             <div className='totalamount-wrapper'>
                 <div className="total-price-wrapper">
                     مبلغ کل
-                    <span>{total.toLocaleString("fa")} تومان</span>
+                    <span>{authContext?.allProduct?.total_price.toLocaleString("fa")} تومان</span>
                 </div>
                 <div className="complete-basket-btn-wrapper" >
                     <button className="complete-basket-btn" onClick={completeBasket}>

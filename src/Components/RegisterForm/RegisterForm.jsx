@@ -6,6 +6,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 export default function RegisterForm({ showRegisterForm, closeRegisterForm, setIsRegister }) {
 
+
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [postalCode, setPostalCode] = useState("")
@@ -35,7 +36,6 @@ export default function RegisterForm({ showRegisterForm, closeRegisterForm, setI
     }
 
     const register = async (e) => {
-
         e.preventDefault()
         setFormSubmitt(true)
         if (!name || !lastName || !postalCode || !phone || !password || !confirmPass || !address || !email ||

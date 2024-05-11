@@ -43,7 +43,9 @@ export default function SignInForm({ showLoginForm, closeSignInForm }) {
         try {
             const response = await axios.post(`${IP}/user/login/`, body)
             if (response.status === 200) {
+                localStorage.setItem("user_id", response.data.id)
                 authContext.login(response.data)
+                // console.log(response.data)
                 swal({
                     title: `خوش اومدی`,
                     icon: "success",

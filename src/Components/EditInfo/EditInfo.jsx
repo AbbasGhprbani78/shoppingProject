@@ -18,6 +18,7 @@ export default function EditInfo({ showChangeForm, closeChangeForm, infoUser }) 
     const [showPasswordInputs, setShowPasswordInputs] = useState(false)
     const checkboxRef = useRef(null);
 
+
     const regexPhone = /^(\+?\d{1,3})?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
     const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
     const regexPostalCode = /^\d{5}_\d{4}$/;

@@ -3,7 +3,7 @@ import './ModalBuy.css'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-import { IP } from '../../App';
+
 export default function ModalBuy({ showProductModal, setShowProductModal, productInfo }) {
 
     return (

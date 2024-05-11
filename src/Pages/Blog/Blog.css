@@ -1,1 +1,65 @@
 @import url('../../Main.css');
+
+.main-blog-container {
+    background-color: #fff;
+}
+
+.main-blog-img-wrapper {
+    width: 100%;
+    height: 20rem;
+    margin-top: 1rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.main-blog-content {
+    width: 85%;
+    margin: 1.5rem auto 10px auto;
+    color: var();
+}
+
+.main-blog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.main-blog-header-title {
+    color: #656565;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.main-blog-detail {
+    font-size: .9rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-4);
+}
+
+.main-blog-date {}
+
+.main-blog-auth {
+    margin-left: 1rem;
+}
+
+.main-blog-text {
+    color: var(--color-4);
+    line-height: 33px;
+}
+
+@media (max-width:992px) {
+    .main-blog-header {
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .main-blog-detail {
+        margin-top: .5rem;
+    }
+}

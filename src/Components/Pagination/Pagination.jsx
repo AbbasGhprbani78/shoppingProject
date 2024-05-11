@@ -15,12 +15,14 @@ export default function Paginations({
     const { number } = useParams()
 
     useEffect(() => {
+
         let endIndex = number * showcount
         let startIndex = endIndex - showcount
         let showProductTodos = items.slice(startIndex, endIndex)
         setShownProducts(showProductTodos)
         let numberOfPage = Math.ceil(items.length / showcount)
         setPagesCount(numberOfPage)
+
     }, [number, items])
 
     const handlePageChange = (event, value) => {

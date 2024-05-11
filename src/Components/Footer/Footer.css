@@ -9,6 +9,10 @@
     background-color: #ffff;
 }
 
+.footer-container.hidden {
+    bottom: -100px;
+}
+
 .footer-wrapper {
     display: grid;
     gap: 10px;

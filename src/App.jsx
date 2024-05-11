@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './Context/AuthContext';
 import axios from 'axios';
 import { SearchProvider } from './Context/SearchContext';
+import Footer from './Components/Footer/Footer';
+import Header from './Components/Header/Header';
 // export const IP = "http://185.79.156.226:9500"
 export const IP = "https://shop.ariisco.com"
 function App() {
@@ -16,15 +18,31 @@ function App() {
   const [userInfos, setUserInfos] = useState(null);
   const [data, setdata] = useState(null)
   const [productNumber, setProductNumber] = useState(null)
-  const [isRegister, setIseRegister] = useState(false);
   const [informationCo, setInformationCo] = useState([])
-
+  const [allProduct, setAllProduct] = useState(null);
 
   const getProductsHome = async () => {
     try {
       const response = await axios.get(`${IP}/product/home/`)
       if (response.status === 200) {
         setdata(response.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const getAllProductBasket = async () => {
+    const access = localStorage.getItem("user")
+    const headers = {
+      Authorization: `Bearer ${access}`
+    };
+    try {
+      const response = await axios.get(`${IP}/product/cart-detail/`, {
+        headers
+      })
+      if (response.status === 200) {
+        setAllProduct(response.data)
       }
     } catch (error) {
       console.log(error.message)
@@ -81,25 +99,6 @@ function App() {
     }
   }
 
-  const getInfoCo = async () => {
-    const access = localStorage.getItem('user');
-    const headers = {
-      Authorization: `Bearer ${access}`
-    };
-    try {
-      const response = await axios.get(`${IP}/product/brand-info/`, {
-        headers,
-      });
-
-      if (response.status === 200) {
-        setInformationCo(response.data)
-        console.log("hello")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const login = (data) => {
     setToken(data.access);
     setIsLoggedIn(true);
@@ -112,6 +111,7 @@ function App() {
     localStorage.setItem("user", data.access);
     localStorage.setItem("refresh", data.refresh)
     numberBoughtProduct()
+    getAllProductBasket()
   };
 
   const logout = useCallback(() => {
@@ -121,12 +121,29 @@ function App() {
     setIsLoggedIn(false)
     localStorage.removeItem("user");
     localStorage.removeItem("refresh");
+    localStorage.removeItem("user_id")
     setProductNumber(null)
+    setAllProduct(null)
   });
+
+
+  const getInfoCo = async () => {
+
+    try {
+      const response = await axios.get(`${IP}/product/brand-info/`, {
+
+      });
+
+      if (response.status === 200) {
+        setInformationCo(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     getProductsHome()
-    getInfoCo()
   }, [])
 
   useEffect(() => {
@@ -137,6 +154,14 @@ function App() {
     numberBoughtProduct()
   }, [productNumber])
 
+
+  useEffect(() => {
+    getInfoCo()
+  }, [])
+
+  useEffect(() => {
+    getAllProductBasket()
+  }, [])
 
 
 
@@ -157,10 +182,14 @@ function App() {
             data,
             numberBoughtProduct,
             productNumber,
-            getInfoCo,
-            informationCo
+            getAllProductBasket,
+            allProduct
           }}>
-          {router}
+          <>
+            <Header informationCo={informationCo} />
+            {router}
+            <Footer informationCo={informationCo} />
+          </>
         </AuthContext.Provider >
       </SearchProvider>
     </>

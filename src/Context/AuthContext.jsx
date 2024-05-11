@@ -12,8 +12,8 @@ const AuthContext = createContext({
     data: null,
     numberBoughtProduct: () => { },
     productNumber: null,
-    getInfoCo: () => { },
-    informationCo: null
+    getAllProductBasket: () => { },
+    allProduct: null
 
 });
 
@@ -27,8 +27,10 @@ export const AuthProvider = ({ children }) => {
         data: null,
         productNumber: null,
         isRegister: false,
-        informationCo: null
+        allProduct: null
     });
+
+
 
 
     const login = () => { };
@@ -37,10 +39,13 @@ export const AuthProvider = ({ children }) => {
 
     const numberBoughtProduct = () => { };
 
-    const getInfoCo = () => { }
+    const getAllProductBasket = () => { }
+
+
+
 
     return (
-        <AuthContext.Provider value={{ ...authData, login, logout, numberBoughtProduct, getInfoCo }}>
+        <AuthContext.Provider value={{ ...authData, login, logout, numberBoughtProduct, getAllProductBasket }}>
             {children}
         </AuthContext.Provider>
     );

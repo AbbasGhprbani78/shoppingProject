@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import * as React from 'react';
 import './Product.css'
-import Header from '../../Components/Header/Header'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
-import Footer from '../../Components/Footer/Footer'
 import { Row, Col } from 'react-bootstrap';
 import ProductOff from '../../Components/ProductOff/ProductOff'
 import PropTypes from 'prop-types';
@@ -122,6 +120,7 @@ export default function Product() {
             if (response.status === 201) {
                 setShowProductModal(true)
                 authContext.numberBoughtProduct()
+                authContext.getAllProductBasket()
             }
         } catch (error) {
             console.log(error.message)
@@ -137,30 +136,6 @@ export default function Product() {
         updateSearchResults(null)
     }, [productName])
 
-
-    // useEffect(() => {
-    //     const offTimer = setInterval(() => {
-    //         if (seconds === 0) {
-    //             setSeconds(59);
-    //             if (minutes === 0) {
-    //                 setMinutes(59);
-    //                 if (hours == 0) {
-    //                     clearInterval(offTimer)
-    //                     return
-    //                 } else {
-    //                     setHours(prevHour => prevHour - 1)
-    //                 }
-    //             } else {
-    //                 setMinutes(prevSecond => prevSecond - 1)
-    //             }
-    //         } else {
-    //             setSeconds(prevSecond => prevSecond - 1)
-    //         }
-    //     }, 1000)
-
-    //     return () => clearInterval(offTimer)
-
-    // }, [hours, minutes, seconds])
 
     const getcomment = async () => {
         try {
@@ -391,7 +366,6 @@ export default function Product() {
                 setShowProductModal={setShowProductModal}
                 productInfo={productInfo}
             />
-            <Header />
             <div className="home-container">
                 <Breadcrumb
                     links={[
@@ -820,30 +794,33 @@ export default function Product() {
                         </>
                 }
             </div >
-            <Footer />
         </>
     )
 }
 
 
-{/* <div className='off-detail'>
-    <div className="off-specials">
-        تخفیف ویژه
-    </div>
-    <div className="timing-off-wrapper d-flex align-items-center">
-        <div className="time-day time-off">{seconds < 10 ? `0` + seconds : seconds}</div>:
-        <div className="time-hour time-off">{minutes < 10 ? `0` + minutes : minutes}</div>:
-        <div className="time minute time-off">{hours < 10 ? `0` + hours : hours}</div>
-    </div>
-</div>
- */}
 
 
+// useEffect(() => {
+//     const offTimer = setInterval(() => {
+//         if (seconds === 0) {
+//             setSeconds(59);
+//             if (minutes === 0) {
+//                 setMinutes(59);
+//                 if (hours == 0) {
+//                     clearInterval(offTimer)
+//                     return
+//                 } else {
+//                     setHours(prevHour => prevHour - 1)
+//                 }
+//             } else {
+//                 setMinutes(prevSecond => prevSecond - 1)
+//             }
+//         } else {
+//             setSeconds(prevSecond => prevSecond - 1)
+//         }
+//     }, 1000)
 
+//     return () => clearInterval(offTimer)
 
-
-
-
-
-
-
+// }, [hours, minutes, seconds])

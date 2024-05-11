@@ -22,8 +22,7 @@ import { useSearchContext } from '../../Context/SearchContext';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 
-export default function Header() {
-
+export default function Header({ informationCo }) {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showOptions, setShowOptions] = useState(false);
     const subUserRef = useRef(null);
@@ -141,6 +140,7 @@ export default function Header() {
             });
 
             if (response.status === 200) {
+                console.log(response.data)
                 setInfoUser(response.data);
             }
         } catch (error) {
@@ -219,6 +219,7 @@ export default function Header() {
         }
     }, [searchValue])
 
+
     return (
         <>
             <>
@@ -255,15 +256,13 @@ export default function Header() {
                                                         showSideBar={showSideBar}
                                                         hideSideBarMenu={hideSideBarMenu}
                                                         sideBarCategory={sideBarCategory}
+                                                        informationCo={informationCo}
                                                     />
                                                 </div>
-                                                <Link to={"/"} className="header-logo">
-                                                    <img className='logo-header' src={`${IP}${authContext?.informationCo[0]?.logo}`} alt="" />
-                                                </Link>
                                             </div>
+                                            <p className='phone-user'>{informationCo[0]?.phone}</p>
                                             <div className="header-info">
                                                 <div className="phone-user-container">
-                                                    <p className='phone-user'>{authContext?.informationCo[0]?.phone}</p>
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user user1">
@@ -355,11 +354,11 @@ export default function Header() {
                                                 <MoreVertIcon />
                                             </div>
                                             <Link to={"/"} className="header-logo">
-                                                <img className='logo-header' src={`${IP}${authContext?.informationCo[0]?.logo}`} alt="" />
+                                                <img className='logo-header' src={`${IP}${informationCo[0]?.logo}`} alt="" />
                                             </Link>
                                             <div className="header-info">
                                                 <div className="phone-user-container">
-                                                    <p className='phone-user'>{authContext?.informationCo[0]?.phone} </p>
+                                                    <p className='phone-user'>{informationCo[0]?.phone} </p>
                                                     <LocalPhoneIcon />
                                                 </div>
                                                 <Link to={"#"} className="user" onClick={showoptionsHandler}>
@@ -419,23 +418,28 @@ export default function Header() {
                                         </div>
                                     </div>
                                     <div className="header-buttom">
-                                        <div className='searchinput-wrapper'>
-                                            <SearchOutlinedIcon className='searchicon-header' />
-                                            <input
-                                                value={searchValue}
-                                                className='searchinput'
-                                                type="search"
-                                                placeholder='جستجو'
-                                                onChange={e => setSearchValue(e.target.value)}
-                                            />
-                                            {
-                                                searchValue && searchResults && searchResults.length === 0 &&
-                                                <div className="result-search">
-                                                    نتیجه ای یافت نشد
-                                                </div>
-                                            }
+                                        <div className='d-flex align-items-center'>
+                                            <div className='searchinput-wrapper'>
+                                                <SearchOutlinedIcon className='searchicon-header' />
+                                                <input
+                                                    value={searchValue}
+                                                    className='searchinput'
+                                                    type="search"
+                                                    placeholder='جستجو'
+                                                    onChange={e => setSearchValue(e.target.value)}
+                                                />
 
-                                        </div>
+                                                {
+                                                    searchValue && searchResults && searchResults.length === 0 &&
+                                                    <div className="result-search">
+                                                        نتیجه ای یافت نشد
+                                                    </div>
+                                                }
+
+                                            </div>
+                                            <div className="categorys-wrapper">
+                                                <NavLink className='category-item' to={"/blogs/1"}>وبلاگ</NavLink>
+                                            </div>                                        </div>
                                         <div className='categorys-wrapper d-flex'>
                                             {
                                                 authContext.data &&

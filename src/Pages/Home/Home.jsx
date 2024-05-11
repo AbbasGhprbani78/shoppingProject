@@ -3,7 +3,6 @@ import Header from '../../Components/Header/Header'
 import Silder from '../../Components/Silder/Silder'
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper'
 import ShowAbout from '../../Components/ShowAbout/ShowAbout'
-import Footer from '../../Components/Footer/Footer'
 import './Home.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -41,8 +40,7 @@ export default function Home() {
 
     return (
         <>
-            <Header
-            />
+
             <div className="home-container">
                 {
                     searchResults &&
@@ -288,7 +286,6 @@ export default function Home() {
                 }
 
             </div >
-            <Footer />
         </>
 
     )

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './Category.css'
-import Header from '../../Components/Header/Header.jsx'
-import Footer from '../../Components/Footer/Footer.jsx'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb.jsx'
 import { Col, Row } from 'react-bootstrap'
 import ProductsWrapper from '../../Components/ProductsWrapper/ProductsWrapper.jsx'
@@ -178,7 +176,6 @@ export default function Category() {
                         <button className='btn-done-filter' onClick={sendFinalFilter}>اعمال فیلتر ها</button>
                     </Col>
                 </div>
-                <Header />
                 <div className="home-container">
                     <Breadcrumb
                         links={[
@@ -331,7 +328,6 @@ export default function Category() {
                             </>
                     }
                 </div>
-                <Footer />
             </>
 
         </>

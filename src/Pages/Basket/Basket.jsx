@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './Basket.css'
-import Header from '../../Components/Header/Header'
 import BasketItem from '../../Components/BasketItem/BasketItem'
-import Footer from '../../Components/Footer/Footer'
 import TotalAmount from '../../Components/TotalAmount/TotalAmount'
 import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb'
 import { useSearchContext } from '../../Context/SearchContext'
@@ -17,26 +15,9 @@ import { Link, useLocation } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 export default function Basket() {
     const { searchResults } = useSearchContext();
-    const [allProduct, setAllProduct] = useState(null);
     const authContext = useContext(AuthContext);
     const { pathname } = useLocation();
 
-    const getAllProductBasket = async () => {
-        const access = localStorage.getItem("user")
-        const headers = {
-            Authorization: `Bearer ${access}`
-        };
-        try {
-            const response = await axios.get(`${IP}/product/cart-detail/`, {
-                headers
-            })
-            if (response.status === 200) {
-                setAllProduct(response.data)
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
 
     const deleteProduct = async (id) => {
         const access = localStorage.getItem("user")
@@ -63,8 +44,8 @@ export default function Basket() {
                             icon: "success",
                             button: "باشه"
                         })
-                        getAllProductBasket()
-                        authContext.numberBoughtProduct()
+                        authContext?.getAllProductBasket()
+                        authContext?.numberBoughtProduct()
                     }
                 } catch (error) {
                     console.log(error.message);
@@ -91,8 +72,8 @@ export default function Basket() {
                 headers
             })
             if (response.status === 200) {
-                getAllProductBasket()
-                authContext.numberBoughtProduct()
+                authContext?.getAllProductBasket()
+                authContext?.numberBoughtProduct()
             }
         } catch (error) {
             console.log(error.message)
@@ -113,8 +94,8 @@ export default function Basket() {
                 headers
             })
             if (response.status === 200) {
-                getAllProductBasket()
-                authContext.numberBoughtProduct()
+                authContext?.getAllProductBasket()
+                authContext?.numberBoughtProduct()
             }
         } catch (error) {
             console.log(error.message)
@@ -122,16 +103,14 @@ export default function Basket() {
     }
 
     useEffect(() => {
-        getAllProductBasket()
-    }, [])
-
-    useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
 
+
+
+
     return (
         <>
-            <Header />
             <div className="home-container">
                 <Breadcrumb
                     links={[
@@ -174,11 +153,11 @@ export default function Basket() {
                         </> :
                         <>
                             {
-                                allProduct && allProduct.order_details && allProduct.order_details.length > 0 ?
+                                authContext.allProduct && authContext.allProduct.order_details && authContext.allProduct.order_details.length > 0 ?
                                     <>
                                         <div className="basket-items-container">
                                             {
-                                                allProduct.order_details.map(product => (
+                                                authContext.allProduct.order_details.map(product => (
                                                     <BasketItem
                                                         key={product.order_detail_id}
                                                         id={product.order_detail_id}
@@ -198,9 +177,6 @@ export default function Basket() {
                                             }
                                         </div>
                                         <TotalAmount
-                                            getAllProductBasket={getAllProductBasket}
-                                            total={allProduct.total_price}
-                                            cart_id={allProduct.cart_id}
                                         />
                                     </> :
                                     <>
@@ -215,7 +191,6 @@ export default function Basket() {
                 }
 
             </div>
-            <Footer />
         </>
     )
 }
